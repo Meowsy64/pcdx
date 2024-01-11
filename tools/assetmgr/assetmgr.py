@@ -1,7 +1,10 @@
+import filecmp
 import os
+import shutil
 import sys
 import tempfile
 import subprocess
+import tempfile
 
 def align4(value):
     return (value + 3 | 3) ^ 3
@@ -23,11 +26,13 @@ def pad16(binary):
 
     return binary
 
-def write_enums(typename, names, filename, terminator, start=0):
-    filename = 'src/generated/%s/%s' % (os.environ['ROMID'], filename)
+def write_enums(typename, names, filename, terminator, start=0, rows=None, dir=None):
+    if dir == None:
+        dir = os.environ['ROMID']
+    filename = 'src/generated/%s/%s' % (dir, filename)
     mkpath(filename)
 
-    fd = open(filename, 'w')
+    fd = TouchAverseFile(filename, binary=False)
     fd.write('/**\n')
     fd.write(' * This file was generated automatically. Changes may be overwritten.\n')
     fd.write(' */\n')
@@ -36,9 +41,18 @@ def write_enums(typename, names, filename, terminator, start=0):
 
     for index, name in enumerate(names):
         if index == 0 and start != 0:
-            fd.write('\t%s = 0x%x,\n' % (name, start))
+            if (start < 0):
+                fd.write('\t%s = %i,\n' % (name, start))
+            else:
+                fd.write('\t%s = 0x%x,\n' % (name, start))
         else:
             fd.write('\t%s,\n' % name)
+
+    if rows != None:
+        for entry in rows:
+            if ("aka" in entry):
+                for aka in entry["aka"]:
+                    fd.write('\t%s = %s,\n' % (aka, entry["id"]))
 
     fd.write('\t%s\n' % terminator)
     fd.write('};\n')
@@ -159,3 +173,30 @@ def writefile(filename, contents):
 if 'ROMID' not in os.environ:
     # default to ntsc-final
     os.environ['ROMID'] = 'ntsc-final'
+
+class TouchAverseFile:
+    def __init__(self, filename, binary=False):
+        if (binary == True):
+            mode = 'wb'
+        else:
+            mode = 'w'
+        self.destfilename = filename
+        if (not os.path.exists(self.destfilename)):
+            if (not os.path.exists(os.path.dirname(self.destfilename))):
+                os.mkdir(os.path.dirname(self.destfilename)) 
+            self.file = open(self.destfilename, mode, encoding='utf-8')
+            self.tempfilename = None
+        else:
+            self.file = tempfile.NamedTemporaryFile(mode, encoding='utf-8', delete=False)
+            self.tempfilename = self.file.name
+    def close(self):
+        self.file.close()
+        if (self.tempfilename == None):
+            return
+
+        if not filecmp.cmp(self.tempfilename, self.destfilename, shallow = False):
+            shutil.copyfile(self.tempfilename, self.destfilename)
+
+        os.remove(self.tempfilename)
+    def write(self, value):
+        self.file.write(value)
