@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PCDX (Quick)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/ntsc-final-port/pd.exe",
+            "args": ["--profile", "0", "--skip-intro", "--log"],
+            "cwd": "${workspaceRoot}/build/ntsc-final-port/"
+        },
+        {
+            "name": "PCDX",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/ntsc-final-port/pd.exe",
+            "args": ["--log"],
+            "cwd": "${workspaceRoot}/build/ntsc-final-port/",
+        }
+    ]
+}
