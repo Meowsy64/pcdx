@@ -29,6 +29,19 @@ struct weapon *weaponFindById(s32 itemid)
 	return g_Weapons[itemid];
 }
 
+struct pcdx_weapon *weaponExtFindById(s32 itemid)
+{
+	if (itemid < 0) {
+		return NULL;
+	}
+
+	if (itemid >= ARRAYCOUNT(g_WeaponsExtended)) {
+		return NULL;
+	}
+
+	return g_WeaponsExtended[itemid];
+}
+
 struct weaponfunc *weaponGetFunctionById(u32 weaponnum, u32 which)
 {
 	struct weapon *weapon = weaponFindById(weaponnum);
@@ -411,6 +424,17 @@ u16 weaponGetFileNum(s32 weaponnum)
 u16 weaponGetFileNum2(s32 weaponnum)
 {
 	return weaponGetFileNum(weaponnum);
+}
+
+s32 weaponGetChrModel(s32 weaponnum)
+{
+	struct pcdx_weapon *weapon = weaponExtFindById(weaponnum);
+
+	if (!weapon) {
+		return -1; // MODEL_NONE
+	}
+
+	return weapon->chr_model;
 }
 
 void gsetPopulateFromCurrentPlayer(s32 handnum, struct gset *gset)

@@ -3077,6 +3077,10 @@ struct weapon {
 	/*0x4c*/ u32 flags;
 };
 
+struct pcdx_weapon {
+	s16 chr_model;
+};
+
 struct cutscene {
 	s16 stage;
 	s16 mission;

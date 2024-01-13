@@ -6292,3 +6292,432 @@ struct weapon *g_Weapons[] = {
 	&invitem_hammer,
 	&invitem_suicidepill,
 };
+
+struct pcdx_weapon extweap_nothing = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_unarmed = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_falcon2 = {
+	MODEL_CHRFALCON2,
+};
+
+struct pcdx_weapon extweap_falcon2silencer = {
+	MODEL_CHRFALCON2SIL,
+};
+
+struct pcdx_weapon extweap_falcon2scope = {
+	MODEL_CHRFALCON2SCOPE,
+};
+
+struct pcdx_weapon extweap_magsec = {
+	MODEL_CHRLEEGUN1,
+};
+
+struct pcdx_weapon extweap_mauler = {
+	MODEL_CHRMAULER,
+};
+
+struct pcdx_weapon extweap_phoenix = {
+	MODEL_CHRMAIANPISTOL,
+};
+
+struct pcdx_weapon extweap_dy357 = {
+	MODEL_CHRDY357,
+};
+
+struct pcdx_weapon extweap_dy357lx = {
+	MODEL_CHRDY357TRENT,
+};
+
+struct pcdx_weapon extweap_cmp150 = {
+	MODEL_CHRCMP150,
+};
+
+struct pcdx_weapon extweap_cyclone = {
+	MODEL_CHRCYCLONE,
+};
+
+struct pcdx_weapon extweap_callisto = {
+	MODEL_CHRMAIANSMG,
+};
+
+struct pcdx_weapon extweap_rcp120 = {
+	MODEL_CHRRCP120,
+};
+
+struct pcdx_weapon extweap_laptopgun = {
+	MODEL_CHRPCGUN,
+};
+
+struct pcdx_weapon extweap_dragon = {
+	MODEL_CHRDRAGON,
+};
+
+struct pcdx_weapon extweap_k7avenger = {
+	MODEL_CHRAVENGER,
+};
+
+struct pcdx_weapon extweap_ar34 = {
+	MODEL_CHRAR34,
+};
+
+struct pcdx_weapon extweap_superdragon = {
+	MODEL_CHRSUPERDRAGON,
+};
+
+struct pcdx_weapon extweap_shotgun = {
+	MODEL_CHRSHOTGUN,
+};
+
+struct pcdx_weapon extweap_reaper = {
+	MODEL_CHRSKMINIGUN,
+};
+
+struct pcdx_weapon extweap_sniperrifle = {
+	MODEL_CHRSNIPERRIFLE,
+};
+
+struct pcdx_weapon extweap_farsight = {
+	MODEL_CHRZ2020,
+};
+
+struct pcdx_weapon extweap_devastator = {
+	MODEL_CHRDEVASTATOR,
+};
+
+struct pcdx_weapon extweap_rocketlauncher = {
+	MODEL_CHRDYROCKET,
+};
+
+struct pcdx_weapon extweap_slayer = {
+	MODEL_CHRSKROCKET,
+};
+
+struct pcdx_weapon extweap_combatknife = {
+	MODEL_CHRKNIFE,
+};
+
+struct pcdx_weapon extweap_crossbow = {
+	MODEL_CHRCROSSBOW,
+};
+
+struct pcdx_weapon extweap_tranquilizer = {
+	MODEL_CHRDRUGGUN,
+};
+
+struct pcdx_weapon extweap_laser = {
+	MODEL_CHRLASER,
+};
+
+struct pcdx_weapon extweap_grenade = {
+	MODEL_CHRGRENADE,
+};
+
+struct pcdx_weapon extweap_nbomb = {
+	MODEL_CHRNBOMB,
+};
+
+struct pcdx_weapon extweap_timedmine = {
+	MODEL_CHRTIMEDMINE,
+};
+
+struct pcdx_weapon extweap_proximitymine = {
+	MODEL_CHRPROXIMITYMINE,
+};
+
+struct pcdx_weapon extweap_remotemine = {
+	MODEL_CHRREMOTEMINE,
+};
+
+struct pcdx_weapon extweap_combatboost = {
+	MODEL_CHRSPEEDPILL,
+};
+
+struct pcdx_weapon extweap_pp9i = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_cc13 = {
+	MODEL_CHRTT33,
+};
+
+struct pcdx_weapon extweap_kl01313 = {
+	MODEL_CHRSKORPION,
+};
+
+struct pcdx_weapon extweap_kf7special = {
+	MODEL_CHRKALASH,
+};
+
+struct pcdx_weapon extweap_zzt9mm = {
+	MODEL_CHRUZI,
+};
+
+struct pcdx_weapon extweap_dmc = {
+	MODEL_CHRMP5K,
+};
+
+struct pcdx_weapon extweap_ar53 = {
+	MODEL_CHRM16,
+};
+
+struct pcdx_weapon extweap_rcp45 = {
+	MODEL_CHRFNP90,
+};
+
+struct pcdx_weapon extweap_psychosisgun = {
+	MODEL_CHRDRUGGUN,
+};
+
+struct pcdx_weapon extweap_nightvision = {
+	MODEL_CHRNIGHTSIGHT,
+};
+
+struct pcdx_weapon extweap_camspy = {
+	MODEL_CHREYESPY,
+};
+
+struct pcdx_weapon extweap_xrayscanner = {
+	MODEL_CHRNIGHTSIGHT,
+};
+
+struct pcdx_weapon extweap_irscanner = {
+	MODEL_MISC_IRSPECS,
+};
+
+struct pcdx_weapon extweap_cloakingdevice = {
+	MODEL_CHRCLOAKER,
+};
+
+struct pcdx_weapon extweap_horizonscanner = {
+	MODEL_BINOCULARS,
+};
+
+struct pcdx_weapon extweap_tester = {
+	MODEL_CHRECMMINE,
+};
+
+struct pcdx_weapon extweap_rocketlauncher_34 = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_ecmmine = {
+	MODEL_CHRECMMINE,
+};
+
+struct pcdx_weapon extweap_datauplink = {
+	MODEL_CHRDATATHIEF,
+};
+
+struct pcdx_weapon extweap_rtracker = {
+	MODEL_RUSSDAR,
+};
+
+struct pcdx_weapon extweap_presidentscanner = {
+	MODEL_RUSSDAR,
+};
+
+struct pcdx_weapon extweap_doordecoder = {
+	MODEL_CHRDOORDECODER,
+};
+
+struct pcdx_weapon extweap_autosurgeon = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_explosives = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_skedarbomb = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_commsrider = {
+	MODEL_CHRBUG,
+};
+
+struct pcdx_weapon extweap_tracerbug = {
+	MODEL_CHRBUG,
+};
+
+struct pcdx_weapon extweap_targetamplifier = {
+	MODEL_TARGETAMP,
+};
+
+struct pcdx_weapon extweap_disguise40 = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_disguise41 = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_flightplans = {
+	MODEL_CHRBRIEFCASE,
+};
+
+struct pcdx_weapon extweap_researchtape = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_backupdisk = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_keycard = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_suitcase = {
+	MODEL_CHRBRIEFCASE,
+};
+
+struct pcdx_weapon extweap_briefcase = {
+	MODEL_CHRBRIEFCASE,
+};
+
+struct pcdx_weapon extweap_shieldtechitem = {
+	MODEL_CHRSHIELD,
+};
+
+struct pcdx_weapon extweap_necklace = {
+	MODEL_CHRCHAIN,
+};
+
+struct pcdx_weapon extweap_hammer = {
+	MODEL_CHRLUMPHAMMER, // MODEL_CHRSONICSCREWER
+};
+
+struct pcdx_weapon extweap_rocket = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_homingrocket = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_grenaderound = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_bolt = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_briefcase2 = {
+	MODEL_CHRBRIEFCASE,
+};
+
+struct pcdx_weapon extweap_choppergun = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_watchlaser = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon extweap_suicidepill = {
+	MODEL_CHRWPPK,
+};
+
+struct pcdx_weapon *g_WeaponsExtended[] = {
+	&extweap_nothing,
+	&extweap_unarmed,
+	&extweap_falcon2,
+	&extweap_falcon2silencer,
+	&extweap_falcon2scope,
+	&extweap_magsec,
+	&extweap_mauler,
+	&extweap_phoenix,
+	&extweap_dy357,
+	&extweap_dy357lx,
+	&extweap_cmp150,
+	&extweap_cyclone,
+	&extweap_callisto,
+	&extweap_rcp120,
+	&extweap_laptopgun,
+	&extweap_dragon,
+	&extweap_k7avenger,
+	&extweap_ar34,
+	&extweap_superdragon,
+	&extweap_shotgun,
+	&extweap_reaper,
+	&extweap_sniperrifle,
+	&extweap_farsight,
+	&extweap_devastator,
+	&extweap_rocketlauncher,
+	&extweap_slayer,
+	&extweap_combatknife,
+	&extweap_crossbow,
+	&extweap_tranquilizer,
+	&extweap_laser,
+	&extweap_grenade,
+	&extweap_nbomb,
+	&extweap_timedmine,
+	&extweap_proximitymine,
+	&extweap_remotemine,
+	&extweap_combatboost,
+	&extweap_pp9i,
+	&extweap_cc13,
+	&extweap_kl01313,
+	&extweap_kf7special,
+	&extweap_zzt9mm,
+	&extweap_dmc,
+	&extweap_ar53,
+	&extweap_rcp45,
+	&extweap_psychosisgun,
+	&extweap_nightvision,
+	&extweap_camspy,
+	&extweap_xrayscanner,
+	&extweap_irscanner,
+	&extweap_cloakingdevice,
+	&extweap_horizonscanner,
+	&extweap_tester,
+	&extweap_rocketlauncher_34,
+	&extweap_ecmmine,
+	&extweap_datauplink,
+	&extweap_rtracker,
+	&extweap_presidentscanner,
+	&extweap_doordecoder,
+	&extweap_autosurgeon,
+	&extweap_explosives,
+	&extweap_skedarbomb,
+	&extweap_commsrider,
+	&extweap_tracerbug,
+	&extweap_targetamplifier,
+	&extweap_disguise40,
+	&extweap_disguise41,
+	&extweap_flightplans,
+	&extweap_researchtape,
+	&extweap_backupdisk,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_keycard,
+	&extweap_suitcase,
+	&extweap_briefcase,
+	&extweap_shieldtechitem,
+	&extweap_necklace,
+	&extweap_hammer,
+	&extweap_hammer,
+	&extweap_rocket,
+	&extweap_homingrocket,
+	&extweap_grenaderound,
+	&extweap_bolt,
+	&extweap_briefcase2,
+	&extweap_rocket,
+	&extweap_choppergun,
+	&extweap_watchlaser,
+	&extweap_hammer,
+	&extweap_hammer,
+	&extweap_suicidepill,
+};

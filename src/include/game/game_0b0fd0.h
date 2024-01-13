@@ -24,6 +24,7 @@ s32 currentPlayerGetDeviceState(s32 weaponnum);
 void currentPlayerSetDeviceActive(s32 weaponum, bool active);
 u16 weaponGetFileNum(s32 weaponnum);
 u16 weaponGetFileNum2(s32 weaponnum);
+s32 weaponGetChrModel(s32 weaponnum);
 void gsetPopulateFromCurrentPlayer(s32 handnum, struct gset *gset);
 struct inventory_ammo *gsetGetAmmoDefinition(struct gset *gset);
 u8 gsetGetSinglePenetration(struct gset *gset);
