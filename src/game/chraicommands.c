@@ -4312,7 +4312,7 @@ bool aiDuplicateChr(void)
 
 			if (g_Vars.normmplayerisrunning == false
 					&& g_MissionConfig.iscoop
-					&& playerSimulatantBuddiesCount() > 0) {
+					&& playerSimulantBuddiesCount() > 0) {
 				clone->flags |= CHRFLAG0_AIVSAI;
 			}
 

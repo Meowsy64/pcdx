@@ -3088,12 +3088,22 @@ struct cutscene {
 	u16 name;
 };
 
+struct frcheatdata {
+	u32 weaponnum;
+	u8 difficulty;
+};
+
 struct cheat {
 	u16 nametextid;
 	u16 time;
 	u8 stage_index;
 	u8 difficulty;
-	u8 flags;
+	u32 flags;
+	u32 incompatiblecheats[5];
+	struct frcheatdata frdata[5];
+	u32 active : 1;
+	u32 enabled : 1;
+	u32 unlocked : 1;
 };
 
 struct headorbody {

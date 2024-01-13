@@ -294,7 +294,7 @@ char *endscreenMenuTextAccuracy(struct menuitem *item)
 
 char *endscreenMenuTextMissionStatus(struct menuitem *item)
 {
-	if (g_CheatsActiveBank0 || g_CheatsActiveBank1) {
+	if (cheatAreInvalidatingCheatsActive()) {
 		return langGet(L_MPWEAPONS_135); // "Cheated"
 	}
 
@@ -351,7 +351,7 @@ char *endscreenMenuTextMissionStatus(struct menuitem *item)
 
 char *endscreenMenuTextAgentStatus(struct menuitem *item)
 {
-	if (g_CheatsActiveBank0 || g_CheatsActiveBank1) {
+	if (cheatAreInvalidatingCheatsActive()) {
 		return langGet(L_MPWEAPONS_134); // "Dishonored"
 	}
 
@@ -742,7 +742,7 @@ MenuDialogHandlerResult endscreenHandle2PCompleted(s32 operation, struct menudia
 								|| (stageGetIndex(g_MissionConfig.stagenum) < 0
 									|| g_Vars.stagenum == STAGE_CITRAINING
 									|| g_MissionConfig.stageindex > SOLOSTAGEINDEX_SKEDARRUINS
-									|| ((g_CheatsActiveBank0 || g_CheatsActiveBank1)
+									|| (cheatAreInvalidatingCheatsActive()
 										&& !isStageDifficultyUnlocked(g_MissionConfig.stageindex + 1, g_MissionConfig.difficulty)))) {
 							menuPopDialog();
 						} else {
@@ -1380,7 +1380,7 @@ char *endscreenMenuTextTargetTime(struct menuitem *item)
 
 void endscreenSetCoopCompleted(void)
 {
-	if (g_CheatsActiveBank0 == 0 && g_CheatsActiveBank1 == 0) {
+	if (!cheatAreInvalidatingCheatsActive()) {
 #if VERSION >= VERSION_NTSC_1_0
 		if (g_GameFile.coopcompletions[g_MissionConfig.difficulty] & (1 << g_MissionConfig.stageindex)) {
 			g_Menus[g_MpPlayerNum].endscreen.isfirstcompletion = true;
@@ -1510,16 +1510,14 @@ void endscreenPrepare(void)
 			g_GameFile.autodifficulty = g_MissionConfig.difficulty;
 
 #if VERSION >= VERSION_NTSC_1_0 && defined(DEBUG)
-			if (g_CheatsActiveBank0 == 0
-					&& g_CheatsActiveBank1 == 0
+			if (!cheatAreInvalidatingCheatsActive()
 					&& g_MissionConfig.pdmode == false
 					&& ((g_Vars.currentplayer->isdead == false
 							&& g_Vars.currentplayer->aborted == false
 							&& objectiveIsAllComplete())
 						|| debugIsSetCompleteEnabled()))
 #elif VERSION >= VERSION_NTSC_1_0
-			if (g_CheatsActiveBank0 == 0
-					&& g_CheatsActiveBank1 == 0
+			if (!cheatAreInvalidatingCheatsActive()
 					&& g_MissionConfig.pdmode == false
 					&& g_Vars.currentplayer->isdead == false
 					&& g_Vars.currentplayer->aborted == false
@@ -1528,8 +1526,7 @@ void endscreenPrepare(void)
 			if (g_Vars.currentplayer->isdead == false
 					&& g_Vars.currentplayer->aborted == false
 					&& objectiveIsAllComplete()
-					&& g_CheatsActiveBank0 == 0
-					&& g_CheatsActiveBank1 == 0)
+					&& !cheatAreInvalidatingCheatsActive())
 #endif
 			{
 				secs = playerGetMissionTime() / 60;

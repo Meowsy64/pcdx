@@ -14,6 +14,7 @@
 #include "game/playermgr.h"
 #include "game/prop.h"
 #include "game/training.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/dma.h"
 #include "lib/rng.h"
@@ -117,6 +118,8 @@ void challengeDetermineUnlockedFeatures(void)
 			// Challenges are available if their previous one is complete
 			flag = 1;
 			numgifted++;
+		} else if (cheatIsAllContentUnlocked()) {
+			flag = 1;
 		}
 #ifdef DEBUG
 		else if (debugIsAllChallengesEnabled()) {
@@ -828,11 +831,11 @@ void challengeConsiderMarkingComplete(void)
 	bool result = challengeIsCompleteForEndscreen();
 
 #if VERSION >= VERSION_NTSC_1_0 && defined(DEBUG)
-	if ((g_CheatsActiveBank0 == 0 && g_CheatsActiveBank1 == 0) && (result || debugIsSetCompleteEnabled()))
+	if (!cheatAreInvalidatingCheatsActive() && (result || debugIsSetCompleteEnabled()))
 #elif VERSION >= VERSION_NTSC_1_0
-	if (g_CheatsActiveBank0 == 0 && g_CheatsActiveBank1 == 0 && result)
+	if (!cheatAreInvalidatingCheatsActive() && result)
 #else
-	if (result && g_CheatsActiveBank0 == 0 && g_CheatsActiveBank1 == 0)
+	if (result && !cheatAreInvalidatingCheatsActive())
 #endif
 	{
 		u32 prevplayernum;
@@ -853,7 +856,7 @@ void challengeConsiderMarkingComplete(void)
 
 bool challengeIsFeatureUnlocked(s32 featurenum)
 {
-	if (featurenum == 0) {
+	if (featurenum == 0 || cheatIsAllContentUnlocked()) {
 		return true;
 	}
 
@@ -862,7 +865,7 @@ bool challengeIsFeatureUnlocked(s32 featurenum)
 
 bool challengeIsFeatureUnlockedByPlayer(u32 numplayers, s32 featurenum)
 {
-	if (featurenum == 0) {
+	if (featurenum == 0 || cheatIsAllContentUnlocked()) {
 		return true;
 	}
 

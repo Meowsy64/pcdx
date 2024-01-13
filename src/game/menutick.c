@@ -20,6 +20,7 @@
 #include "game/training.h"
 #include "game/gamefile.h"
 #include "game/mplayer/mplayer.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/vi.h"
 #include "lib/joy.h"
@@ -628,7 +629,7 @@ void menuTick(void)
 
 				if (g_Vars.coopplayernum >= 0
 						&& g_MissionConfig.stageindex <= SOLOSTAGEINDEX_SKEDARRUINS
-						&& ((!g_CheatsActiveBank0 && !g_CheatsActiveBank1) || isStageDifficultyUnlocked(g_MissionConfig.stageindex + 1, g_MissionConfig.difficulty))) {
+						&& ((!cheatAreInvalidatingCheatsActive()) || isStageDifficultyUnlocked(g_MissionConfig.stageindex + 1, g_MissionConfig.difficulty))) {
 					endscreenPushSolo();
 				} else if (g_Vars.restartlevel) {
 					mainChangeToStage(mainGetStageNum());

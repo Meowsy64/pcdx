@@ -13,6 +13,7 @@
 #include "game/mplayer/mplayer.h"
 #include "game/mplayer/scenarios.h"
 #include "game/pad.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/dma.h"
 #include "lib/rng.h"

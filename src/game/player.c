@@ -3181,7 +3181,7 @@ struct buddy g_Buddies[NUM_BUDDIES] = {
 	{ BUDDY_CUSTOM,     GAILIST_INIT_DEFAULT_BUDDY,  BODY_DARK_COMBAT, HEAD_VD,      0,                    CHRFLAG1_IGNORECOVER,                                                       VOICEBOX_FEMALE, 50,  100, 100, 20, 4,  WEAPON_FALCON2,      WEAPON_NONE,        },
 };
 
-s32 playerSimulatantBuddiesCount()
+s32 playerSimulantBuddiesCount()
 {
 	s32 i;
 	s32 count = 0;
@@ -3769,7 +3769,7 @@ void playerTick(bool arg0)
 
 		if (g_Vars.normmplayerisrunning == false
 				&& g_MissionConfig.iscoop
-				&& playerSimulatantBuddiesCount() > 0
+				&& playerSimulantBuddiesCount() > 0
 				&& g_Vars.stagenum != STAGE_CITRAINING
 				&& ((g_Vars.lvframenum - 20) % 60) == 0
 				&& g_Vars.lvframenum > 20) {

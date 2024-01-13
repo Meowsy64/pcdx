@@ -281,7 +281,7 @@ void amTick(void)
 
 				if (toggle) {
 					if (g_AmMenus[g_AmIndex].screenindex >= 2) {
-						if (playerSimulatantBuddiesCount() && g_MissionConfig.iscoop) {
+						if (playerSimulantBuddiesCount() && g_MissionConfig.iscoop) {
 							// Bot command screen, in coop with AI buddies
 							if (g_AmMenus[g_AmIndex].slotnum == 4) {
 								gotonextscreen = true;

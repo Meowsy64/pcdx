@@ -26,6 +26,7 @@
 #include "game/training.h"
 #include "game/trainingmenus.h"
 #include "game/wallhit.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/vi.h"
 #include "lib/dma.h"
@@ -181,6 +182,10 @@ void frSetWeaponFound(s32 weaponnum)
 
 s32 ciIsStageComplete(s32 stageindex)
 {
+	if (cheatIsAllContentUnlocked()) {
+		return true;
+	}
+
 	return g_GameFile.besttimes[stageindex][0]
 		|| g_GameFile.besttimes[stageindex][1]
 		|| g_GameFile.besttimes[stageindex][2];
@@ -219,6 +224,10 @@ bool frIsWeaponAvailable(s32 weapon)
 	}
 
 	if (weapon == WEAPON_FALCON2 || weapon == WEAPON_CMP150) {
+		return true;
+	}
+
+	if (cheatIsAllContentUnlocked() && weapon <= WEAPON_XRAYSCANNER) {
 		return true;
 	}
 
@@ -366,6 +375,29 @@ s32 frIsClassicWeaponUnlocked(u32 weapon)
 	}
 
 	return false;
+}
+
+s32 frIsCheatUnlocked(struct cheat *cheat)
+{
+	s32 i = 0;
+
+	if (!cheat->frdata) {
+		return true;
+	}
+
+	if (cheatIsAllContentUnlocked()) {
+		return true;
+	}
+
+	for (i = 0; i < ARRAYCOUNT(cheat->frdata); i++) {
+		if (cheat->frdata[i].weaponnum == 0 && cheat->frdata[i].difficulty == 0) {
+			return true;
+		} else if (ciGetFiringRangeScore(frGetWeaponIndexByWeapon(cheat->frdata[i].weaponnum)) <= cheat->frdata[i].difficulty) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 s32 frGetSlot(void)
@@ -2634,6 +2666,10 @@ bool ciIsHangarBioUnlocked(u32 bioindex)
 {
 	u32 stage;
 
+	if (cheatIsAllContentUnlocked()) {
+		return true;
+	}
+
 	switch (bioindex) {
 	case HANGARBIO_INSTITUTE:
 	case HANGARBIO_HOVERCRATE:
@@ -3869,3 +3905,9 @@ Gfx *frRenderHud(Gfx *gdl)
 	return text0f153780(gdl);
 }
 #endif
+
+u16 g_FiringRangeDifficultyNames[NUM_FRDIFFICULTIES] = {
+	L_MPMENU_439, // "Bronze"
+	L_MPMENU_440, // "Silver"
+	L_MPMENU_441, // "Gold"
+};

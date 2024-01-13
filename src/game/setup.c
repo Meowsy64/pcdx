@@ -24,6 +24,7 @@
 #include "game/mplayer/mplayer.h"
 #include "game/pad.h"
 #include "game/propobj.h"
+#include "game/player.h"
 #include "bss.h"
 #include "lib/args.h"
 #include "lib/memp.h"
@@ -1394,10 +1395,10 @@ void setupLoadFiles(s32 stagenum)
 		// Count the number of chrs and objects so enough model slots can be allocated
 		numchrs += setupCountCommandType(OBJTYPE_CHR);
 
-		if (!g_Vars.normmplayerisrunning && g_MissionConfig.iscoop && playerSimulatantBuddiesCount() > 0) {
+		if (!g_Vars.normmplayerisrunning && g_MissionConfig.iscoop && playerSimulantBuddiesCount() > 0) {
 			// @bug? The Hotshot buddy has two guns, but only one is counted here.
-			numchrs += playerSimulatantBuddiesCount();
-			numobjs += playerSimulatantBuddiesCount(); // the buddy's weapon
+			numchrs += playerSimulantBuddiesCount();
+			numobjs += playerSimulantBuddiesCount(); // the buddy's weapon
 		}
 
 		numobjs += setupCountCommandType(OBJTYPE_WEAPON);
@@ -1499,8 +1500,8 @@ void setupCreateProps(s32 stagenum)
 
 			if (g_Vars.normmplayerisrunning == false
 					&& g_MissionConfig.iscoop
-					&& playerSimulatantBuddiesCount() > 0) {
-				numchrs += playerSimulatantBuddiesCount();
+					&& playerSimulantBuddiesCount() > 0) {
+				numchrs += playerSimulantBuddiesCount();
 			}
 
 			chrmgrConfigure(numchrs);

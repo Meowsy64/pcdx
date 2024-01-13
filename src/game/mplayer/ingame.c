@@ -15,6 +15,7 @@
 #include "game/mplayer/mplayer.h"
 #include "game/mplayer/setup.h"
 #include "game/options.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/main.h"
 #include "data.h"
@@ -808,7 +809,7 @@ void mpPushEndscreenDialog(u32 arg0, u32 playernum)
 
 	if (g_MpSetup.options & MPOPTION_TEAMSENABLED) {
 		if (g_BossFile.locktype == MPLOCKTYPE_CHALLENGE) {
-			if (g_CheatsActiveBank0 || g_CheatsActiveBank1) {
+			if (cheatAreInvalidatingCheatsActive()) {
 				menuPushRootDialog(&g_MpEndscreenChallengeCheatedMenuDialog, MENUROOT_MPENDSCREEN);
 			} else if (challengeIsCompleteForEndscreen()) {
 				menuPushRootDialog(&g_MpEndscreenChallengeCompletedMenuDialog, MENUROOT_MPENDSCREEN);

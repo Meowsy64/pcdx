@@ -644,6 +644,12 @@ void gamefileUnlockEverything(void)
 	gamefileSetFlag(GAMEFILEFLAG_CI_CAMSPY_DONE);
 	gamefileSetFlag(GAMEFILEFLAG_CI_ECMMINE_DONE);
 	gamefileSetFlag(GAMEFILEFLAG_CI_UPLINK_DONE);
+
+	// unlock all cheats
+	s32 cheat_id;
+	for (cheat_id = 0; cheat_id < NUM_CHEATS; cheat_id++) {
+		g_Cheats[cheat_id].unlocked = cheatIsUnlocked(cheat_id);
+	}
 }
 
 #endif

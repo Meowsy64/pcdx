@@ -10,6 +10,7 @@ extern u8 g_ChrBioSlot;
 extern u8 var80088bb4;
 extern u8 g_HangarBioSlot;
 extern u8 g_DtSlot;
+extern u16 g_FiringRangeDifficultyNames[NUM_FRDIFFICULTIES];
 
 bool ciIsTourDone(void);
 u8 ciGetFiringRangeScore(s32 weaponindex);
@@ -22,6 +23,7 @@ bool frIsWeaponAvailable(s32 weapon);
 u32 frGetWeaponIndexByWeapon(u32 weaponnum);
 u32 frGetWeaponScriptIndex(u32 weaponnum);
 s32 frIsClassicWeaponUnlocked(u32 weapon);
+s32 frIsCheatUnlocked(struct cheat *cheat);
 s32 frGetSlot(void);
 void frSetSlot(s32 slot);
 u32 frGetWeaponBySlot(s32 slot);

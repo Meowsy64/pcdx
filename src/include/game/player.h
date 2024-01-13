@@ -53,6 +53,7 @@ f32 player0f0bd358(void);
 void playerUpdateShake(void);
 void playerTickTeleport(f32 *arg0);
 void playerConfigureVi(void);
+s32 playerSimulantBuddiesCount();
 void playerTick(bool arg0);
 void playerAllocateMatrices(struct coord *cam_pos, struct coord *cam_look, struct coord *cam_up);
 Gfx *playerUpdateShootRot(Gfx *gdl);

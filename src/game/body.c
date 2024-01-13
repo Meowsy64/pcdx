@@ -12,6 +12,7 @@
 #include "game/mplayer/mplayer.h"
 #include "game/pad.h"
 #include "game/propobj.h"
+#include "game/player.h"
 #include "bss.h"
 #include "lib/memp.h"
 #include "lib/model.h"
@@ -515,7 +516,7 @@ void bodyAllocateChr(s32 stagenum, struct packedchr *packed, s32 cmdindex)
 				chr->chrflags |= CHRCFLAG_CLONEABLE;
 			}
 
-			if (!g_Vars.normmplayerisrunning && g_MissionConfig.iscoop && playerSimulatantBuddiesCount() > 0) {
+			if (!g_Vars.normmplayerisrunning && g_MissionConfig.iscoop && playerSimulantBuddiesCount() > 0) {
 				chr->flags |= CHRFLAG0_AIVSAI;
 			}
 

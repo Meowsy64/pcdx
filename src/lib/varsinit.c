@@ -3,6 +3,7 @@
 #include "bss.h"
 #include "data.h"
 #include "types.h"
+#include "lib/joy.h"
 
 #if VERSION < VERSION_NTSC_1_0
 u32 var8009e6b0[4];
