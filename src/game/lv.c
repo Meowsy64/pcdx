@@ -235,6 +235,8 @@ void lvUpdateMiscSfx(void)
 
 void lvReset(s32 stagenum)
 {
+	s32 i = 0;
+
 	lvFadeReset();
 
 	var80084014 = false;
@@ -285,6 +287,11 @@ void lvReset(s32 stagenum)
 
 	g_Vars.restartlevel = false;
 	g_Vars.aibuddiesspawned = false;
+
+	for (i = 0; i < ARRAYCOUNT(g_Vars.aibuddyspawned); i++) {
+		g_Vars.aibuddyspawned[i] = false;
+	}
+
 	g_Vars.totalkills = 0;
 	g_Vars.antiheadnum = -1;
 	g_Vars.antibodynum = -1;

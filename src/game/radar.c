@@ -359,7 +359,7 @@ Gfx *radarRender(Gfx *gdl)
 
 	// Draw dots for coop AI buddies
 	if (!g_Vars.normmplayerisrunning && g_MissionConfig.iscoop) {
-		for (i = 0; i < g_Vars.numaibuddies && i < ARRAYCOUNT(g_Vars.aibuddies); i++) {
+		for (i = 0; i < MAX_BUDDIES_IN_MISSION; i++) {
 			struct prop *prop = g_Vars.aibuddies[i];
 
 			if (prop

@@ -726,14 +726,14 @@ MenuItemHandlerResult menuhandlerAcceptMission(s32 operation, struct menuitem *i
 		titleSetNextStage(g_MissionConfig.stagenum);
 
 		if (g_MissionConfig.iscoop) {
-			if (g_Vars.numaibuddies == 0) {
+			if (g_Vars.hashumanbuddy) {
 				// Coop with human buddy
 				g_Vars.bondplayernum = 0;
 				g_Vars.coopplayernum = 1;
 				g_Vars.antiplayernum = -1;
 				setNumPlayers(2);
 			} else {
-				// Coop with AI buddies
+				// Coop without human buddy
 				g_Vars.bondplayernum = 0;
 				g_Vars.coopplayernum = -1;
 				g_Vars.antiplayernum = -1;
@@ -1310,16 +1310,6 @@ s32 getMaxAiBuddies(void)
 
 MenuDialogHandlerResult menudialogCoopAntiOptions(s32 operation, struct menudialogdef *dialogdef, union handlerdata *data)
 {
-#if VERSION >= VERSION_NTSC_1_0
-	if (operation == MENUOP_OPEN) {
-		s32 max = getMaxAiBuddies();
-
-		if (g_Vars.numaibuddies > max) {
-			g_Vars.numaibuddies = max;
-		}
-	}
-#endif
-
 	if (operation == MENUOP_TICK) {
 		if (g_Menus[g_MpPlayerNum].curdialog && g_Menus[g_MpPlayerNum].curdialog->definition == dialogdef) {
 			struct menuinputs *inputs = data->dialog2.inputs;
@@ -1361,102 +1351,56 @@ MenuItemHandlerResult menuhandlerCoopFriendlyFire(s32 operation, struct menuitem
 	return 0;
 }
 
-MenuItemHandlerResult menuhandlerCoopBuddy(s32 operation, struct menuitem *item, union handlerdata *data)
+MenuItemHandlerResult menuhandlerCoopBuddyHuman(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	const u16 labels[] = {
+		L_MPMENU_045, // "None"
 		L_OPTIONS_261, // "Human"
-		L_OPTIONS_262, // "1 Simulant"
-		L_OPTIONS_263, // "2 Simulants"
-		L_OPTIONS_264, // "3 Simulants"
-		L_OPTIONS_265, // "4 Simulants"
 	};
 
 	switch (operation) {
 	case MENUOP_GETOPTIONCOUNT:
-#if VERSION >= VERSION_NTSC_1_0
-		{
-			s32 maxaibuddies = getMaxAiBuddies();
-			s32 human = 0;
-
-			if (joyGetConnectedControllers() & 2) {
-				human = 1;
-			}
-
-			data->dropdown.value = human + maxaibuddies;
-		}
-#else
-		{
-			s32 extrabuddies = 0;
-			s32 i;
-			s32 maxbuddies = 1 - g_MissionConfig.difficulty;
-			s32 human = 0;
-
-			if (joyGetConnectedControllers() & 2) {
-				human = 1;
-			}
-
-			for (i = 0; i < 3; i++) {
-				if ((g_GameFile.coopcompletions[i] | 0xfffe0000) == 0xffffffff) {
-					extrabuddies = i + 1;
-				}
-			}
-
-			maxbuddies += extrabuddies;
-
-			if (maxbuddies > 4) {
-				maxbuddies = 4;
-			}
-
-			if (maxbuddies < 1) {
-				maxbuddies = 1;
-			}
-
-#ifdef DEBUG
-			if (debugIsAllBuddiesEnabled()) {
-				maxbuddies = 4;
-			}
-#endif
-
-			data->dropdown.value = human + maxbuddies;
-		}
-#endif
+		data->dropdown.value = 1 + ((joyGetConnectedControllers() & 2) != 0);
 		break;
 	case MENUOP_GETOPTIONTEXT:
-		{
-			s32 extra = 1;
-
-			if (joyGetConnectedControllers() & 2) {
-				extra = 0;
-			}
-
-			return (s32)langGet(labels[data->dropdown.value + extra]);
-		}
+		return (s32) langGet(labels[data->dropdown.value]);
 	case MENUOP_SET:
-		{
-			s32 extra = 1;
-
-			if (joyGetConnectedControllers() & 2) {
-				extra = 0;
-			}
-
-			g_Vars.numaibuddies = data->dropdown.value + extra;
-			g_Vars.modifiedfiles |= MODFILE_GAME;
-		}
+		g_Vars.hashumanbuddy = data->dropdown.value;
+		g_Vars.modifiedfiles |= MODFILE_GAME;
 		break;
 	case MENUOP_GETSELECTEDINDEX:
-		{
-			s32 extra = 1;
+		data->dropdown.value = g_Vars.hashumanbuddy;
+		break;
+	}
 
-			if (joyGetConnectedControllers() & 2) {
-				extra = 0;
-			}
+	return 0;
+}
 
-			if (extra == 1 && g_Vars.numaibuddies == 0) {
-				g_Vars.numaibuddies = 1;
-			}
+MenuItemHandlerResult menuhandlerCoopBuddySimulant(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+	const char* labels[] = {
+		"None\n", // L_MPMENU_045
+		"Velvet Dark\n", // L_MPWEAPONS_117
+		"Pugilist\n", // L_MPWEAPONS_097
+		"Hotshot\n", // L_MPWEAPONS_098
+		"Hit and Run\n", // L_MPWEAPONS_099
+		"Alien\n", // L_MPWEAPONS_100
+		"Randi\n",
+		"Doc\n",
+	};
 
-			data->dropdown.value = g_Vars.numaibuddies - extra;
-		}
+	switch (operation) {
+	case MENUOP_GETOPTIONCOUNT:
+		data->dropdown.value = ARRAYCOUNT(labels); // 1 + cheatGetCountForCategory(CHEATCAT_BUDDIES)
+		break;
+	case MENUOP_GETOPTIONTEXT:
+		return (MenuItemHandlerResult)labels[data->dropdown.value];
+	case MENUOP_SET:
+		g_Vars.aibuddytype[item->param3] = data->dropdown.value;
+		g_Vars.modifiedfiles |= MODFILE_GAME;
+		break;
+	case MENUOP_GETSELECTEDINDEX:
+		data->dropdown.value = g_Vars.aibuddytype[item->param3];
 		break;
 	}
 
@@ -1483,10 +1427,50 @@ struct menuitem g_CoopOptionsMenuItems[] = {
 	{
 		MENUITEMTYPE_DROPDOWN,
 		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Human:\n",
 		0,
-		L_OPTIONS_258, // "Perfect Buddy"
+		menuhandlerCoopBuddyHuman
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
 		0,
-		menuhandlerCoopBuddy,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Simulant 1:\n",
+		0,
+		menuhandlerCoopBuddySimulant
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Simulant 2:\n",
+		1,
+		menuhandlerCoopBuddySimulant
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Simulant 3:\n",
+		2,
+		menuhandlerCoopBuddySimulant
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Simulant 4:\n",
+		3,
+		menuhandlerCoopBuddySimulant
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT,
+		(uintptr_t)"Simulant 5:\n",
+		4,
+		menuhandlerCoopBuddySimulant
 	},
 	{
 		MENUITEMTYPE_SEPARATOR,

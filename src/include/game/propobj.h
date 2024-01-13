@@ -288,6 +288,7 @@ struct weaponobj *weaponCreateProjectileFromWeaponNum(s32 modelnum, s32 weaponnu
 void weaponDeleteFromChr(struct chrdata *chr, s32 hand);
 struct prop *weaponCreateForChr(struct chrdata *chr, s32 modelnum, s32 weaponnum, u32 flags, struct weaponobj *obj, struct modeldef *modeldef);
 struct prop *chrGiveWeapon(struct chrdata *chr, s32 model, s32 weaponnum, u32 flags);
+struct prop *chrGiveWeaponWithAutoModel(struct chrdata *chr, s32 weaponnum, u32 flags);
 s32 weaponTestForPickup(struct prop *prop);
 void weaponSetGunfireVisible(struct prop *prop, bool visible, RoomNum room);
 bool weaponIsGunfireVisible(struct prop *prop);

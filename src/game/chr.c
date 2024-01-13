@@ -1431,7 +1431,7 @@ void chrRemove(struct prop *prop, bool free)
 		if (g_Vars.normmplayerisrunning == false && g_MissionConfig.iscoop) {
 			s32 i;
 
-			for (i = 0; i < g_Vars.numaibuddies && i < ARRAYCOUNT(g_Vars.aibuddies); i++) {
+			for (i = 0; i < MAX_BUDDIES_IN_MISSION; i++) {
 				if (g_Vars.aibuddies[i] == prop) {
 					g_Vars.aibuddies[i] = NULL;
 				}

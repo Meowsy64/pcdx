@@ -119,6 +119,21 @@ struct fileguid {
 	u16 deviceserial;
 };
 
+enum buddies {
+	BUDDY_NONE,
+	BUDDY_VELVETDARK,
+	BUDDY_PUGILIST,
+	BUDDY_HOTSHOT,
+	BUDDY_HITANDRUN,
+	BUDDY_ALIEN,
+	BUDDY_RANDI,
+	BUDDY_DOC,
+	BUDDY_CUSTOM,
+	NUM_BUDDIES
+};
+
+#define MAX_BUDDIES_IN_MISSION 5
+
 struct g_vars {
 	// lv values pause when the game is paused, and reset when a new level is loaded
 	// diff values run all the time
@@ -221,7 +236,6 @@ struct g_vars {
 	/*0x468*/ bool speedpillon;
 	/*0x46c*/ s32 restartlevel;
 	/*0x470*/ s32 perfectbuddynum;
-	/*0x474*/ s32 numaibuddies;
 	/*0x478*/ bool aibuddiesspawned;
 	/*0x47c*/ s32 bossfileid;
 	/*0x480*/ u16 bossdeviceserial;
@@ -239,7 +253,7 @@ struct g_vars {
 	/*0x4ac*/ s8 mpplayerteams[MAX_PLAYERS];
 	/*0x4b0*/ u32 mpquickteam;
 	/*0x4b4*/ s32 stagenum;
-	/*0x4b8*/ struct prop *aibuddies[4];
+	          struct prop *aibuddies[MAX_BUDDIES_IN_MISSION];
 	/*0x4c8*/ u32 dontplaynrg; // allow X music to be played (NRG = energy track)
 	/*0x4cc*/ s32 in_cutscene;
 	/*0x4d0*/ u8 paksneededformenu;
@@ -273,6 +287,10 @@ struct g_vars {
 	/*0x508*/ u32 unk000508;
 	/*0x50c*/ u32 unk00050c;
 	/*0x510*/ f32 unk000510;
+
+              bool hashumanbuddy;
+	          bool aibuddyspawned[MAX_BUDDIES_IN_MISSION];
+              s32 aibuddytype[MAX_BUDDIES_IN_MISSION];
 };
 
 struct weaponobj;
@@ -6143,5 +6161,22 @@ struct extplayerconfig {
 };
 
 #endif
+
+struct buddy {
+	s32 buddynum;
+	u8 ailist;
+	s32 body;
+	s32 head;
+	u32 flags1;
+	u32 flags2;
+	u8 voicebox;
+	u8 teamscandist;
+	s8 accuracyrating;
+	s8 speedrating;
+	f32 maxdamage;
+	f32 health;
+	u32 weapon1;
+	u32 weapon2;
+};
 
 #endif

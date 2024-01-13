@@ -47,7 +47,6 @@ void varsInit(void)
 	g_Vars.antiradaron = true;
 	g_Vars.pendingantiplayernum = 1;
 	g_Vars.modifiedfiles = 0;
-	g_Vars.numaibuddies = 0;
 	g_Vars.bondvisible = true;
 	g_Vars.bondcollisions = true;
 	g_Vars.tickmode = TICKMODE_GE_FADEIN;
@@ -82,4 +81,10 @@ void varsInit(void)
 	g_Vars.autocutgroupskip = false;
 	g_Vars.fourmeg2player = false;
 	g_Vars.cutsceneskip60ths = 0;
+	g_Vars.hashumanbuddy = (joyGetConnectedControllers() & 2) != 0;
+	g_Vars.aibuddytype[0] = g_Vars.hashumanbuddy ? BUDDY_NONE : BUDDY_VELVETDARK;
+	g_Vars.aibuddytype[1] = BUDDY_NONE;
+	g_Vars.aibuddytype[2] = BUDDY_NONE;
+	g_Vars.aibuddytype[3] = BUDDY_NONE;
+	g_Vars.aibuddytype[4] = BUDDY_NONE;
 }

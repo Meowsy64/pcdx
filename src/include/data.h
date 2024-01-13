@@ -565,4 +565,6 @@ extern s32 g_FileAutoSelect;
 
 #endif // PLATFORM_N64
 
+extern struct buddy g_Buddies[NUM_BUDDIES];
+
 #endif
