@@ -3079,6 +3079,9 @@ struct weapon {
 
 struct pcdx_weapon {
 	s16 chr_model;
+	s32 classicweapon;
+	u64 flags;
+	u16 extrascale;
 };
 
 struct cutscene {
@@ -3103,7 +3106,6 @@ struct cheat {
 	struct frcheatdata frdata[5];
 	u32 active : 1;
 	u32 enabled : 1;
-	u32 unlocked : 1;
 };
 
 struct headorbody {

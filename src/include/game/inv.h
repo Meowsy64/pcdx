@@ -6,8 +6,8 @@
 
 extern struct noisesettings invnoisesettings_silent;
 extern struct invaimsettings invaimsettings_default;
-extern struct weapon *g_Weapons[WEAPON_SUICIDEPILL + 1];
-extern struct pcdx_weapon *g_WeaponsExtended[ARRAYCOUNT(g_Weapons)];
+extern struct weapon *g_Weapons[NUM_WEAPONS];
+extern struct pcdx_weapon *g_WeaponsExtended[NUM_WEAPONS];
 
 void invReset(void);
 void invInit(s32 numdoubles);

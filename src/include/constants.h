@@ -236,6 +236,7 @@
 #define AMMOFLAG_INCREMENTALRELOAD 4 // Shotgun and crossbow
 #define AMMOFLAG_QTYAFFECTSPARTVIS 8 // Quantity of ammo in the clip affects model part visibility on the weapon (Devastator)
 
+#define AMMOTYPE_NONE         0x00
 #define AMMOTYPE_PISTOL       0x01
 #define AMMOTYPE_SMG          0x02
 #define AMMOTYPE_CROSSBOW     0x03
@@ -268,6 +269,9 @@
 #define AMMOTYPE_TOKEN        0x1e
 #define AMMOTYPE_1F           0x1f
 #define AMMOTYPE_ECM_MINE     0x20
+#define AMMOTYPE_GOLDENBULLET 0x21
+#define AMMOTYPE_WATCHLASER   0x22
+#define NUM_AMMOTYPES         0x23
 
 // Active menu slots
 #define AMSLOTFLAG_CURRENT 0x02 // black, eg. current equipped weapon
@@ -453,6 +457,8 @@ enum cheatnum {
 	CHEAT_AR53,
 	CHEAT_RCP45,
 	CHEAT_UNLOCKALLCONTENT,
+	CHEAT_ULTRAVISIBLE,
+	CHEAT_CLASSICMODE,
 	NUM_CHEATS
 };
 
@@ -4409,6 +4415,7 @@ enum weaponnum {
 	/*0x22*/ WEAPON_REMOTEMINE,
 	/*0x23*/ WEAPON_COMBATBOOST,
 	/*0x24*/ WEAPON_PP9I,
+	         WEAPON_PP9I_SILENCER,
 	/*0x25*/ WEAPON_CC13,
 	/*0x26*/ WEAPON_KL01313,
 	/*0x27*/ WEAPON_KF7SPECIAL,
@@ -4467,7 +4474,8 @@ enum weaponnum {
 	/*0x5a*/ WEAPON_WATCHLASER,
 	/*0x5b*/ WEAPON_MPSHIELD,
 	/*0x5c*/ WEAPON_DISABLED,
-	/*0x5d*/ WEAPON_SUICIDEPILL
+	/*0x5d*/ WEAPON_SUICIDEPILL,
+	         NUM_WEAPONS
 };
 
 #define WEAPON_MPLOCATION00 240
@@ -4520,6 +4528,9 @@ enum weaponnum {
 #define WEAPONFLAG_DETERMINER_F_SOME 0x20000000 // "Picked up some ..." (full version)
 #define WEAPONFLAG_AIMTRACK          0x40000000 // Allow drawing red box around targets in aim mode
 #define WEAPONFLAG_FIRETOACTIVATE    0x80000000 // For devices/gadgets
+
+#define WEAPONFLAG2_NONE             0x00000000
+#define WEAPONFLAG2_CHEATCANREPLACE  0x00000001
 
 #define WEAPONSET_RANDOMFIVE 0x0c
 #define WEAPONSET_RANDOM     0x0d

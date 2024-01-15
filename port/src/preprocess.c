@@ -10,6 +10,7 @@
 #include "bss.h"
 #include "game/setuputils.h"
 #include "game/texdecompress.h"
+#include "game/setup.h"
 #include "preprocess.h"
 #include "romdata.h"
 #include "mod.h"
@@ -625,6 +626,9 @@ static void preprocessPropObj(struct defaultobj *obj)
 			preprocessDefaultPropObj(obj);
 			PD_SWAP_PTR(wpn->dualweapon);
 			PD_SWAP_VAL(wpn->team);
+
+			// PCDX: Fix up for weapon mappings
+			wpn->weaponnum = g_SetupWeaponMappings[wpn->weaponnum];
 			break;
 		}
 		case OBJTYPE_KEY: {
@@ -751,6 +755,8 @@ static void preprocessPropObj(struct defaultobj *obj)
 			struct ammocrateobj *ammo = (struct ammocrateobj *)obj;
 			preprocessDefaultPropObj(obj);
 			PD_SWAP_VAL(ammo->ammotype);
+			// PCDX: Fix up for ammo mappings
+			ammo->ammotype = g_SetupAmmoMappings[ammo->ammotype];
 			break;
 		}
 		case OBJTYPE_MULTIAMMOCRATE: {
@@ -759,6 +765,7 @@ static void preprocessPropObj(struct defaultobj *obj)
 			for (s32 i = 0; i < ARRAYCOUNT(mammo->slots); ++i) {
 				PD_SWAP_VAL(mammo->slots[i].modelnum);
 				PD_SWAP_VAL(mammo->slots[i].quantity);
+				// PCDX: TODO: Fix up for ammo mappings (will be a huge PITA)
 			}
 			break;
 		}
@@ -806,6 +813,8 @@ static void preprocessPropObj(struct defaultobj *obj)
 			PD_SWAP_VAL(over->inventorytext);
 			PD_SWAP_VAL(over->inventory2text);
 			PD_SWAP_VAL(over->pickuptext);
+			// PCDX: Fix up for weapon mappings
+			over->weapon = g_SetupWeaponMappings[over->weapon];
 			break;
 		}
 		case OBJTYPE_BRIEFING: {
@@ -971,10 +980,20 @@ static void preprocessIntroScript(s32 *cmd)
 				cmd += 3;
 				break;
 			case INTROCMD_AMMO:
+				PD_SWAP_VAL(cmd[1]);
+				PD_SWAP_VAL(cmd[2]);
+				PD_SWAP_VAL(cmd[3]);
+				// PCDX: Fix up for ammo mappings
+				cmd[1] = g_SetupAmmoMappings[cmd[1]];
+				cmd += 4;
+				break;
 			case INTROCMD_WEAPON:
 				PD_SWAP_VAL(cmd[1]);
 				PD_SWAP_VAL(cmd[2]);
 				PD_SWAP_VAL(cmd[3]);
+				// PCDX: Fix up for weapon mappings
+				cmd[1] = g_SetupWeaponMappings[cmd[1]];
+				cmd[2] = g_SetupWeaponMappings[cmd[2]];
 				cmd += 4;
 				break;
 			case INTROCMD_3:

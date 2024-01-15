@@ -18,6 +18,7 @@ f32 currentPlayerGetGunZoomFov(void);
 void currentPlayerZoomOut(f32 fovpersec);
 void currentPlayerZoomIn(f32 fovpersec);
 bool weaponHasFlag(s32 itemid, u32 flag);
+bool weaponHasFlag2(s32 itemid, u64 flag);
 bool weaponHasAimFlag(s32 weaponnum, u32 flag);
 bool weaponHasAmmoFlag(s32 weaponnum, s32 funcnum, u32 flag);
 s32 currentPlayerGetDeviceState(s32 weaponnum);
@@ -25,6 +26,7 @@ void currentPlayerSetDeviceActive(s32 weaponum, bool active);
 u16 weaponGetFileNum(s32 weaponnum);
 u16 weaponGetFileNum2(s32 weaponnum);
 s32 weaponGetChrModel(s32 weaponnum);
+s32 weaponGetExtraScale(s32 weaponnum);
 void gsetPopulateFromCurrentPlayer(s32 handnum, struct gset *gset);
 struct inventory_ammo *gsetGetAmmoDefinition(struct gset *gset);
 u8 gsetGetSinglePenetration(struct gset *gset);
@@ -38,5 +40,7 @@ u32 currentPlayerGetSight(void);
 void gsetGetNoiseSettings(struct gset *gset, struct noisesettings *settings);
 struct guncmd *gsetGetPriToSecAnim(struct gset *gset);
 struct guncmd *gsetGetSecToPriAnim(struct gset *gset);
+s32 weaponGetReplacement(s32 weaponnum, bool isplayer);
+s32 ammoGetReplacement(s32 ammonum);
 
 #endif

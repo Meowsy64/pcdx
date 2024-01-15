@@ -24,80 +24,82 @@ struct menudialogdef g_CheatsBuddiesMenuDialog;
 #define s
 
 struct cheat g_Cheats[] = {
-	{ L_MPWEAPONS_075, TIME(2 m,  3 s),   SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Hurricane Fists
+	{ L_MPWEAPONS_075,              TIME(2 m,  3 s),   SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Hurricane Fists
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_076, TIME(1 m, 40 s),   SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Cloaking Device
+	{ L_MPWEAPONS_076,              TIME(1 m, 40 s),   SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Cloaking Device
 #else
-	{ L_MPWEAPONS_076, TIME(0 m, 59 s),   SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Cloaking Device
+	{ L_MPWEAPONS_076,              TIME(0 m, 59 s),   SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // Cloaking Device
 #endif
-	{ L_MPWEAPONS_077, TIME(3 m, 50 s),   SOLOSTAGEINDEX_ESCAPE,         DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Invincible
+	{ L_MPWEAPONS_077,              TIME(3 m, 50 s),   SOLOSTAGEINDEX_ESCAPE,         DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Invincible
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_078, TIME(5 m, 31 s),   SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // All Guns in Solo
-	{ L_MPWEAPONS_079, TIME(7 m,  7 s),   SOLOSTAGEINDEX_PELAGIC,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo
-	{ L_MPWEAPONS_080, TIME(3 m, 11 s),   SOLOSTAGEINDEX_AIRBASE,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo, No Reloads
+	{ L_MPWEAPONS_078,              TIME(5 m, 31 s),   SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // All Guns in Solo
+	{ L_MPWEAPONS_079,              TIME(7 m,  7 s),   SOLOSTAGEINDEX_PELAGIC,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo
+	{ L_MPWEAPONS_080,              TIME(3 m, 11 s),   SOLOSTAGEINDEX_AIRBASE,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo, No Reloads
 #else
-	{ L_MPWEAPONS_078, TIME(4 m,  7 s),   SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // All Guns in Solo
-	{ L_MPWEAPONS_079, TIME(5 m, 50 s),   SOLOSTAGEINDEX_PELAGIC,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo
-	{ L_MPWEAPONS_080, TIME(2 m, 59 s),   SOLOSTAGEINDEX_AIRBASE,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo, No Reloads
+	{ L_MPWEAPONS_078,              TIME(4 m,  7 s),   SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_TRANSFERPAK,                                                       { CHEAT_NONE           } }, // All Guns in Solo
+	{ L_MPWEAPONS_079,              TIME(5 m, 50 s),   SOLOSTAGEINDEX_PELAGIC,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo
+	{ L_MPWEAPONS_080,              TIME(2 m, 59 s),   SOLOSTAGEINDEX_AIRBASE,        DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo, No Reloads
 #endif
-	{ L_MPWEAPONS_081, 0,                 SOLOSTAGEINDEX_INVESTIGATION,  DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Slo-mo Single Player
-	{ L_MPWEAPONS_082, 0,                 SOLOSTAGEINDEX_CHICAGO,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // DK Mode
-	{ L_MPWEAPONS_083, TIME(2 m, 50 s),   SOLOSTAGEINDEX_CRASHSITE,      DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Trent's Magnum
+	{ L_MPWEAPONS_081,              0,                 SOLOSTAGEINDEX_INVESTIGATION,  DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Slo-mo Single Player
+	{ L_MPWEAPONS_082,              0,                 SOLOSTAGEINDEX_CHICAGO,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // DK Mode
+	{ L_MPWEAPONS_083,              TIME(2 m, 50 s),   SOLOSTAGEINDEX_CRASHSITE,      DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Trent's Magnum
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_084, TIME(7 m, 27 s),   SOLOSTAGEINDEX_DEEPSEA,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // FarSight
+	{ L_MPWEAPONS_084,              TIME(7 m, 27 s),   SOLOSTAGEINDEX_DEEPSEA,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // FarSight
 #else
-	{ L_MPWEAPONS_084, TIME(5 m, 13 s),   SOLOSTAGEINDEX_DEEPSEA,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // FarSight
+	{ L_MPWEAPONS_084,              TIME(5 m, 13 s),   SOLOSTAGEINDEX_DEEPSEA,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // FarSight
 #endif
-	{ L_MPWEAPONS_085, 0,                 SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Small Jo
-	{ L_MPWEAPONS_086, 0,                 SOLOSTAGEINDEX_INFILTRATION,   DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Small Characters
-	{ L_MPWEAPONS_087, 0,                 SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Enemy Shields
-	{ L_MPWEAPONS_088, 0,                 SOLOSTAGEINDEX_DEEPSEA,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Jo Shield
+	{ L_MPWEAPONS_085,              0,                 SOLOSTAGEINDEX_G5BUILDING,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Small Jo
+	{ L_MPWEAPONS_086,              0,                 SOLOSTAGEINDEX_INFILTRATION,   DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Small Characters
+	{ L_MPWEAPONS_087,              0,                 SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Enemy Shields
+	{ L_MPWEAPONS_088,              0,                 SOLOSTAGEINDEX_DEEPSEA,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Jo Shield
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_089, TIME(1 m, 45 s),   SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Super Shield
+	{ L_MPWEAPONS_089,              TIME(1 m, 45 s),   SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Super Shield
 #else
-	{ L_MPWEAPONS_089, TIME(1 m, 12 s),   SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Super Shield
+	{ L_MPWEAPONS_089,              TIME(1 m, 12 s),   SOLOSTAGEINDEX_DEFENSE,        DIFF_A,  CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Super Shield
 #endif
-	{ L_MPWEAPONS_090, 0,                 SOLOSTAGEINDEX_DEFECTION,      DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_NONINVALIDATING,                                              { CHEAT_NONE           } }, // Classic Sight
-	{ L_MPWEAPONS_091, 0,                 SOLOSTAGEINDEX_AIRBASE,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Team Heads Only
+	{ L_MPWEAPONS_090,              0,                 SOLOSTAGEINDEX_DEFECTION,      DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_NONINVALIDATING,                                              { CHEAT_NONE           } }, // Classic Sight
+	{ L_MPWEAPONS_091,              0,                 SOLOSTAGEINDEX_AIRBASE,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Team Heads Only
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_092, TIME(7 m, 59 s),   SOLOSTAGEINDEX_RESCUE,         DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Play as Elvis
+	{ L_MPWEAPONS_092,              TIME(7 m, 59 s),   SOLOSTAGEINDEX_RESCUE,         DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Play as Elvis
 #else
-	{ L_MPWEAPONS_092, TIME(7 m,  0 s),   SOLOSTAGEINDEX_RESCUE,         DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Play as Elvis
+	{ L_MPWEAPONS_092,              TIME(7 m,  0 s),   SOLOSTAGEINDEX_RESCUE,         DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Play as Elvis
 #endif
-	{ L_MPWEAPONS_093, 0,                 SOLOSTAGEINDEX_PELAGIC,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_MARQUIS        } }, // Enemy Rockets
+	{ L_MPWEAPONS_093,              0,                 SOLOSTAGEINDEX_PELAGIC,        DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_MARQUIS        } }, // Enemy Rockets
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_094, TIME(3 m, 55 s),   SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo - Laptop Sentry Gun
+	{ L_MPWEAPONS_094,              TIME(3 m, 55 s),   SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo - Laptop Sentry Gun
 #else
-	{ L_MPWEAPONS_094, TIME(2 m, 59 s),   SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo - Laptop Sentry Gun
+	{ L_MPWEAPONS_094,              TIME(2 m, 59 s),   SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Unlimited Ammo - Laptop Sentry Gun
 #endif
-	{ L_MPWEAPONS_095, TIME(1 m, 30 s),   SOLOSTAGEINDEX_DEFECTION,      DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_ENEMYROCKETS   } }, // Marquis of Queensbury Rules
-	{ L_MPWEAPONS_096, 0,                 SOLOSTAGEINDEX_CRASHSITE,      DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Perfect Darkness
-	{ L_MPWEAPONS_117, 0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE | CHEATFLAG_BUDDY | CHEATFLAG_NONINVALIDATING,                       { CHEAT_NONE           } }, // Velvet Dark
-	{ L_MPWEAPONS_097, TIME(6 m, 30 s),   SOLOSTAGEINDEX_INVESTIGATION,  DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Pugilist
-	{ L_MPWEAPONS_098, TIME(5 m,  0 s),   SOLOSTAGEINDEX_INFILTRATION,   DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Hotshot
-	{ L_MPWEAPONS_099, TIME(2 m, 30 s),   SOLOSTAGEINDEX_VILLA,          DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Hit and Run
-	{ L_MPWEAPONS_100, TIME(5 m, 17 s),   SOLOSTAGEINDEX_ATTACKSHIP,     DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Alien
-	{ L_MPWEAPONS_101, 0,                 SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_TRANSFERPAK | CHEATFLAG_SOLOONLY,                             { CHEAT_NONE           } }, // R-Tracker/Weapon Cache Locations
-	{ L_MPWEAPONS_102, 0,                 SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Rocket Launcher
-	{ L_MPWEAPONS_103, 0,                 SOLOSTAGEINDEX_VILLA,          DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Sniper Rifle
-	{ L_MPWEAPONS_104, 0,                 SOLOSTAGEINDEX_RESCUE,         DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_SOLOONLY,                                                     { CHEAT_NONE           } }, // X-Ray Scanner
-	{ L_MPWEAPONS_105, 0,                 SOLOSTAGEINDEX_ESCAPE,         DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // SuperDragon
-	{ L_MPWEAPONS_106, 0,                 SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Laptop Gun
-	{ L_MPWEAPONS_107, 0,                 SOLOSTAGEINDEX_ATTACKSHIP,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Phoenix
+	{ L_MPWEAPONS_095,              TIME(1 m, 30 s),   SOLOSTAGEINDEX_DEFECTION,      DIFF_SA, CHEATFLAG_TIMED,                                                                               { CHEAT_ENEMYROCKETS   } }, // Marquis of Queensbury Rules
+	{ L_MPWEAPONS_096,              0,                 SOLOSTAGEINDEX_CRASHSITE,      DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Perfect Darkness
+	{ L_MPWEAPONS_117,              0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE | CHEATFLAG_BUDDY | CHEATFLAG_NONINVALIDATING,                       { CHEAT_NONE           } }, // Velvet Dark
+	{ L_MPWEAPONS_097,              TIME(6 m, 30 s),   SOLOSTAGEINDEX_INVESTIGATION,  DIFF_PA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Pugilist
+	{ L_MPWEAPONS_098,              TIME(5 m,  0 s),   SOLOSTAGEINDEX_INFILTRATION,   DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Hotshot
+	{ L_MPWEAPONS_099,              TIME(2 m, 30 s),   SOLOSTAGEINDEX_VILLA,          DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Hit and Run
+	{ L_MPWEAPONS_100,              TIME(5 m, 17 s),   SOLOSTAGEINDEX_ATTACKSHIP,     DIFF_SA, CHEATFLAG_TIMED | CHEATFLAG_BUDDY,                                                             { CHEAT_NONE           } }, // Alien
+	{ L_MPWEAPONS_101,              0,                 SOLOSTAGEINDEX_SKEDARRUINS,    DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_TRANSFERPAK | CHEATFLAG_SOLOONLY,                             { CHEAT_NONE           } }, // R-Tracker/Weapon Cache Locations
+	{ L_MPWEAPONS_102,              0,                 SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Rocket Launcher
+	{ L_MPWEAPONS_103,              0,                 SOLOSTAGEINDEX_VILLA,          DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Sniper Rifle
+	{ L_MPWEAPONS_104,              0,                 SOLOSTAGEINDEX_RESCUE,         DIFF_A,  CHEATFLAG_COMPLETION | CHEATFLAG_SOLOONLY,                                                     { CHEAT_NONE           } }, // X-Ray Scanner
+	{ L_MPWEAPONS_105,              0,                 SOLOSTAGEINDEX_ESCAPE,         DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // SuperDragon
+	{ L_MPWEAPONS_106,              0,                 SOLOSTAGEINDEX_AIRFORCEONE,    DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Laptop Gun
+	{ L_MPWEAPONS_107,              0,                 SOLOSTAGEINDEX_ATTACKSHIP,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Phoenix
 #if VERSION >= VERSION_NTSC_1_0
-	{ L_MPWEAPONS_108, TIME(2 m,  0 s),   SOLOSTAGEINDEX_CHICAGO,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Psychosis Gun
+	{ L_MPWEAPONS_108,              TIME(2 m,  0 s),   SOLOSTAGEINDEX_CHICAGO,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Psychosis Gun
 #else
-	{ L_MPWEAPONS_108, TIME(1 m, 44 s),   SOLOSTAGEINDEX_CHICAGO,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Psychosis Gun
+	{ L_MPWEAPONS_108,              TIME(1 m, 44 s),   SOLOSTAGEINDEX_CHICAGO,        DIFF_PA, CHEATFLAG_TIMED,                                                                               { CHEAT_NONE           } }, // Psychosis Gun
 #endif
-	{ L_MPWEAPONS_109, WEAPON_PP9I,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_FALCON2,      FRDIFFICULTY_GOLD, }, { WEAPON_FALCON2_SCOPE, FRDIFFICULTY_GOLD, }, { WEAPON_FALCON2_SILENCER, FRDIFFICULTY_GOLD, },                                                                                         }, }, // PP9i
-	{ L_MPWEAPONS_110, WEAPON_CC13,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_MAGSEC4,      FRDIFFICULTY_GOLD, }, { WEAPON_MAULER,        FRDIFFICULTY_GOLD, }, { WEAPON_PHOENIX,          FRDIFFICULTY_GOLD, }, { WEAPON_DY357MAGNUM, FRDIFFICULTY_GOLD, }, { WEAPON_DY357LX,     FRDIFFICULTY_GOLD, }, }, }, // CC13
-	{ L_MPWEAPONS_111, WEAPON_KL01313,    0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_CMP150,       FRDIFFICULTY_GOLD, }, { WEAPON_CYCLONE,       FRDIFFICULTY_GOLD, }, { WEAPON_CALLISTO,         FRDIFFICULTY_GOLD, }, { WEAPON_RCP120,      FRDIFFICULTY_GOLD, },                                             }, }, // KL01313
-	{ L_MPWEAPONS_112, WEAPON_KF7SPECIAL, 0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_LAPTOPGUN,    FRDIFFICULTY_GOLD, }, { WEAPON_DRAGON,        FRDIFFICULTY_GOLD, }, { WEAPON_K7AVENGER,        FRDIFFICULTY_GOLD, }, { WEAPON_AR34,        FRDIFFICULTY_GOLD, }, { WEAPON_SUPERDRAGON, FRDIFFICULTY_GOLD, }, }, }, // KF7 Special
-	{ L_MPWEAPONS_113, WEAPON_ZZT,        0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_SHOTGUN,      FRDIFFICULTY_GOLD, }, { WEAPON_SNIPERRIFLE,   FRDIFFICULTY_GOLD, }, { WEAPON_ROCKETLAUNCHER,   FRDIFFICULTY_GOLD, }, { WEAPON_SLAYER,      FRDIFFICULTY_GOLD, },                                             }, }, // ZZT (9mm)
-	{ L_MPWEAPONS_114, WEAPON_DMC,        0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_TIMEDMINE,    FRDIFFICULTY_GOLD, }, { WEAPON_PROXIMITYMINE, FRDIFFICULTY_GOLD, }, { WEAPON_REMOTEMINE,       FRDIFFICULTY_GOLD, },                                                                                         }, }, // DMC
-	{ L_MPWEAPONS_115, WEAPON_AR53,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_FARSIGHT,     FRDIFFICULTY_GOLD, }, { WEAPON_CROSSBOW,      FRDIFFICULTY_GOLD, }, { WEAPON_COMBATKNIFE,      FRDIFFICULTY_GOLD, }, { WEAPON_GRENADE,     FRDIFFICULTY_GOLD, },                                             }, }, // AR53
-	{ L_MPWEAPONS_116, WEAPON_RCP45,      0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_TRANQUILIZER, FRDIFFICULTY_GOLD, }, { WEAPON_REAPER,        FRDIFFICULTY_GOLD, }, { WEAPON_DEVASTATOR,       FRDIFFICULTY_GOLD, },                                                                                         }, }, // RC-P45
-	{ L_MPWEAPONS_116, 0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE | CHEATFLAG_NONINVALIDATING,                                         { CHEAT_NONE           } }, // Unlock All Content
+	{ L_MPWEAPONS_109,              WEAPON_PP9I,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_FALCON2,      FRDIFFICULTY_GOLD, }, { WEAPON_FALCON2_SCOPE, FRDIFFICULTY_GOLD, }, { WEAPON_FALCON2_SILENCER, FRDIFFICULTY_GOLD, },                                                                                         }, }, // PP9i
+	{ L_MPWEAPONS_110,              WEAPON_CC13,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_MAGSEC4,      FRDIFFICULTY_GOLD, }, { WEAPON_MAULER,        FRDIFFICULTY_GOLD, }, { WEAPON_PHOENIX,          FRDIFFICULTY_GOLD, }, { WEAPON_DY357MAGNUM, FRDIFFICULTY_GOLD, }, { WEAPON_DY357LX,     FRDIFFICULTY_GOLD, }, }, }, // CC13
+	{ L_MPWEAPONS_111,              WEAPON_KL01313,    0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_CMP150,       FRDIFFICULTY_GOLD, }, { WEAPON_CYCLONE,       FRDIFFICULTY_GOLD, }, { WEAPON_CALLISTO,         FRDIFFICULTY_GOLD, }, { WEAPON_RCP120,      FRDIFFICULTY_GOLD, },                                             }, }, // KL01313
+	{ L_MPWEAPONS_112,              WEAPON_KF7SPECIAL, 0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_LAPTOPGUN,    FRDIFFICULTY_GOLD, }, { WEAPON_DRAGON,        FRDIFFICULTY_GOLD, }, { WEAPON_K7AVENGER,        FRDIFFICULTY_GOLD, }, { WEAPON_AR34,        FRDIFFICULTY_GOLD, }, { WEAPON_SUPERDRAGON, FRDIFFICULTY_GOLD, }, }, }, // KF7 Special
+	{ L_MPWEAPONS_113,              WEAPON_ZZT,        0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_SHOTGUN,      FRDIFFICULTY_GOLD, }, { WEAPON_SNIPERRIFLE,   FRDIFFICULTY_GOLD, }, { WEAPON_ROCKETLAUNCHER,   FRDIFFICULTY_GOLD, }, { WEAPON_SLAYER,      FRDIFFICULTY_GOLD, },                                             }, }, // ZZT (9mm)
+	{ L_MPWEAPONS_114,              WEAPON_DMC,        0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_TIMEDMINE,    FRDIFFICULTY_GOLD, }, { WEAPON_PROXIMITYMINE, FRDIFFICULTY_GOLD, }, { WEAPON_REMOTEMINE,       FRDIFFICULTY_GOLD, },                                                                                         }, }, // DMC
+	{ L_MPWEAPONS_115,              WEAPON_AR53,       0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_FARSIGHT,     FRDIFFICULTY_GOLD, }, { WEAPON_CROSSBOW,      FRDIFFICULTY_GOLD, }, { WEAPON_COMBATKNIFE,      FRDIFFICULTY_GOLD, }, { WEAPON_GRENADE,     FRDIFFICULTY_GOLD, },                                             }, }, // AR53
+	{ L_MPWEAPONS_116,              WEAPON_RCP45,      0,                             0,       CHEATFLAG_FIRINGRANGE,                                                                         { CHEAT_NONE           }, { { WEAPON_TRANQUILIZER, FRDIFFICULTY_GOLD, }, { WEAPON_REAPER,        FRDIFFICULTY_GOLD, }, { WEAPON_DEVASTATOR,       FRDIFFICULTY_GOLD, },                                                                                         }, }, // RC-P45
+	{ L_MPWEAPONS_UNLOCKALLCONTENT, 0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE | CHEATFLAG_NONINVALIDATING,                                         { CHEAT_NONE           } }, // CHEAT_UNLOCKALLCONTENT
+	{ L_MPWEAPONS_ULTRAVISIBLE,     0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_ULTRAVISIBLE
+	{ L_MPWEAPONS_CLASSICMODE,      0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CLASSICMODE
 };
 
 u32 cheatIsUnlocked(s32 cheat_id)
@@ -236,6 +238,9 @@ void cheatDeactivate(s32 cheat_id)
 			setCurrentPlayerNum(prevplayernum);
 		}
 		break;
+	case CHEAT_UNLOCKALLCONTENT:
+		cheatsReset();
+		break;
 	}
 
 	g_Cheats[cheat_id].active = false;
@@ -249,7 +254,6 @@ void cheatsInit(void)
 	for (cheat_id = 0; cheat_id < NUM_CHEATS; cheat_id++) {
 		g_Cheats[cheat_id].active = false;
 		g_Cheats[cheat_id].enabled = false;
-		g_Cheats[cheat_id].unlocked = cheatIsUnlocked(cheat_id);
 	}
 
 	// TODO: Apply cheats from save file.
@@ -264,13 +268,14 @@ void cheatsInit(void)
 void cheatsReset(void)
 {
 	s32 cheat_id;
-	for (cheat_id = 0; cheat_id < NUM_CHEATS; cheat_id++) {
-		g_Cheats[cheat_id].unlocked = cheatIsUnlocked(cheat_id);
-	}
 
 	// Copy enabled cheats to active cheats, unless in CI training
 	// or weapon cheats not in solo
-	if (g_Vars.stagenum != STAGE_CITRAINING) {
+	for (cheat_id = 0; cheat_id < NUM_CHEATS; cheat_id++) {
+		if (g_Vars.stagenum == STAGE_CITRAINING && cheat_id != CHEAT_UNLOCKALLCONTENT) {
+			continue;
+		}
+
 		// Copy enabled cheats to active cheats
 		g_Cheats[cheat_id].active = g_Cheats[cheat_id].enabled;
 		if (g_Cheats[cheat_id].active) {
@@ -281,7 +286,7 @@ void cheatsReset(void)
 	// Set any "always on" cheats to active and properly activate all active cheats
 	for (cheat_id = 0; cheat_id != NUM_CHEATS; cheat_id++) {
 		if (g_Cheats[cheat_id].flags & CHEATFLAG_ALWAYSON) {
-			g_Cheats[cheat_id].active = g_Cheats[cheat_id].unlocked;
+			g_Cheats[cheat_id].active = cheatIsUnlocked(cheat_id);
 		}
 
 		if (g_Cheats[cheat_id].active) {
@@ -297,7 +302,7 @@ MenuItemHandlerResult cheatCheckboxMenuHandler(s32 operation, struct menuitem *i
 	switch (operation) {
 	case MENUOP_GET:
 		if (g_Cheats[item->param].flags & CHEATFLAG_BUDDY) {
-			return g_Cheats[item->param].unlocked;
+			return cheatIsUnlocked(item->param);
 		}
 		return g_Cheats[item->param].enabled;
 	case MENUOP_SET:
@@ -760,10 +765,6 @@ MenuItemHandlerResult cheatMenuHandleTurnOffAllCheats(s32 operation, struct menu
 			g_Cheats[cheat_id].enabled = false;
 			g_Cheats[cheat_id].active = false;
 		}
-
-		for (cheat_id = 0; cheat_id < NUM_CHEATS; cheat_id++) {
-			g_Cheats[cheat_id].unlocked = cheatIsUnlocked(cheat_id);
-		}
 	}
 
 	return false;
@@ -1081,6 +1082,22 @@ struct menuitem g_CheatsGameplayMenuItems[] = {
 		cheatCheckboxMenuHandler,
 	},
 	{
+		MENUITEMTYPE_CHECKBOX,
+		CHEAT_ULTRAVISIBLE,
+		0,
+		(uintptr_t)&cheatGetNameIfUnlocked,
+		0,
+		cheatCheckboxMenuHandler,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		CHEAT_CLASSICMODE,
+		0,
+		(uintptr_t)&cheatGetNameIfUnlocked,
+		0,
+		cheatCheckboxMenuHandler,
+	},
+	{
 		MENUITEMTYPE_SEPARATOR,
 		0,
 		0,
@@ -1184,6 +1201,14 @@ struct menuitem g_CheatsSoloWeaponsMenuItems[] = {
 	{
 		MENUITEMTYPE_CHECKBOX,
 		CHEAT_FARSIGHT,
+		0,
+		(uintptr_t)&cheatGetNameIfUnlocked,
+		0,
+		cheatCheckboxMenuHandler,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
+		CHEAT_CLASSICMODE,
 		0,
 		(uintptr_t)&cheatGetNameIfUnlocked,
 		0,
@@ -1603,12 +1628,12 @@ struct menuitem g_CheatsMenuItems[] = {
 	},
 #ifndef PLATFORM_N64
 	{
-		MENUITEMTYPE_SELECTABLE,
+		MENUITEMTYPE_CHECKBOX,
+		CHEAT_UNLOCKALLCONTENT,
 		0,
-		MENUITEMFLAG_LITERAL_TEXT | MENUITEMFLAG_SELECTABLE_OPENSDIALOG,
-		(uintptr_t)"Unlock Everything\n",
+		(uintptr_t)&cheatGetNameIfUnlocked,
 		0,
-		(void *)&g_CheatsConfirmUnlockMenuDialog,
+		cheatCheckboxMenuHandler,
 	},
 #endif
 	{

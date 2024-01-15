@@ -4,6 +4,7 @@
 #include "game/lang.h"
 #include "game/mplayer/mplayer.h"
 #include "game/utils.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/dma.h"
 #include "lib/main.h"
@@ -416,6 +417,33 @@ void langClearBank(s32 bank)
  */
 char *langGet(s32 textid)
 {
+	if (cheatIsActive(CHEAT_CLASSICMODE)) {
+		switch (textid) {
+			case L_GUN_050: case L_MPWEAPONS_109: return "PP7 Special Issue\n";
+			case L_GUN_051: case L_MPWEAPONS_110: return "DD44 Dostovei\n";
+			case L_GUN_052: case L_MPWEAPONS_111: return "Klobb\n";
+			case L_GUN_053: case L_MPWEAPONS_112: return "KF7 Soviet\n";
+			case L_GUN_054: case L_MPWEAPONS_113: return "ZMG (9mm)\n";
+			case L_GUN_055: case L_MPWEAPONS_114: return "D5K Deutsche\n";
+			case L_GUN_056: case L_MPWEAPONS_115: return "US AR33 Assault Rifle\n";
+			case L_GUN_057: case L_MPWEAPONS_116: return "RC-P90\n";
+			case L_GUN_PP9ISILENCED: return "PP7 (Silenced)\n";
+			case L_GUN_246: return "Cyanide\n";
+			case L_GUN_072: return "Cyanide Capsule\n";
+		}
+	}
+
+	switch (textid) {
+		case L_MPWEAPONS_UNLOCKALLCONTENT: return "Unlock All Content\n";
+		case L_MPWEAPONS_ULTRAVISIBLE:     return "Ultra-Visible\n";
+		case L_MPWEAPONS_DEBUG:            return "Debug\n";
+		case L_MPWEAPONS_CLASSICMODE:      return "Classic Mode\n";
+		case L_GUN_PP9ISILENCED:           return "PP9i (Silenced)\n";
+#if VERSION < VERSION_PAL_FINAL
+		case L_GUN_246:                    textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
+#endif
+	}
+
 	s32 bankindex = textid >> 9;
 	s32 textindex = textid & 0x1ff;
 	u32 *bank = g_LangBanks[bankindex];
