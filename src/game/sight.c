@@ -24,6 +24,7 @@
 #include "video.h"
 
 #define SIGHT_COLOUR PLAYER_EXTCFG().crosshaircolour
+#define SIGHT_SCALE PLAYER_EXTCFG().crosshairsize
 
 static inline f32 sightGetScaleX(void)
 {
@@ -39,6 +40,7 @@ static inline s32 sightGetAdjustedX(const f32 x)
 #else
 
 #define SIGHT_COLOUR 0x00ff0028
+#define SIGHT_SCALE 2
 #define sightGetScaleX() 1.f
 #define sightGetAdjustedX(x) (x)
 
@@ -1471,16 +1473,21 @@ Gfx *sightDrawTarget(Gfx *gdl)
 
 #ifndef PLATFORM_N64
 	gSPSetExtraGeometryModeEXT(gdl++, G_ASPECT_CENTER_EXT);
+	if (SIGHT_SCALE == 0) {
+		// Draw single rectangle to preserve intended opacity
+		gDPHudRectangle(gdl++, x, y, x, y);
+	} else
 #endif
-
-	gDPHudRectangle(gdl++, x + 2, y + 0, x + 6, y + 0);
-	gDPHudRectangle(gdl++, x + 2, y + 0, x + 4, y + 0);
-	gDPHudRectangle(gdl++, x - 6, y + 0, x - 2, y + 0);
-	gDPHudRectangle(gdl++, x - 4, y + 0, x - 2, y + 0);
-	gDPHudRectangle(gdl++, x + 0, y + 2, x + 0, y + 6);
-	gDPHudRectangle(gdl++, x + 0, y + 2, x + 0, y + 4);
-	gDPHudRectangle(gdl++, x + 0, y - 6, x + 0, y - 2);
-	gDPHudRectangle(gdl++, x + 0, y - 4, x + 0, y - 2);
+	{
+		gDPHudRectangle(gdl++, x + 1 * SIGHT_SCALE, y + 0 * SIGHT_SCALE, x + 3 * SIGHT_SCALE, y + 0 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x + 1 * SIGHT_SCALE, y + 0 * SIGHT_SCALE, x + 2 * SIGHT_SCALE, y + 0 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x - 3 * SIGHT_SCALE, y + 0 * SIGHT_SCALE, x - 1 * SIGHT_SCALE, y + 0 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x - 2 * SIGHT_SCALE, y + 0 * SIGHT_SCALE, x - 1 * SIGHT_SCALE, y + 0 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x + 0 * SIGHT_SCALE, y + 1 * SIGHT_SCALE, x + 0 * SIGHT_SCALE, y + 3 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x + 0 * SIGHT_SCALE, y + 1 * SIGHT_SCALE, x + 0 * SIGHT_SCALE, y + 2 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x + 0 * SIGHT_SCALE, y - 3 * SIGHT_SCALE, x + 0 * SIGHT_SCALE, y - 1 * SIGHT_SCALE);
+		gDPHudRectangle(gdl++, x + 0 * SIGHT_SCALE, y - 2 * SIGHT_SCALE, x + 0 * SIGHT_SCALE, y - 1 * SIGHT_SCALE);
+	}
 
 #ifndef PLATFORM_N64
 	gSPClearExtraGeometryModeEXT(gdl++, G_ASPECT_CENTER_EXT);

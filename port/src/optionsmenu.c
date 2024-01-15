@@ -1026,6 +1026,20 @@ static MenuItemHandlerResult menuhandlerCrosshairColorPreview(s32 operation, str
 	return 0;
 }
 
+static MenuItemHandlerResult menuhandlerCrosshairSize(s32 operation, struct menuitem *item, union handlerdata *data)
+{
+	switch (operation) {
+	case MENUOP_GETSLIDER:
+		data->slider.value = g_PlayerExtCfg[g_ExtMenuPlayer].crosshairsize;
+		break;
+	case MENUOP_SET:
+		g_PlayerExtCfg[g_ExtMenuPlayer].crosshairsize = data->slider.value;
+		break;
+	}
+
+	return 0;
+}
+
 struct menuitem g_ExtendedGameCrosshairColourMenuItems[] = {
 	{
 		MENUITEMTYPE_SLIDER,
@@ -1127,6 +1141,14 @@ struct menuitem g_ExtendedGameMenuItems[] = {
 		(uintptr_t)"Crosshair Sway",
 		20,
 		menuhandlerCrosshairSway,
+	},
+	{
+		MENUITEMTYPE_SLIDER,
+		0,
+		MENUITEMFLAG_LITERAL_TEXT | MENUITEMFLAG_SLIDER_WIDE,
+		(uintptr_t)"Crosshair Size",
+		4,
+		menuhandlerCrosshairSize,
 	},
 	{
 		MENUITEMTYPE_SELECTABLE,

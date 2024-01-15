@@ -6174,6 +6174,7 @@ struct extplayerconfig {
 	f32 crosshairsway;
 	s32 extcontrols;
 	u32 crosshaircolour;
+	u32 crosshairsize;
 };
 
 #endif
