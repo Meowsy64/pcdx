@@ -16,6 +16,8 @@
 #include "game/mplayer/scenarios.h"
 #include "game/mplayer/mplayer.h"
 #include "game/pad.h"
+#include "game/setup.h"
+#include "game/game_0b0fd0.h"
 #include "bss.h"
 #include "lib/collision.h"
 #include "lib/memp.h"
@@ -123,6 +125,8 @@ void playerReset(void)
 	struct chrdata *chr;
 	s32 bodynum;
 	s32 headnum;
+	s32 weaponnum1;
+	s32 weaponnum2;
 
 	playerResetLoResIf4Mb();
 	func0f18e558();
@@ -180,31 +184,41 @@ void playerReset(void)
 				cmd = (struct cmd32 *)((uintptr_t)cmd + 8);
 				break;
 			case INTROCMD_WEAPON:
+				weaponnum1 = weaponGetReplacement(cmd->param1, true);
+				weaponnum2 = weaponGetReplacement(cmd->param2, true);
 				if (cmd->param3 == 0 && g_Vars.currentplayer != g_Vars.anti) {
-					modelmgrLoadProjectileModeldefs(cmd->param1);
-
-					if (cmd->param2 >= 0) {
-						modelmgrLoadProjectileModeldefs(cmd->param2);
-						invGiveDoubleWeapon(cmd->param1, cmd->param2);
-					} else {
-						invGiveSingleWeapon(cmd->param1);
+					if (weaponnum1 != WEAPON_NONE && weaponnum2 != WEAPON_NONE) {
+						modelmgrLoadProjectileModeldefs(weaponnum1);
+						modelmgrLoadProjectileModeldefs(weaponnum2);
+						invGiveDoubleWeapon(weaponnum1, weaponnum2);
+					} else if (weaponnum1 != WEAPON_NONE) {
+						modelmgrLoadProjectileModeldefs(weaponnum1);
+						invGiveSingleWeapon(weaponnum1);
+					} else if (weaponnum2 != WEAPON_NONE) {
+						modelmgrLoadProjectileModeldefs(weaponnum2);
+						invGiveSingleWeapon(weaponnum2);
 					}
 
 					if (!hasdefaultweapon) {
-						g_DefaultWeapons[HAND_RIGHT] = cmd->param1;
-
-						if (cmd->param2 >= 0) {
-							g_DefaultWeapons[HAND_LEFT] = cmd->param2;
+						if (weaponnum1 != WEAPON_NONE && weaponnum2 != WEAPON_NONE) {
+							g_DefaultWeapons[HAND_RIGHT] = weaponnum1;
+							g_DefaultWeapons[HAND_LEFT] = weaponnum2;
+							hasdefaultweapon = true;
+						} else if (weaponnum1 != WEAPON_NONE) {
+							g_DefaultWeapons[HAND_RIGHT] = weaponnum1;
+							hasdefaultweapon = true;
+						} else if (weaponnum2 != WEAPON_NONE) {
+							g_DefaultWeapons[HAND_RIGHT] = weaponnum2;
+							hasdefaultweapon = true;
 						}
-
-						hasdefaultweapon = true;
 					}
 
-					if (cmd->param1 == WEAPON_EYESPY) {
+					if (weaponnum1 == WEAPON_EYESPY) {
 						haseyespy = true;
 					}
 				}
-				cmd = (struct cmd32 *)((uintptr_t)cmd + 16);
+				
+				cmd = (struct cmd32 *)((u32)cmd + 16);
 				break;
 			case INTROCMD_AMMO:
 				if (cmd->param3 == 0 && g_Vars.currentplayer != g_Vars.anti) {

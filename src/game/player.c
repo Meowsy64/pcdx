@@ -54,6 +54,7 @@
 #include "game/propobj.h"
 #include "game/splat.h"
 #include "game/mpstats.h"
+#include "game/setup.h"
 #include "bss.h"
 #include "lib/ailist.h"
 #include "lib/collision.h"
@@ -572,7 +573,7 @@ void playerStartNewLife(void)
 			if (invHasSingleWeaponOrProp(i)) {
 				s32 ammotype = bgunGetAmmoTypeForWeapon(i, FUNC_PRIMARY);
 
-				if (ammotype >= 0 && ammotype <= AMMOTYPE_ECM_MINE) {
+				if (ammotype >= 0 && ammotype < NUM_AMMOTYPES) {
 					ammotypesheld[ammotype] = true;
 				}
 			}
@@ -616,10 +617,14 @@ void playerStartNewLife(void)
 					break;
 				case INTROCMD_WEAPON:
 					if (cmd[3] == 0) {
-						if (cmd[2] >= 0) {
-							invGiveDoubleWeapon(cmd[1], cmd[2]);
-						} else {
-							invGiveSingleWeapon(cmd[1]);
+						s32 weaponnum1 = weaponGetReplacement(cmd[1], true);
+						s32 weaponnum2 = weaponGetReplacement(cmd[2], true);
+						if (weaponnum1 != WEAPON_NONE && weaponnum2 != WEAPON_NONE) {
+							invGiveDoubleWeapon(weaponnum1, weaponnum2);
+						} else if (weaponnum1 != WEAPON_NONE) {
+							invGiveSingleWeapon(weaponnum1);
+						} else if (weaponnum2 != WEAPON_NONE) {
+							invGiveSingleWeapon(weaponnum2);
 						}
 					}
 					cmd += 4;

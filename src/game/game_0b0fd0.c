@@ -307,6 +307,17 @@ bool weaponHasFlag(s32 itemid, u32 flag)
 	return (weapon->flags & flag) != 0;
 }
 
+bool weaponHasFlag2(s32 itemid, u64 flag)
+{
+	struct pcdx_weapon *weapon = weaponExtFindById(itemid);
+
+	if (!weapon) {
+		return false;
+	}
+
+	return (weapon->flags & flag) != 0;
+}
+
 bool weaponHasAimFlag(s32 weaponnum, u32 flag)
 {
 	struct weapon *weapon = weaponFindById(weaponnum);
@@ -435,6 +446,17 @@ s32 weaponGetChrModel(s32 weaponnum)
 	}
 
 	return weapon->chr_model;
+}
+
+s32 weaponGetExtraScale(s32 weaponnum)
+{
+	struct pcdx_weapon *weapon = weaponExtFindById(weaponnum);
+
+	if (!weapon) {
+		return 256;
+	}
+
+	return weapon->extrascale;
 }
 
 void gsetPopulateFromCurrentPlayer(s32 handnum, struct gset *gset)
@@ -623,7 +645,7 @@ u32 currentPlayerGetSight(void)
 		return SIGHT_NONE;
 	}
 
-	if (cheatIsActive(CHEAT_CLASSICSIGHT)) {
+	if (cheatIsActive(CHEAT_CLASSICSIGHT) || cheatIsActive(CHEAT_CLASSICMODE)) {
 		return SIGHT_CLASSIC;
 	}
 
@@ -746,4 +768,51 @@ struct guncmd *gsetGetSecToPriAnim(struct gset *gset)
 	}
 
 	return NULL;
+}
+
+s32 weaponGetReplacement(s32 weaponnum, bool isplayer)
+{
+	struct pcdx_weapon *weapondef;
+	bool marquisreplace;
+	bool enemyrockets;
+	bool hasclassicweapon = false;
+	bool classicweapons = 0;
+	s32 weapclassicweap = 0;
+	
+	if (weaponnum <= WEAPON_NONE || weaponnum >= NUM_WEAPONS) {
+		return WEAPON_NONE;
+	}
+
+	marquisreplace = weaponHasFlag2(weaponnum, WEAPONFLAG2_CHEATCANREPLACE);
+
+	if (marquisreplace && cheatIsActive(CHEAT_MARQUIS)) {
+		return WEAPON_NONE;
+	}
+
+	enemyrockets = !isplayer && marquisreplace && cheatIsActive(CHEAT_ENEMYROCKETS);
+	weapondef = weaponExtFindById(weaponnum);
+	weapclassicweap = weapondef->classicweapon;
+	hasclassicweapon = weapclassicweap != WEAPON_NONE;
+	classicweapons = cheatIsActive(CHEAT_CLASSICMODE);
+
+	if (enemyrockets && classicweapons) {
+		return WEAPON_ROCKETLAUNCHER; // WEAPON_GEROCKETLAUNCHER;
+	} else if (enemyrockets) {
+		return WEAPON_ROCKETLAUNCHER;
+	}
+
+	if (hasclassicweapon && classicweapons) {
+		return weapclassicweap;
+	}
+
+	return weaponnum;
+}
+
+s32 ammoGetReplacement(s32 ammonum)
+{
+	if (ammonum == AMMOTYPE_SMG) {
+		return AMMOTYPE_PISTOL;
+	}
+
+	return ammonum;
 }

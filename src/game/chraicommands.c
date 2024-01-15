@@ -38,6 +38,7 @@
 #include "game/options.h"
 #include "game/propobj.h"
 #include "game/mpstats.h"
+#include "game/setup.h"
 #include "bss.h"
 #include "lib/main.h"
 #include "lib/model.h"
@@ -2025,7 +2026,7 @@ bool aiIfWeaponThrown(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
 
-	if (weaponFindLanded(cmd[2])) {
+	if (weaponFindLanded(g_SetupWeaponMappings[cmd[2]])) {
 		g_Vars.aioffset = chraiGoToLabel(g_Vars.ailist, g_Vars.aioffset, cmd[3]);
 	} else {
 		g_Vars.aioffset += 4;
@@ -2050,7 +2051,7 @@ bool aiIfWeaponThrownOnObject(void)
 			if (prop->type == PROPTYPE_WEAPON) {
 				struct weaponobj *weapon = prop->weapon;
 
-				if (weapon->weaponnum == cmd->b2) {
+				if (weapon->weaponnum == g_SetupWeaponMappings[cmd->b2]) {
 					pass = true;
 				}
 			}
@@ -2082,7 +2083,7 @@ bool aiIfChrHasWeaponEquipped(void)
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
 
-		if (bgunGetWeaponNum(HAND_RIGHT) == cmd[3]) {
+		if (bgunGetWeaponNum(HAND_RIGHT) == g_SetupWeaponMappings[cmd[3]]) {
 			passes = true;
 		}
 
@@ -4125,89 +4126,14 @@ bool aiTryEquipWeapon(void)
 	struct prop *prop = NULL;
 
 	if (g_Vars.chrdata && g_Vars.chrdata->prop && g_Vars.chrdata->model) {
-		// If the Marqis cheat is active, don't give guns to chrs,
-		// except where required for objectives.
-#if VERSION < VERSION_NTSC_1_0
-		// On NTSC beta, Marquis is disabled entirely on MBR, and the K7 guard
-		// on Investigation PA is excluded here (ie. is given his weapon).
-		if (cheatIsActive(CHEAT_MARQUIS) && g_Vars.stagenum != STAGE_MBR) {
-			if (g_Vars.stagenum == STAGE_INVESTIGATION
-					&& lvGetDifficulty() == DIFF_PA
-					&& cmd[4] == WEAPON_K7AVENGER) {
-				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
-			}
+		u32 weaponnum = g_SetupWeaponMappings[cmd[4]];
+		if (!(weaponnum == WEAPON_K7AVENGER && g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) &&
+				!(g_Vars.chrdata->bodynum == BODY_CASSANDRA && mainGetStageNum() == STAGE_MBR)) {
+			weaponnum = weaponGetReplacement(weaponnum, false);
 		}
-#elif VERSION < VERSION_PAL_BETA
-		// NTSC final enables Marquis for MBR, but fails to realise why it was
-		// disabled in the first place (Cass needs to equip her Falcon).
-		// Additionally, NTSC Final changes the logic so the chrs are given
-		// their weapon but they cannot equip them. This means the K7 guard
-		// no longer needs to be handled.
-		if (cheatIsActive(CHEAT_MARQUIS)) {
-			flags &= ~OBJFLAG_WEAPON_LEFTHANDED;
-			flags |= OBJFLAG_WEAPON_AICANNOTUSE;
 
-			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
-		}
-#else
-		// PAL fixes Cass on MBR by allowing her to equip her weapon
-		if (cheatIsActive(CHEAT_MARQUIS)) {
-			if (g_Vars.chrdata->bodynum != BODY_CASSANDRA || mainGetStageNum() != STAGE_MBR) {
-				flags &= ~OBJFLAG_WEAPON_LEFTHANDED;
-				flags |= OBJFLAG_WEAPON_AICANNOTUSE;
-			}
-
-			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
-		}
-#endif
-		else if (cheatIsActive(CHEAT_ENEMYROCKETS)) {
-			switch (cmd[4]) {
-			case WEAPON_FALCON2:
-			case WEAPON_FALCON2_SILENCER:
-			case WEAPON_FALCON2_SCOPE:
-			case WEAPON_MAGSEC4:
-			case WEAPON_MAULER:
-			case WEAPON_PHOENIX:
-			case WEAPON_DY357MAGNUM:
-			case WEAPON_DY357LX:
-			case WEAPON_CMP150:
-			case WEAPON_CYCLONE:
-			case WEAPON_CALLISTO:
-			case WEAPON_RCP120:
-			case WEAPON_LAPTOPGUN:
-			case WEAPON_DRAGON:
-			case WEAPON_AR34:
-			case WEAPON_SUPERDRAGON:
-			case WEAPON_SHOTGUN:
-			case WEAPON_REAPER:
-			case WEAPON_SNIPERRIFLE:
-			case WEAPON_FARSIGHT:
-			case WEAPON_DEVASTATOR:
-			case WEAPON_ROCKETLAUNCHER:
-			case WEAPON_SLAYER:
-			case WEAPON_COMBATKNIFE:
-			case WEAPON_CROSSBOW:
-			case WEAPON_TRANQUILIZER:
-			case WEAPON_GRENADE:
-			case WEAPON_NBOMB:
-			case WEAPON_TIMEDMINE:
-			case WEAPON_PROXIMITYMINE:
-			case WEAPON_REMOTEMINE:
-				prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRDYROCKET, WEAPON_ROCKETLAUNCHER, flags);
-				break;
-			case WEAPON_K7AVENGER:
-				if (g_Vars.stagenum == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA) {
-					prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
-				} else {
-					prop = chrGiveWeapon(g_Vars.chrdata, MODEL_CHRDYROCKET, WEAPON_ROCKETLAUNCHER, flags);
-				}
-				break;
-			default:
-				prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
-				break;
-			}
-		} else {
-			prop = chrGiveWeapon(g_Vars.chrdata, model, cmd[4], flags);
+		if (weaponnum != WEAPON_NONE) {
+			prop = chrGiveWeapon(g_Vars.chrdata, weaponGetChrModel(weaponnum), weaponnum, flags);
 		}
 	}
 
@@ -5405,7 +5331,7 @@ bool aiChrDrawWeapon(void)
 		u32 prevplayernum = g_Vars.currentplayernum;
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
-		bgunEquipWeapon2(0, (s8)cmd[3]);
+		bgunEquipWeapon2(0, g_SetupWeaponMappings[cmd[3]]);
 		bgunEquipWeapon2(1, 0);
 		setCurrentPlayerNum(prevplayernum);
 	}
@@ -5427,7 +5353,7 @@ bool aiChrDrawWeaponInCutscene(void)
 		u32 prevplayernum = g_Vars.currentplayernum;
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
-		bgunEquipWeapon((s8)cmd[3]);
+		bgunEquipWeapon(g_SetupWeaponMappings[cmd[3]]);
 		setCurrentPlayerNum(prevplayernum);
 	}
 
@@ -9388,8 +9314,8 @@ bool aiChrSetCutsceneWeapon(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
 	struct chrdata *chr = chrFindById(g_Vars.chrdata, cmd[2]);
-	s32 model_id = playermgrGetModelOfWeapon(cmd[3]);
-	s32 fallback_model_id = playermgrGetModelOfWeapon(cmd[4]);
+	s32 model_id = playermgrGetModelOfWeapon(g_SetupWeaponMappings[cmd[3]]);
+	s32 fallback_model_id = playermgrGetModelOfWeapon(g_SetupWeaponMappings[cmd[4]]);
 
 	if (chr) {
 		if (cmd[3] == 0xff) {
@@ -9418,7 +9344,7 @@ bool aiChrSetCutsceneWeapon(void)
 				}
 			} else {
 				if (chr->weapons_held[0] == NULL && chr->weapons_held[1] == NULL && fallback_model_id >= 0) {
-					weaponCreateForChr(chr, fallback_model_id, cmd[4], 0, NULL, NULL);
+					weaponCreateForChr(chr, fallback_model_id, g_SetupWeaponMappings[cmd[4]], 0, NULL, NULL);
 				}
 			}
 		} else {
@@ -9426,11 +9352,11 @@ bool aiChrSetCutsceneWeapon(void)
 			weaponDeleteFromChr(chr, HAND_RIGHT);
 
 			if (model_id >= 0) {
-				weaponCreateForChr(chr, model_id, cmd[3], 0, NULL, NULL);
+				weaponCreateForChr(chr, model_id, g_SetupWeaponMappings[cmd[3]], 0, NULL, NULL);
 			}
 
 			if (fallback_model_id >= 0) {
-				weaponCreateForChr(chr, fallback_model_id, cmd[4], OBJFLAG_WEAPON_LEFTHANDED, NULL, NULL);
+				weaponCreateForChr(chr, fallback_model_id, g_SetupWeaponMappings[cmd[4]], OBJFLAG_WEAPON_LEFTHANDED, NULL, NULL);
 			}
 		}
 	}
@@ -9827,7 +9753,7 @@ bool aiChrKill(void)
 bool aiRemoveWeaponFromInventory(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
-	invRemoveItemByNum(cmd[2]);
+	invRemoveItemByNum(g_SetupWeaponMappings[cmd[2]]);
 	g_Vars.aioffset += 3;
 
 	return false;

@@ -7696,7 +7696,7 @@ void bgun0f0a5550(s32 handnum)
 
 	mtx4LoadIdentity(&sp234);
 
-	if (PLAYERCOUNT() == 1 && IS8MB() && weaponHasFlag(weaponnum, WEAPONFLAG_GANGSTA)) {
+	if (PLAYERCOUNT() == 1 && IS8MB() && weaponHasFlag(weaponnum, WEAPONFLAG_GANGSTA) && !cheatIsActive(CHEAT_CLASSICMODE)) {
 		bgunUpdateGangsta(hand, handnum, &sp274, funcdef, &sp284, &sp234);
 	}
 

@@ -25,6 +25,8 @@
 #include "game/pad.h"
 #include "game/propobj.h"
 #include "game/player.h"
+#include "game/game_0b0fd0.h"
+#include "game/chraction.h"
 #include "bss.h"
 #include "lib/args.h"
 #include "lib/memp.h"
@@ -35,9 +37,206 @@
 #include "lib/ailist.h"
 #include "lib/anim.h"
 #include "lib/collision.h"
+#include "lib/main.h"
 #include "data.h"
 #include "types.h"
 
+// Mapping of PD weapons to PCDX weapons
+s32 g_SetupPerfectDarkWeaponMappings[] = {
+	WEAPON_NONE,
+	WEAPON_UNARMED,
+	WEAPON_FALCON2,
+	WEAPON_FALCON2_SILENCER,
+	WEAPON_FALCON2_SCOPE,
+	WEAPON_MAGSEC4,
+	WEAPON_MAULER,
+	WEAPON_PHOENIX,
+	WEAPON_DY357MAGNUM,
+	WEAPON_DY357LX,
+	WEAPON_CMP150,
+	WEAPON_CYCLONE,
+	WEAPON_CALLISTO,
+	WEAPON_RCP120,
+	WEAPON_LAPTOPGUN,
+	WEAPON_DRAGON,
+	WEAPON_K7AVENGER,
+	WEAPON_AR34,
+	WEAPON_SUPERDRAGON,
+	WEAPON_SHOTGUN,
+	WEAPON_REAPER,
+	WEAPON_SNIPERRIFLE,
+	WEAPON_FARSIGHT,
+	WEAPON_DEVASTATOR,
+	WEAPON_ROCKETLAUNCHER,
+	WEAPON_SLAYER,
+	WEAPON_COMBATKNIFE,
+	WEAPON_CROSSBOW,
+	WEAPON_TRANQUILIZER,
+	WEAPON_LASER,
+	WEAPON_GRENADE,
+	WEAPON_NBOMB,
+	WEAPON_TIMEDMINE,
+	WEAPON_PROXIMITYMINE,
+	WEAPON_REMOTEMINE,
+	WEAPON_COMBATBOOST,
+	WEAPON_PP9I,
+	WEAPON_CC13,
+	WEAPON_KL01313,
+	WEAPON_KF7SPECIAL,
+	WEAPON_ZZT,
+	WEAPON_DMC,
+	WEAPON_AR53,
+	WEAPON_RCP45,
+	WEAPON_PSYCHOSISGUN,
+	WEAPON_NIGHTVISION,
+	WEAPON_EYESPY,
+	WEAPON_XRAYSCANNER,
+	WEAPON_IRSCANNER,
+	WEAPON_CLOAKINGDEVICE,
+	WEAPON_HORIZONSCANNER,
+	WEAPON_TESTER,
+	WEAPON_ROCKETLAUNCHER_34,
+	WEAPON_ECMMINE,
+	WEAPON_DATAUPLINK,
+	WEAPON_RTRACKER,
+	WEAPON_PRESIDENTSCANNER,
+	WEAPON_DOORDECODER,
+	WEAPON_AUTOSURGEON,
+	WEAPON_EXPLOSIVES,
+	WEAPON_SKEDARBOMB,
+	WEAPON_COMMSRIDER,
+	WEAPON_TRACERBUG,
+	WEAPON_TARGETAMPLIFIER,
+	WEAPON_DISGUISE40,
+	WEAPON_DISGUISE41,
+	WEAPON_FLIGHTPLANS,
+	WEAPON_RESEARCHTAPE,
+	WEAPON_BACKUPDISK,
+	WEAPON_KEYCARD45,
+	WEAPON_KEYCARD46,
+	WEAPON_KEYCARD47,
+	WEAPON_KEYCARD48,
+	WEAPON_KEYCARD49,
+	WEAPON_KEYCARD4A,
+	WEAPON_KEYCARD4B,
+	WEAPON_KEYCARD4C,
+	WEAPON_SUITCASE,
+	WEAPON_BRIEFCASE,
+	WEAPON_SHIELDTECHITEM,
+	WEAPON_NECKLACE,
+	WEAPON_HAMMER,
+	WEAPON_SCREWDRIVER,
+	WEAPON_ROCKET,
+	WEAPON_HOMINGROCKET,
+	WEAPON_GRENADEROUND,
+	WEAPON_BOLT,
+	WEAPON_BRIEFCASE2,
+	WEAPON_SKROCKET,
+	WEAPON_CHOPPERGUN,
+	WEAPON_WATCHLASER,
+	WEAPON_MPSHIELD,
+	WEAPON_DISABLED,
+	WEAPON_SUICIDEPILL,
+};
+
+// Mapping of GEX 5e weapons to PCDX weapons
+s32 g_SetupGoldenEyeXWeaponMappings[] = {
+	WEAPON_NONE,
+	WEAPON_UNARMED,
+	WEAPON_COMBATKNIFE, // WEAPON_HUNTINGKNIFE,
+	WEAPON_PP9I,
+	WEAPON_PP9I_SILENCER,
+	WEAPON_CC13,
+	WEAPON_KL01313,
+	WEAPON_KF7SPECIAL,
+	WEAPON_ZZT,
+	WEAPON_DMC,
+	WEAPON_DMC, // WEAPON_DMC_SILENCER,
+	WEAPON_DMC, // WEAPON_PHANTOM,
+	WEAPON_AR53,
+	WEAPON_RCP45,
+	WEAPON_SHOTGUN, // WEAPON_GESHOTGUN,
+	WEAPON_SHOTGUN, // WEAPON_AUTOSHOTGUN,
+	WEAPON_SNIPERRIFLE, // WEAPON_GESNIPERRIFLE,
+	WEAPON_DY357MAGNUM, // WEAPON_COUGARMAGNUM,
+	WEAPON_DY357LX, // WEAPON_GOLDENGUN,
+	WEAPON_DY357MAGNUM, // WEAPON_SILVERPP7,
+	WEAPON_DY357LX, // WEAPON_GOLDPP7,
+	WEAPON_LASER, // WEAPON_MILITARYLASER,
+	WEAPON_LASER, // WEAPON_WATCHLASER,
+	WEAPON_DEVASTATOR, // WEAPON_GRENADELAUNCHER,
+	WEAPON_ROCKETLAUNCHER,
+	WEAPON_SLAYER, // WEAPON_SEEKER,
+	WEAPON_GRENADE,
+	WEAPON_TIMEDMINE, // WEAPON_GETIMEDMINE,
+	WEAPON_PROXIMITYMINE, // WEAPON_GEPROXIMITYMINE,
+	WEAPON_REMOTEMINE, // WEAPON_GEREMOTEMINE,
+	WEAPON_LASER, // WEAPON_TASER,
+	WEAPON_COMBATBOOST,
+	WEAPON_FALCON2,
+	WEAPON_MAGSEC4,
+	WEAPON_CMP150,
+	WEAPON_RCP120,
+	WEAPON_K7AVENGER,
+	WEAPON_AR34,
+	WEAPON_FARSIGHT,
+	WEAPON_PHOENIX, // WEAPON_PLATINUMGUN,
+	WEAPON_DY357LX, // WEAPON_RUDOLPH,
+	WEAPON_PSYCHOSISGUN,
+	WEAPON_PSYCHOSISGUN,
+	WEAPON_PSYCHOSISGUN,
+	WEAPON_PSYCHOSISGUN,
+	WEAPON_EYESPY,
+	WEAPON_XRAYSCANNER,
+	WEAPON_IRSCANNER,
+	WEAPON_CLOAKINGDEVICE,
+	WEAPON_HORIZONSCANNER,
+	WEAPON_LAPTOPGUN, // WEAPON_DRONEGUN,
+	WEAPON_FLIGHTPLANS, // WEAPON_FLIGHTRECORDER,
+	WEAPON_EXPLOSIVES, // WEAPON_PLASTIQUE,
+	WEAPON_DATAUPLINK, // WEAPON_GOLDENEYEKEY,
+	WEAPON_RTRACKER,
+	WEAPON_PRESIDENTSCANNER, // WEAPON_MI6SCANNER,
+	WEAPON_DOORDECODER,
+	WEAPON_DATAUPLINK, // WEAPON_DATATHIEF,
+	WEAPON_KEYCARD46, // WEAPON_FLOPPYDISC,
+	WEAPON_KEYCARD47, // WEAPON_BOMBDEFUSER,
+	WEAPON_COMMSRIDER,
+	WEAPON_TRACERBUG,
+	WEAPON_TARGETAMPLIFIER, // WEAPON_GOLDENEYEKEY,
+	WEAPON_DISGUISE40,
+	WEAPON_DISGUISE41,
+	WEAPON_FLIGHTPLANS, // WEAPON_FLIGHTRECORDER,
+	WEAPON_RESEARCHTAPE, // WEAPON_DOSSIER,
+	WEAPON_BACKUPDISK, // WEAPON_CLIPBOARD,
+	WEAPON_KEYCARD45,
+	WEAPON_KEYCARD46, // WEAPON_YALEKEY,
+	WEAPON_KEYCARD47, // WEAPON_BOLTKEY47,
+	WEAPON_KEYCARD48, // WEAPON_CIRCUITBOARD,
+	WEAPON_KEYCARD49, // WEAPON_PLANS,
+	WEAPON_KEYCARD4A, // WEAPON_BLUEPRINTS,
+	WEAPON_KEYCARD4B, // WEAPON_BOLTKEY4B,
+	WEAPON_KEYCARD4C, // WEAPON_BOLTKEY4C,
+	WEAPON_SUITCASE, // WEAPON_VIDEOTAPE,
+	WEAPON_BRIEFCASE,
+	WEAPON_SHIELDTECHITEM, // WEAPON_STAFFLIST,
+	WEAPON_NECKLACE, // WEAPON_DATTAPE,
+	WEAPON_HAMMER,
+	WEAPON_SCREWDRIVER,
+	WEAPON_ROCKET,
+	WEAPON_HOMINGROCKET,
+	WEAPON_GRENADEROUND,
+	WEAPON_BOLT,
+	WEAPON_BRIEFCASE2,
+	WEAPON_SKROCKET,
+	WEAPON_CHOPPERGUN,
+	WEAPON_WATCHLASER,
+	WEAPON_MPSHIELD,
+	WEAPON_DISABLED,
+	WEAPON_SUICIDEPILL,
+};
+
+s32 g_SetupWeaponMappings[256];
 s32 g_SetupCurMpLocation;
 
 struct tvscreen var80061a80 = {
@@ -618,141 +817,88 @@ void setupCreateObject(struct defaultobj *obj, s32 cmdindex)
  */
 void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 {
+	if (!weapon) {
+		return;
+	}
+
+	if (weapon->weaponnum >= 0xf0 && weapon->weaponnum <= 0xff) {
+		g_SetupCurMpLocation = weapon->weaponnum = mpGetMpWeaponByLocation(weapon->weaponnum - 0xf0)->weaponnum;
+	} else {
+		g_SetupCurMpLocation = -1;
+	}
+
+	if (weapon->weaponnum == WEAPON_NONE) {
+		weapon->weaponnum = WEAPON_PP9I;
+		weapon->base.flags &= ~OBJFLAG_DEACTIVATED;
+		weapon->base.flags |= OBJFLAG_WEAPON_AICANNOTUSE;
+		return;
+	}
+
 	if (weapon->base.flags & OBJFLAG_ASSIGNEDTOCHR) {
-		u32 stack[2];
 		struct chrdata *chr = chrFindByLiteralId(weapon->base.pad);
 
 		if (chr && chr->prop && chr->model) {
-			if (cheatIsActive(CHEAT_MARQUIS)) {
-				// NTSC 1.0 and newer simplifies the Marquis logic
-#if VERSION >= VERSION_NTSC_1_0
-				weapon->base.flags &= ~OBJFLAG_DEACTIVATED;
-				weapon->base.flags |= OBJFLAG_WEAPON_AICANNOTUSE;
-				modelmgrLoadProjectileModeldefs(weapon->weaponnum);
-				func0f08b25c(weapon, chr);
-#else
-				if (g_Vars.stagenum == STAGE_INVESTIGATION
-						&& lvGetDifficulty() == DIFF_PA
-						&& weapon->weaponnum == WEAPON_K7AVENGER) {
-					modelmgrLoadProjectileModeldefs(weapon->weaponnum);
-					func0f08b25c(weapon, chr);
-				} else if (g_Vars.stagenum == STAGE_ATTACKSHIP) {
+			struct weapon *weapondef;
+
+			if (!(mainGetStageNum() == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA && weapon->weaponnum == WEAPON_K7AVENGER) &&
+					!(mainGetStageNum() == STAGE_MBR && g_Vars.chrdata->bodynum == BODY_CASSANDRA)) {
+				weapon->weaponnum = weaponGetReplacement(weapon->weaponnum, false);
+
+				if (weapon->weaponnum == WEAPON_NONE) {
+					weapon->weaponnum = WEAPON_PP9I;
 					weapon->base.flags &= ~OBJFLAG_DEACTIVATED;
 					weapon->base.flags |= OBJFLAG_WEAPON_AICANNOTUSE;
-					modelmgrLoadProjectileModeldefs(weapon->weaponnum);
-					func0f08b25c(weapon, chr);
-				} else {
-					weapon->weaponnum = WEAPON_NONE;
+					return;
 				}
-#endif
-			} else {
-				if (cheatIsActive(CHEAT_ENEMYROCKETS)) {
-					switch (weapon->weaponnum) {
-					case WEAPON_FALCON2:
-					case WEAPON_FALCON2_SILENCER:
-					case WEAPON_FALCON2_SCOPE:
-					case WEAPON_MAGSEC4:
-					case WEAPON_MAULER:
-					case WEAPON_PHOENIX:
-					case WEAPON_DY357MAGNUM:
-					case WEAPON_DY357LX:
-					case WEAPON_CMP150:
-					case WEAPON_CYCLONE:
-					case WEAPON_CALLISTO:
-					case WEAPON_RCP120:
-					case WEAPON_LAPTOPGUN:
-					case WEAPON_DRAGON:
-					case WEAPON_AR34:
-					case WEAPON_SUPERDRAGON:
-					case WEAPON_SHOTGUN:
-					case WEAPON_REAPER:
-					case WEAPON_SNIPERRIFLE:
-					case WEAPON_FARSIGHT:
-					case WEAPON_DEVASTATOR:
-					case WEAPON_ROCKETLAUNCHER:
-					case WEAPON_SLAYER:
-					case WEAPON_COMBATKNIFE:
-					case WEAPON_CROSSBOW:
-					case WEAPON_TRANQUILIZER:
-					case WEAPON_GRENADE:
-					case WEAPON_NBOMB:
-					case WEAPON_TIMEDMINE:
-					case WEAPON_PROXIMITYMINE:
-					case WEAPON_REMOTEMINE:
-						weapon->weaponnum = WEAPON_ROCKETLAUNCHER;
-						weapon->base.modelnum = MODEL_CHRDYROCKET;
-						weapon->base.extrascale = 256;
-						break;
-					case WEAPON_K7AVENGER:
-						// Don't replace the K7 guard's weapon in Investigation
-						// because it would make an objective impossible.
-						// @bug: It's still replaced on PD mode difficulty.
-						if (g_Vars.stagenum != STAGE_INVESTIGATION || lvGetDifficulty() != DIFF_PA) {
-							weapon->weaponnum = WEAPON_ROCKETLAUNCHER;
-							weapon->base.modelnum = MODEL_CHRDYROCKET;
-							weapon->base.extrascale = 256;
-						}
-						break;
-					}
-				}
-
-				modelmgrLoadProjectileModeldefs(weapon->weaponnum);
-				func0f08b25c(weapon, chr);
 			}
-		}
-	} else {
-		bool createweapon = true;
-
-		if (g_Vars.normmplayerisrunning || g_Vars.lvmpbotlevel) {
-			struct mpweapon *mpweapon;
-			s32 locationindex;
-
-			g_SetupCurMpLocation = -1;
-
-			switch (weapon->weaponnum) {
-			case WEAPON_MPLOCATION00:
-			case WEAPON_MPLOCATION01:
-			case WEAPON_MPLOCATION02:
-			case WEAPON_MPLOCATION03:
-			case WEAPON_MPLOCATION04:
-			case WEAPON_MPLOCATION05:
-			case WEAPON_MPLOCATION06:
-			case WEAPON_MPLOCATION07:
-			case WEAPON_MPLOCATION08:
-			case WEAPON_MPLOCATION09:
-			case WEAPON_MPLOCATION10:
-			case WEAPON_MPLOCATION11:
-			case WEAPON_MPLOCATION12:
-			case WEAPON_MPLOCATION13:
-			case WEAPON_MPLOCATION14:
-			case WEAPON_MPLOCATION15:
-				locationindex = weapon->weaponnum - WEAPON_MPLOCATION00;
-				mpweapon = mpGetMpWeaponByLocation(locationindex);
-				g_SetupCurMpLocation = locationindex;
-				weapon->weaponnum = mpweapon->weaponnum;
-				weapon->base.modelnum = mpweapon->model;
-				weapon->base.extrascale = mpweapon->extrascale;
-				createweapon = mpweapon->hasweapon;
-
-				if (mpweapon->weaponnum == WEAPON_MPSHIELD) {
-					struct shieldobj *shield = (struct shieldobj *)weapon;
-					shield->base.modelnum = MODEL_CHRSHIELD;
-					shield->base.type = OBJTYPE_SHIELD;
-					shield->base.flags |= OBJFLAG_01000000 | OBJFLAG_INVINCIBLE;
-					shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
-					shield->initialamount = 1;
-					shield->amount = 1;
-					setupCreateObject(&shield->base, cmdindex);
-					createweapon = false;
-				}
-				break;
+			
+			if (weapon->weaponnum == WEAPON_MPSHIELD) {
+				chrSetShield(chr, 8);
+				return;
 			}
-		}
+			
+			weapondef = weaponFindById(weapon->weaponnum);
+			if (!weapondef) {
+				return;
+			}
 
-		if (weapon->weaponnum != WEAPON_NONE && createweapon) {
+			if (cheatIsActive(CHEAT_MARQUIS) && weaponHasFlag2(weapon->weaponnum, WEAPONFLAG2_CHEATCANREPLACE)) {
+				weapon->base.flags &= ~OBJFLAG_DEACTIVATED;
+				weapon->base.flags |= OBJFLAG_WEAPON_AICANNOTUSE;
+			}
+
+			weapon->base.modelnum = weaponGetChrModel(weapon->weaponnum);
+			weapon->base.extrascale = weaponGetExtraScale(weapon->weaponnum);
 			modelmgrLoadProjectileModeldefs(weapon->weaponnum);
-			setupCreateObject(&weapon->base, cmdindex);
+			func0f08b208(weapon, chr);
 		}
+		return;
+	}
+
+	weapon->weaponnum = weaponGetReplacement(weapon->weaponnum, true);
+
+	if (weapon->weaponnum == WEAPON_NONE) {
+		weapon->weaponnum = WEAPON_PP9I;
+		weapon->base.flags &= ~OBJFLAG_DEACTIVATED;
+		weapon->base.flags |= OBJFLAG_WEAPON_AICANNOTUSE;
+		return;
+	}
+
+
+	if (weapon->weaponnum == WEAPON_MPSHIELD) {
+		struct shieldobj *shield = (struct shieldobj *)weapon;
+		shield->base.modelnum = weaponGetChrModel(weapon->weaponnum);
+		shield->base.type = OBJTYPE_SHIELD;
+		shield->base.flags |= OBJFLAG_01000000 | OBJFLAG_INVINCIBLE;
+		shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
+		shield->initialamount = 1;
+		shield->amount = 1;
+		setupCreateObject(&shield->base, cmdindex);
+	} else {
+		weapon->base.modelnum = weaponGetChrModel(weapon->weaponnum);
+		weapon->base.extrascale = weaponGetExtraScale(weapon->weaponnum);
+		modelmgrLoadProjectileModeldefs(weapon->weaponnum);
+		setupCreateObject(&weapon->base, cmdindex);
 	}
 }
 
@@ -1459,6 +1605,24 @@ void setupLoadFiles(s32 stagenum)
 	if (IS4MB());
 
 	g_Vars.maxprops = numobjs + numchrs + extra + 40;
+}
+
+void setupLoadMappings(s32 fileNum)
+{
+	for (int i = 0; i < ARRAYCOUNT(g_SetupWeaponMappings); i++)
+	{
+		if (i >= 0xF0) {
+			g_SetupWeaponMappings[i] = i;
+		} else {
+			g_SetupWeaponMappings[i] = WEAPON_NONE;
+		}
+	}
+
+	// TODO: This needs to check what mod the map we're loading from is.
+	for (int i = 0; i < ARRAYCOUNT(g_SetupPerfectDarkWeaponMappings); i++)
+	{
+		g_SetupWeaponMappings[i] = g_SetupPerfectDarkWeaponMappings[i];
+	}
 }
 
 void setupCreateProps(s32 stagenum)

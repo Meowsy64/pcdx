@@ -625,6 +625,9 @@ static void preprocessPropObj(struct defaultobj *obj)
 			preprocessDefaultPropObj(obj);
 			PD_SWAP_PTR(wpn->dualweapon);
 			PD_SWAP_VAL(wpn->team);
+
+			// PCDX: Fix up for weapon mappings
+			wpn->weaponnum = g_SetupWeaponMappings[wpn->weaponnum];
 			break;
 		}
 		case OBJTYPE_KEY: {
@@ -806,6 +809,8 @@ static void preprocessPropObj(struct defaultobj *obj)
 			PD_SWAP_VAL(over->inventorytext);
 			PD_SWAP_VAL(over->inventory2text);
 			PD_SWAP_VAL(over->pickuptext);
+			// PCDX: Fix up for weapon mappings
+			over->weapon = g_SetupWeaponMappings[over->weapon];
 			break;
 		}
 		case OBJTYPE_BRIEFING: {
@@ -975,6 +980,9 @@ static void preprocessIntroScript(s32 *cmd)
 				PD_SWAP_VAL(cmd[1]);
 				PD_SWAP_VAL(cmd[2]);
 				PD_SWAP_VAL(cmd[3]);
+				// PCDX: Fix up for weapon mappings
+				cmd[1] = g_SetupWeaponMappings[cmd[1]];
+				cmd[2] = g_SetupWeaponMappings[cmd[2]];
 				cmd += 4;
 				break;
 			case INTROCMD_3:

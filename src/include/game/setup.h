@@ -8,6 +8,8 @@ void setupPreparePads(void);
 void setupLoadWaypoints(void);
 void setupPrepareCover(void);
 
+extern s32 g_SetupWeaponMappings[256];
+
 void propsReset(void);
 void setupCreateLiftDoor(struct linkliftdoorobj *link);
 void setupCreatePadlockedDoor(struct padlockeddoorobj *link);
@@ -34,5 +36,6 @@ void setupCreateHov(struct defaultobj *obj, struct hov *hov);
 void setupLoadBriefing(s32 stagenum, u8 *buffer, s32 bufferlen, struct briefing *briefing);
 void setupLoadFiles(s32 stagenum);
 void setupCreateProps(s32 stagenum);
+void setupLoadMappings(s32 fileNum);
 
 #endif

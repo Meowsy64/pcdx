@@ -485,6 +485,9 @@ void bodyAllocateChr(s32 stagenum, struct packedchr *packed, s32 cmdindex)
 			if (cheatIsActive(CHEAT_MARQUIS)) {
 				chr->flags2 &= ~CHRFLAG1_NOHANDCOMBAT;
 				chr->flags2 |= CHRFLAG1_HANDCOMBATONLY;
+			} else if (cheatIsActive(CHEAT_CLASSICMODE)) {
+				chr->flags2 |= CHRFLAG1_NOHANDCOMBAT;
+				chr->flags2 &= ~CHRFLAG1_HANDCOMBATONLY;
 			}
 
 			chr->team = packed->team;

@@ -42,6 +42,7 @@
 #include "game/stagetable.h"
 #include "game/tex.h"
 #include "game/wallhit.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/joy.h"
 #include "lib/lib_17ce0.h"
@@ -6650,6 +6651,10 @@ bool chrIsStopped(struct chrdata *chr)
 
 bool chrCheckCanSeeTarget(struct chrdata *chr)
 {
+	if (cheatIsActive(CHEAT_ULTRAVISIBLE)) {
+		return true;
+	}
+
 	struct prop *prop = chr->prop;
 	struct prop *target = chrGetTargetProp(chr);
 	f32 sqdistance;

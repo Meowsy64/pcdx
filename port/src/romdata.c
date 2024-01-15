@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <PR/ultratypes.h>
 #include <PR/ultratypes.h>
+#include "game/setup.h"
 #include "lib/rzip.h"
 #include "romdata.h"
 #include "fs.h"
@@ -465,6 +466,9 @@ void romdataFilePreprocess(s32 fileNum, s32 loadType, u8 *data, u32 size)
 				}
 			}
 			// then preprocess
+			if (loadType == LOADTYPE_SETUP) {
+				setupLoadMappings(fileNum);
+			}
 			filePreprocFuncs[loadType](data, size);
 			// fileSlots[fileNum].preprocessed = 1;
 		}
