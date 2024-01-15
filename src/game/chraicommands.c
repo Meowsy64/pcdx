@@ -5303,7 +5303,8 @@ bool aiIfChrAmmoQuantityLessThan(void)
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
 
-		if (bgunGetAmmoCount((s8)cmd[3]) < (s8)cmd[4]) {
+		// PCDX: Fix up for ammo mappings
+		if (bgunGetAmmoCount(g_SetupAmmoMappings[cmd[3]]) < (s8)cmd[4]) {
 			passes = true;
 		}
 

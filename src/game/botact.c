@@ -25,7 +25,7 @@ s32 botactGetAmmoTypeByFunction(s32 weaponnum, s32 funcnum)
 		struct inventory_ammo *ammo = weaponGetAmmoByFunction(weaponnum, funcnum);
 
 		if (ammo) {
-			return ammo->type;
+			return ammoGetReplacement(ammo->type);
 		}
 	}
 

@@ -1177,7 +1177,7 @@ bool bgun0f0990b0(struct weaponfunc *basefunc, struct weapon *weapon)
 
 	if (basefunc->ammoindex >= 0
 			&& weapon->ammos[basefunc->ammoindex]
-			&& bgunGetAmmoCount(weapon->ammos[basefunc->ammoindex]->type) <= 0) {
+			&& bgunGetAmmoCount(ammoGetReplacement(weapon->ammos[basefunc->ammoindex]->type)) <= 0) {
 		return true;
 	}
 
@@ -5757,7 +5757,7 @@ bool bgunHasAmmoForWeapon(s32 weaponnum)
 			if (ammo) {
 				ammodefexists = true;
 
-				if (bgunGetAmmoCount(ammo->type) > 0) {
+				if (bgunGetAmmoCount(ammoGetReplacement(ammo->type)) > 0) {
 					hasammo = true;
 				}
 			}
@@ -11931,7 +11931,7 @@ void bgunTickGameplay(bool triggeron)
 			weapon = weaponFindById(weaponnum);
 
 			if (weapon && weapon->ammos[0]
-					&& bgunGetAmmoCount(weapon->ammos[0]->type) == 0) {
+					&& bgunGetAmmoCount(ammoGetReplacement(weapon->ammos[0]->type)) == 0) {
 				equippedweaponnum = bgunGetWeaponNum(HAND_RIGHT);
 				invRemoveItemByNum(weaponnum);
 
@@ -12016,7 +12016,7 @@ void bgunTickGameplay(bool triggeron)
 
 			for (i = 0; i != 2; i++) {
 				if (weapon && weapon->ammos[i] &&
-						bgunAmmotypeAllowsUnlimitedAmmo(weapon->ammos[i]->type)) {
+						bgunAmmotypeAllowsUnlimitedAmmo(ammoGetReplacement(weapon->ammos[i]->type))) {
 					rhand->loadedammo[i] = rhand->clipsizes[i];
 					lhand->loadedammo[i] = lhand->clipsizes[i];
 				}
@@ -12263,7 +12263,6 @@ bool bgunAmmotypeAllowsUnlimitedAmmo(u32 ammotype)
 			return false;
 		}
 		break;
-	case AMMOTYPE_PSYCHOSIS:
 	case AMMOTYPE_17:
 	case AMMOTYPE_BUG:
 	case AMMOTYPE_MICROCAMERA:
@@ -12309,7 +12308,7 @@ u32 bgunGetAmmoTypeForWeapon(u32 weaponnum, u32 func)
 		return 0;
 	}
 
-	return weapon->ammos[func]->type;
+	return ammoGetReplacement(weapon->ammos[func]->type);
 }
 
 s32 bgunGetAmmoQtyForWeapon(u32 weaponnum, u32 func)
@@ -12320,7 +12319,7 @@ s32 bgunGetAmmoQtyForWeapon(u32 weaponnum, u32 func)
 		struct inventory_ammo *ammo = weapon->ammos[func];
 
 		if (ammo) {
-			return bgunGetReservedAmmoCount(ammo->type);
+			return bgunGetReservedAmmoCount(ammoGetReplacement(ammo->type));
 		}
 	}
 
@@ -12335,7 +12334,7 @@ void bgunSetAmmoQtyForWeapon(u32 weaponnum, u32 func, u32 quantity)
 		struct inventory_ammo *ammo = weapon->ammos[func];
 
 		if (ammo) {
-			bgunSetAmmoQuantity(ammo->type, quantity);
+			bgunSetAmmoQuantity(ammoGetReplacement(ammo->type), quantity);
 		}
 	}
 }
@@ -12346,7 +12345,7 @@ s32 bgunGetAmmoCapacityForWeapon(s32 weaponnum, s32 func)
 	struct inventory_ammo *ammo = weapon->ammos[func];
 
 	if (ammo) {
-		return g_AmmoTypes[ammo->type].capacity;
+		return g_AmmoTypes[ammoGetReplacement(ammo->type)].capacity;
 	}
 
 	return 0;
@@ -13270,7 +13269,7 @@ void bgun0f0abd30(s32 handnum)
 
 		if (weapon && weapon->ammos[i]) {
 			if (handnum == HAND_RIGHT) {
-				gunctrl->ammotypes[i] = weapon->ammos[i]->type;
+				gunctrl->ammotypes[i] = ammoGetReplacement(weapon->ammos[i]->type);
 			}
 
 			hand->clipsizes[i] = weapon->ammos[i]->clipsize;
