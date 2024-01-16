@@ -6451,7 +6451,7 @@ struct pcdx_weapon extweap_dragon = {
 
 struct pcdx_weapon extweap_k7avenger = {
 	MODEL_CHRAVENGER,
-	WEAPON_K7AVENGER,
+	WEAPON_KF7SPECIAL,
 	WEAPONFLAG2_CHEATCANREPLACE,
 	256,
 };

@@ -40,7 +40,9 @@ u32 currentPlayerGetSight(void);
 void gsetGetNoiseSettings(struct gset *gset, struct noisesettings *settings);
 struct guncmd *gsetGetPriToSecAnim(struct gset *gset);
 struct guncmd *gsetGetSecToPriAnim(struct gset *gset);
+struct guncmd *weaponGetReloadAnim(s32 weaponnum, u8 weaponfunc);
 s32 weaponGetReplacement(s32 weaponnum, bool isplayer);
 s32 ammoGetReplacement(s32 ammonum);
+bool weaponHasLaserSight(s32 weaponnum);
 
 #endif

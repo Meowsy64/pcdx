@@ -809,10 +809,16 @@ bool ai0019(void)
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
 	struct chrdata *chr = chrFindById(g_Vars.chrdata, cmd[2]);
 	struct coord pos = {0, 0, 0};
+	struct gset *origGset = (struct gset *)&cmd[4];
+	struct gset tmpGset;
+	tmpGset.weaponnum = g_SetupWeaponMappings[origGset->weaponnum];
+	tmpGset.unk0639 = origGset->unk0639;
+	tmpGset.unk063a = origGset->unk063a;
+	tmpGset.weaponfunc = origGset->weaponfunc;
 
 	if (chr && chr->prop) {
-		f32 damage = gsetGetDamage((struct gset *)&cmd[4]);
-		chrDamageByImpact(chr, damage, &pos, (struct gset *)&cmd[4], NULL, (s8)cmd[3]);
+		f32 damage = gsetGetDamage(&tmpGset);
+		chrDamageByImpact(chr, damage, &pos, &tmpGset, NULL, cmd[3]);
 	}
 
 	g_Vars.aioffset += 8;
@@ -881,7 +887,7 @@ bool aiDropItem(void)
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
 	u32 modelnum = cmd[3] | (cmd[2] << 8);
 
-	if (chrDropItem(g_Vars.chrdata, modelnum & 0xffff, cmd[4] & 0xff)) {
+	if (chrDropItem(g_Vars.chrdata, modelnum & 0xffff, g_SetupWeaponMappings[cmd[4] & 0xff])) {
 		g_Vars.aioffset = chraiGoToLabel(g_Vars.ailist, g_Vars.aioffset, cmd[5]);
 	} else {
 		g_Vars.aioffset += 6;
@@ -5332,7 +5338,7 @@ bool aiChrDrawWeapon(void)
 		u32 prevplayernum = g_Vars.currentplayernum;
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
-		bgunEquipWeapon2(0, g_SetupWeaponMappings[cmd[3]]);
+		bgunEquipWeapon2(0, weaponGetReplacement(g_SetupWeaponMappings[cmd[3]], true));
 		bgunEquipWeapon2(1, 0);
 		setCurrentPlayerNum(prevplayernum);
 	}
@@ -5354,7 +5360,7 @@ bool aiChrDrawWeaponInCutscene(void)
 		u32 prevplayernum = g_Vars.currentplayernum;
 		u32 playernum = playermgrGetPlayerNumByProp(chr->prop);
 		setCurrentPlayerNum(playernum);
-		bgunEquipWeapon(g_SetupWeaponMappings[cmd[3]]);
+		bgunEquipWeapon(weaponGetReplacement(g_SetupWeaponMappings[cmd[3]], true));
 		setCurrentPlayerNum(prevplayernum);
 	}
 
@@ -9140,7 +9146,7 @@ bool aiIfPlayerUsingDevice(void)
 		u32 prevplayernum = g_Vars.currentplayernum;
 		setCurrentPlayerNum(playernum);
 
-		if (currentPlayerGetDeviceState(cmd[3]) == DEVICESTATE_ACTIVE) {
+		if (currentPlayerGetDeviceState(g_SetupWeaponMappings[cmd[3]]) == DEVICESTATE_ACTIVE) {
 			active = true;
 		}
 
@@ -9315,8 +9321,8 @@ bool aiChrSetCutsceneWeapon(void)
 {
 	u8 *cmd = g_Vars.ailist + g_Vars.aioffset;
 	struct chrdata *chr = chrFindById(g_Vars.chrdata, cmd[2]);
-	s32 model_id = playermgrGetModelOfWeapon(g_SetupWeaponMappings[cmd[3]]);
-	s32 fallback_model_id = playermgrGetModelOfWeapon(g_SetupWeaponMappings[cmd[4]]);
+	s32 model_id = playermgrGetModelOfWeapon(weaponGetReplacement(g_SetupWeaponMappings[cmd[3]], true));
+	s32 fallback_model_id = playermgrGetModelOfWeapon(weaponGetReplacement(g_SetupWeaponMappings[cmd[4]], true));
 
 	if (chr) {
 		if (cmd[3] == 0xff) {
@@ -9353,11 +9359,11 @@ bool aiChrSetCutsceneWeapon(void)
 			weaponDeleteFromChr(chr, HAND_RIGHT);
 
 			if (model_id >= 0) {
-				weaponCreateForChr(chr, model_id, g_SetupWeaponMappings[cmd[3]], 0, NULL, NULL);
+				weaponCreateForChr(chr, model_id, weaponGetReplacement(g_SetupWeaponMappings[cmd[3]], true), 0, NULL, NULL);
 			}
 
 			if (fallback_model_id >= 0) {
-				weaponCreateForChr(chr, fallback_model_id, g_SetupWeaponMappings[cmd[4]], OBJFLAG_WEAPON_LEFTHANDED, NULL, NULL);
+				weaponCreateForChr(chr, fallback_model_id, weaponGetReplacement(g_SetupWeaponMappings[cmd[4]], true), OBJFLAG_WEAPON_LEFTHANDED, NULL, NULL);
 			}
 		}
 	}

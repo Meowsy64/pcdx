@@ -772,6 +772,21 @@ struct guncmd *gsetGetSecToPriAnim(struct gset *gset)
 	return NULL;
 }
 
+struct guncmd *weaponGetReloadAnim(s32 weaponnum, u8 weaponfunc)
+{
+	if (cheatIsActive(CHEAT_CLASSICMODE)) {
+		return NULL;
+	} else {
+		struct inventory_ammo *ammo = weaponGetAmmoByFunction(weaponnum, weaponfunc);
+
+		if (!ammo) {
+			return NULL;
+		}
+
+		return ammo->reload_animation;
+	}
+}
+
 s32 weaponGetReplacement(s32 weaponnum, bool isplayer)
 {
 	struct pcdx_weapon *weapondef;
@@ -817,4 +832,9 @@ s32 ammoGetReplacement(s32 ammonum)
 	}
 
 	return ammonum;
+}
+
+bool weaponHasLaserSight(s32 weaponnum)
+{
+	return weaponnum >= WEAPON_FALCON2 && weaponnum <= WEAPON_FALCON2_SCOPE;
 }
