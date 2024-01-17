@@ -827,7 +827,7 @@ s32 weaponGetReplacement(s32 weaponnum, bool isplayer)
 
 s32 ammoGetReplacement(s32 ammonum)
 {
-	if (ammonum == AMMOTYPE_SMG) {
+	if (cheatIsActive(CHEAT_CLASSICMODE) && ammonum == AMMOTYPE_SMG) {
 		return AMMOTYPE_PISTOL;
 	}
 
