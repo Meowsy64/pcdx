@@ -100,6 +100,7 @@ struct cheat g_Cheats[] = {
 	{ L_MPWEAPONS_UNLOCKALLCONTENT, 0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE | CHEATFLAG_NONINVALIDATING,                                         { CHEAT_NONE           } }, // CHEAT_UNLOCKALLCONTENT
 	{ L_MPWEAPONS_ULTRAVISIBLE,     0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_ULTRAVISIBLE
 	{ L_MPWEAPONS_CLASSICMODE,      0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CLASSICMODE
+	{ L_MPWEAPONS_CLONEINVASION,    0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CLONEINVASION
 };
 
 u32 cheatIsUnlocked(s32 cheat_id)
@@ -1091,6 +1092,14 @@ struct menuitem g_CheatsGameplayMenuItems[] = {
 	},
 	{
 		MENUITEMTYPE_CHECKBOX,
+		CHEAT_CLONEINVASION,
+		0,
+		(uintptr_t)&cheatGetNameIfUnlocked,
+		0,
+		cheatCheckboxMenuHandler,
+	},
+	{
+		MENUITEMTYPE_CHECKBOX,
 		CHEAT_CLASSICMODE,
 		0,
 		(uintptr_t)&cheatGetNameIfUnlocked,
@@ -1201,14 +1210,6 @@ struct menuitem g_CheatsSoloWeaponsMenuItems[] = {
 	{
 		MENUITEMTYPE_CHECKBOX,
 		CHEAT_FARSIGHT,
-		0,
-		(uintptr_t)&cheatGetNameIfUnlocked,
-		0,
-		cheatCheckboxMenuHandler,
-	},
-	{
-		MENUITEMTYPE_CHECKBOX,
-		CHEAT_CLASSICMODE,
 		0,
 		(uintptr_t)&cheatGetNameIfUnlocked,
 		0,
