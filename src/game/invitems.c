@@ -6338,14 +6338,14 @@ struct weapon *g_Weapons[] = {
 };
 
 struct pcdx_weapon extweap_nothing = {
-	MODEL_CHRWPPK,
+	MODEL_NONE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
 	256,
 };
 
 struct pcdx_weapon extweap_unarmed = {
-	MODEL_CHRWPPK,
+	MODEL_NONE,
 	WEAPON_UNARMED,
 	WEAPONFLAG2_NONE,
 	256,
@@ -6863,7 +6863,14 @@ struct pcdx_weapon extweap_necklace = {
 };
 
 struct pcdx_weapon extweap_hammer = {
-	MODEL_CHRLUMPHAMMER, // MODEL_CHRSONICSCREWER
+	MODEL_CHRLUMPHAMMER,
+	WEAPON_NONE,
+	WEAPONFLAG2_NONE,
+	256,
+};
+
+struct pcdx_weapon extweap_screwdriver = {
+	MODEL_CHRSONICSCREWER,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
 	256,
@@ -7009,7 +7016,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_shieldtechitem,
 	&extweap_necklace,
 	&extweap_hammer,
-	&extweap_hammer,
+	&extweap_screwdriver,
 	&extweap_rocket,
 	&extweap_homingrocket,
 	&extweap_grenaderound,

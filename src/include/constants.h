@@ -1827,6 +1827,7 @@ enum firingRangeDifficulties
 #define MISCSFX_SLAYERROCKETBEEP 2
 
 // Models
+#define MODEL_NONE                  -1
 #define MODEL_ROOFGUN               0x0000
 #define MODEL_GROUNDGUN             0x0001
 #define MODEL_TVSCREEN              0x0002

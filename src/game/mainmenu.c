@@ -3947,9 +3947,8 @@ void func0f105948(s32 weaponnum)
 		g_Menus[g_MpPlayerNum].menumodel.partvisibility = weapon->partvisibility;
 		g_Menus[g_MpPlayerNum].menumodel.zoom = -1;
 
-		// These indexes correspond to WEAPON_DISGUISE40 and WEAPON_DISGUISE41
-		if (wantindex == 0x3e || wantindex == 0x3f) {
-			if ((u32)wantindex == 0x3e) {
+		if (wantindex == WEAPON_DISGUISE40 || wantindex == WEAPON_DISGUISE41) {
+			if (wantindex == WEAPON_DISGUISE40) {
 				g_Menus[g_MpPlayerNum].menumodel.newparams = MENUMODELPARAMS_SET_MP_HEADBODY(MPHEAD_DARK_FROCK, MPBODY_DARKLAB);
 			} else {
 				g_Menus[g_MpPlayerNum].menumodel.newparams = MENUMODELPARAMS_SET_MP_HEADBODY(MPHEAD_DARK_COMBAT, MPBODY_DARK_AF1);

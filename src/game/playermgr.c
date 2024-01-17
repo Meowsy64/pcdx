@@ -5,6 +5,7 @@
 #include "game/player.h"
 #include "game/playermgr.h"
 #include "game/propobj.h"
+#include "game/game_0b0fd0.h"
 #include "bss.h"
 #include "lib/memp.h"
 #include "lib/rng.h"
@@ -706,64 +707,7 @@ void playermgrSetAspectRatio(f32 aspect)
 
 s32 playermgrGetModelOfWeapon(s32 weapon)
 {
-	s32 model;
-
-	switch (weapon) {
-	case WEAPON_NONE:
-	case WEAPON_UNARMED:          model = -1; break;
-	case WEAPON_FALCON2:          model = MODEL_CHRFALCON2; break;
-	case WEAPON_MAGSEC4:          model = MODEL_CHRLEEGUN1; break;
-	case WEAPON_MAULER:           model = MODEL_CHRMAULER; break;
-	case WEAPON_DY357MAGNUM:      model = MODEL_CHRDY357; break;
-	case WEAPON_DY357LX:          model = MODEL_CHRDY357TRENT; break;
-	case WEAPON_PHOENIX:          model = MODEL_CHRMAIANPISTOL; break;
-	case WEAPON_FALCON2_SILENCER: model = MODEL_CHRFALCON2SIL; break;
-	case WEAPON_FALCON2_SCOPE:    model = MODEL_CHRFALCON2SCOPE; break;
-	case WEAPON_CMP150:           model = MODEL_CHRCMP150; break;
-	case WEAPON_AR34:             model = MODEL_CHRAR34; break;
-	case WEAPON_DRAGON:           model = MODEL_CHRDRAGON; break;
-	case WEAPON_SUPERDRAGON:      model = MODEL_CHRSUPERDRAGON; break;
-	case WEAPON_K7AVENGER:        model = MODEL_CHRAVENGER; break;
-	case WEAPON_CYCLONE:          model = MODEL_CHRCYCLONE; break;
-	case WEAPON_CALLISTO:         model = MODEL_CHRMAIANSMG; break;
-	case WEAPON_RCP120:           model = MODEL_CHRRCP120; break;
-	case WEAPON_LAPTOPGUN:        model = MODEL_CHRPCGUN; break;
-	case WEAPON_SHOTGUN:          model = MODEL_CHRSHOTGUN; break;
-	case WEAPON_REAPER:           model = MODEL_CHRSKMINIGUN; break;
-	case WEAPON_ROCKETLAUNCHER:   model = MODEL_CHRDYROCKET; break;
-	case WEAPON_DEVASTATOR:       model = MODEL_CHRDEVASTATOR; break;
-	case WEAPON_SLAYER:           model = MODEL_CHRSKROCKET; break;
-	case WEAPON_FARSIGHT:         model = MODEL_CHRZ2020; break;
-	case WEAPON_SNIPERRIFLE:      model = MODEL_CHRSNIPERRIFLE; break;
-	case WEAPON_CROSSBOW:         model = MODEL_CHRCROSSBOW; break;
-	case WEAPON_LASER:            model = MODEL_CHRLASER; break;
-	case WEAPON_COMBATKNIFE:      model = MODEL_CHRKNIFE; break;
-	case WEAPON_TRANQUILIZER:     model = MODEL_CHRDRUGGUN; break;
-	case WEAPON_PSYCHOSISGUN:     model = MODEL_CHRDRUGGUN; break;
-	case WEAPON_NBOMB:            model = MODEL_CHRNBOMB; break;
-	case WEAPON_GRENADE:          model = MODEL_CHRGRENADE; break;
-	case WEAPON_REMOTEMINE:       model = MODEL_CHRREMOTEMINE; break;
-	case WEAPON_PROXIMITYMINE:    model = MODEL_CHRPROXIMITYMINE; break;
-	case WEAPON_TIMEDMINE:        model = MODEL_CHRTIMEDMINE; break;
-	case WEAPON_BRIEFCASE2:       model = MODEL_CHRBRIEFCASE; break;
-	case WEAPON_CLOAKINGDEVICE:   model = MODEL_CHRCLOAKER; break;
-	case WEAPON_PP9I:             model = MODEL_CHRWPPK; break;
-	case WEAPON_CC13:             model = MODEL_CHRTT33; break;
-	case WEAPON_KL01313:          model = MODEL_CHRSKORPION; break;
-	case WEAPON_KF7SPECIAL:       model = MODEL_CHRKALASH; break;
-	case WEAPON_ZZT:              model = MODEL_CHRUZI; break;
-	case WEAPON_DMC:              model = MODEL_CHRMP5K; break;
-	case WEAPON_AR53:             model = MODEL_CHRM16; break;
-	case WEAPON_RCP45:            model = MODEL_CHRFNP90; break;
-	case WEAPON_COMBATBOOST:      model = -1; break;
-	case WEAPON_HAMMER:           model = MODEL_CHRLUMPHAMMER; break;
-	case WEAPON_SCREWDRIVER:      model = MODEL_CHRSONICSCREWER; break;
-	default:
-		model = weapon <= WEAPON_PSYCHOSISGUN ? MODEL_CHRSNIPERRIFLE : -1;
-		break;
-	}
-
-	return model;
+	return weaponGetChrModel(weapon);
 }
 
 void playermgrDeleteWeapon(s32 hand)
