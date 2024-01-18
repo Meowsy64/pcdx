@@ -3870,14 +3870,6 @@ void playerTick(bool arg0)
 				g_Vars.currentplayer->prop->rooms);
 
 		if (g_Vars.normmplayerisrunning == false
-			&& g_Vars.stagenum != STAGE_CITRAINING
-			&& cheatIsActive(CHEAT_CLONEINVASION)
-			&& ((g_Vars.lvframenum - 20) % 60) == 0
-			&& g_Vars.lvframenum > 20) {
-			playerCloneInvasionLogic();
-		}
-
-		if (g_Vars.normmplayerisrunning == false
 				&& g_MissionConfig.iscoop
 				&& playerSimulantBuddiesCount() > 0
 				&& g_Vars.stagenum != STAGE_CITRAINING
@@ -4002,6 +3994,14 @@ void playerTick(bool arg0)
 					g_Vars.aibuddyspawned[i] = true;
 				}
 			}
+		}
+
+		if (g_Vars.normmplayerisrunning == false
+			&& g_Vars.stagenum != STAGE_CITRAINING
+			&& cheatIsActive(CHEAT_CLONEINVASION)
+			&& ((g_Vars.lvframenum - 20) % 60) == 0
+			&& g_Vars.lvframenum > 20) {
+			playerCloneInvasionLogic();
 		}
 	} else if (g_Vars.tickmode == TICKMODE_GE_FADEIN || g_Vars.tickmode == TICKMODE_GE_FADEOUT) {
 		playerRemoveChrBody();
