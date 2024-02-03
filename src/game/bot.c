@@ -260,6 +260,17 @@ void botSpawn(struct chrdata *chr, u8 respawning)
 		chr->aibot->moveratex = 0;
 		chr->aibot->moveratey = 0;
 		func0f02e9a0(chr, 0);
+
+#ifndef PLATFORM_N64
+		if ((g_MpSetup.options & MPOPTION_SPAWNWITHWEAPON)
+				&& g_MpSetup.weapons[0] != MPWEAPON_NONE
+				&& g_MpSetup.weapons[0] != MPWEAPON_DISABLED) {
+			struct mpweapon *mpweapon = &g_MpWeapons[g_MpSetup.weapons[0]];
+			botinvGiveSingleWeapon(chr, mpweapon->weaponnum);
+			botactGiveAmmoByType(aibot, mpweapon->priammotype - 1, mpweapon->priammoqty / 2);
+			botinvSwitchToWeapon(chr, mpweapon->weaponnum, FUNC_PRIMARY);
+		}
+#endif
 	}
 }
 

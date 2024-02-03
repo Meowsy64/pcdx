@@ -90,19 +90,8 @@ MenuItemHandlerResult amPickTargetMenuList(s32 operation, struct menuitem *item,
 	switch (operation) {
 	case MENUOP_GETOPTIONCOUNT:
 		if (g_AmMenus[g_AmIndex].prevallbots) {
-			// All bots: num bot opponents + all human players
-			s32 count = 0;
-			s32 i;
-			struct chrdata *playerchr = g_Vars.currentplayer->prop->chr;
-
-			for (i = PLAYERCOUNT(); i < g_MpNumChrs; i++) {
-				if (g_MpAllChrPtrs[i]->team != playerchr->team) {
-					count++;
-				}
-			}
-
-			count += PLAYERCOUNT();
-			data->list.value = count;
+			// All bots
+			data->list.value = g_MpNumChrs;
 		} else {
 			// Single bot: All except the bot itself
 			data->list.value = g_MpNumChrs - 1;
@@ -125,9 +114,7 @@ MenuItemHandlerResult amPickTargetMenuList(s32 operation, struct menuitem *item,
 				chrindex++;
 
 				if (g_AmMenus[g_AmIndex].prevallbots) {
-					if (playerchr == g_MpAllChrPtrs[chrindex] || playerchr->team != g_MpAllChrPtrs[chrindex]->team) {
-						numremaining--;
-					}
+					numremaining--;
 				} else {
 					if (botchr != g_MpAllChrPtrs[chrindex]) {
 						numremaining--;
@@ -139,7 +126,9 @@ MenuItemHandlerResult amPickTargetMenuList(s32 operation, struct menuitem *item,
 				g_AmMenus[g_AmIndex].prevallbots = false;
 
 				for (i = 0; i < g_Vars.currentplayer->numaibuddies; i++) {
-					botApplyAttack(g_MpAllChrPtrs[g_Vars.currentplayer->aibuddynums[i]], g_MpAllChrPtrs[chrindex]->prop);
+					if (g_Vars.currentplayer->aibuddynums[i] != chrindex) {
+						botApplyAttack(g_MpAllChrPtrs[g_Vars.currentplayer->aibuddynums[i]], g_MpAllChrPtrs[chrindex]->prop);
+					}
 				}
 			} else {
 				botApplyAttack(botchr, g_MpAllChrPtrs[chrindex]->prop);
@@ -167,9 +156,7 @@ MenuItemHandlerResult amPickTargetMenuList(s32 operation, struct menuitem *item,
 				chrindex++;
 
 				if (g_AmMenus[g_AmIndex].prevallbots) {
-					if (playerchr == g_MpAllChrPtrs[chrindex] || playerchr->team != g_MpAllChrPtrs[chrindex]->team) {
-						numremaining--;
-					}
+					numremaining--;
 				} else {
 					if (botchr != g_MpAllChrPtrs[chrindex]) {
 						numremaining--;
