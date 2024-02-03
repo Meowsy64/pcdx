@@ -3196,9 +3196,9 @@ s32 playerSimulantBuddiesCount()
 	return count;
 }
 
-s32 playerDuplicateChr(s32 chrnum, u32 spawnflags, s32 ailistid)
+s32 playerDuplicateChrExt(s32 chrnum, u32 spawnflags, s32 ailistid, s32 bodynum, s32 headnum, s32 weaponnum, s32 weaponnum2)
 {
-	struct chrdata *chr = chrFindByLiteralId(chrnum); // chrFindById(g_Vars.chrdata, chrnum);
+	struct chrdata *chr = chrFindByLiteralId(chrnum);
 	struct chrdata *clone = NULL;
 	struct weaponobj *srcweapon1 = NULL;
 	struct prop *cloneprop = NULL;
@@ -3211,39 +3211,47 @@ s32 playerDuplicateChr(s32 chrnum, u32 spawnflags, s32 ailistid)
 	struct prop *cloneweapon1prop = NULL;
 
 	if (chr && (chr->chrflags & CHRCFLAG_CLONEABLE)) {
-		cloneprop = chrSpawnAtChr(chr, chr->bodynum, -1, chr->chrnum, ailistFindById(ailistid), spawnflags);
+		cloneprop = chrSpawnAtChr(chr, bodynum == -2 ? chr->bodynum : bodynum, headnum == -2 ? chr->headnum : headnum, chr->chrnum, ailistFindById(ailistid), spawnflags);
 
 		if (cloneprop) {
 			clone = cloneprop->chr;
 			chrSetChrnum(clone, chrsGetNextUnusedChrnum());
 			chr->chrdup = clone->chrnum;
 
-			srcweapon0prop = chrGetHeldProp(chr, 0);
+			if (weaponnum == -2) {
+				srcweapon0prop = chrGetHeldProp(chr, 0);
 
-			if (srcweapon0prop) {
-				srcweapon0 = srcweapon0prop->weapon;
-				cloneweapon0prop = chrGiveWeapon(clone, srcweapon0->base.modelnum, srcweapon0->weaponnum, 0);
+				if (srcweapon0prop) {
+					srcweapon0 = srcweapon0prop->weapon;
+					cloneweapon0prop = chrGiveWeaponWithAutoModel(clone, srcweapon0->weaponnum, 0);
 
-				if (cloneweapon0prop) {
-					cloneweapon0 = cloneweapon0prop->weapon;
+					if (cloneweapon0prop) {
+						cloneweapon0 = cloneweapon0prop->weapon;
+					}
 				}
-			}
 
-			srcweapon1prop = chrGetHeldProp(chr, 1);
+				srcweapon1prop = chrGetHeldProp(chr, 1);
 
-			if (srcweapon1prop) {
-				srcweapon1 = srcweapon1prop->weapon;
-				cloneweapon1prop = chrGiveWeapon(clone, srcweapon1->base.modelnum, srcweapon1->weaponnum, OBJFLAG_WEAPON_LEFTHANDED);
+				if (srcweapon1prop) {
+					srcweapon1 = srcweapon1prop->weapon;
+					cloneweapon1prop = chrGiveWeaponWithAutoModel(clone, srcweapon1->weaponnum, OBJFLAG_WEAPON_LEFTHANDED);
 
-				if (cloneweapon1prop) {
-					cloneweapon1 = cloneweapon1prop->weapon;
+					if (cloneweapon1prop) {
+						cloneweapon1 = cloneweapon1prop->weapon;
+					}
 				}
-			}
 
-			if (srcweapon1 && srcweapon0
-					&& cloneweapon1 && cloneweapon0
-					&& srcweapon0 == srcweapon1->dualweapon && srcweapon1 == srcweapon0->dualweapon) {
-				propweaponSetDual(cloneweapon1, cloneweapon0);
+				if (srcweapon1 && srcweapon0
+						&& cloneweapon1 && cloneweapon0
+						&& srcweapon0 == srcweapon1->dualweapon && srcweapon1 == srcweapon0->dualweapon) {
+					propweaponSetDual(cloneweapon1, cloneweapon0);
+				}
+			} else {
+				cloneweapon0prop = chrGiveWeaponWithAutoModel(clone, weaponnum, 0);
+				if (weaponnum2 != -2) {
+					cloneweapon1prop = chrGiveWeaponWithAutoModel(clone, weaponnum2, 0);
+					propweaponSetDual(cloneweapon1prop->weapon, cloneweapon0prop->weapon);
+				}
 			}
 
 			if (chr->weapons_held[2]) {
@@ -3279,6 +3287,11 @@ s32 playerDuplicateChr(s32 chrnum, u32 spawnflags, s32 ailistid)
 	return -1;
 }
 
+s32 playerDuplicateChr(s32 chrnum, u32 spawnflags, s32 ailistid)
+{
+	return playerDuplicateChrExt(chrnum, spawnflags, ailistid, -2, -2, -2, -2);
+}
+
 void playerCloneInvasionLogic(void)
 {
 	struct chrdata *targetchr;
@@ -3290,6 +3303,53 @@ void playerCloneInvasionLogic(void)
 		}
 		
 		playerDuplicateChr(i, 0, GAILIST_SEARCH_FOR_PLAYER);
+	}
+}
+
+s32 playerCreateChicagoGhost(s32 chrnum)
+{
+	g_Vars.chicagoghostchrnum = playerDuplicateChrExt(chrnum, SPAWNFLAG_RTRACKED, GAILIST_SEARCH_FOR_PLAYER, BODY_DJBOND, HEAD_RANDOM, WEAPON_CROSSBOW, WEAPON_RCP45);
+
+	if (g_Vars.chicagoghostchrnum < 0) {
+		return g_Vars.chicagoghostchrnum;
+	}
+
+	struct chrdata *chr = chrFindByLiteralId(g_Vars.chicagoghostchrnum);
+
+	chr->flags = CHRFLAG0_CANT_ALERT_GROUP | CHRFLAG0_AIVSAI;
+	chr->flags2 = CHRFLAG1_AIVSAI_ADVANTAGED | CHRFLAG1_IGNORECOVER | CHRFLAG1_PUNCHHARDER;
+	chr->chrflags = CHRCFLAG_NEVERSLEEP;
+
+	/*
+	chr->hidden = CHRHFLAG_CLOAKED;
+	chr->cloakfadefinished = true;
+	chr->cloakfadefrac = 0;
+	*/
+
+	chr->team = TEAM_04;
+	chr->squadron = SQUADRON_01;
+	chr->voicebox = VOICEBOX_MALE0;
+
+	chr->teamscandist = 150;
+	chr->accuracyrating = 100;
+	chr->speedrating = 100;
+	chr->maxdamage = 20;
+	chrAddHealth(chr, 20);
+
+	rebuildTeams();
+	rebuildSquadrons();
+
+	return g_Vars.chicagoghostchrnum;
+}
+
+void playerChicagoGhostLogic(void)
+{
+	for (s32 i = 0; i < g_NumChrs && g_Vars.chicagoghostchrnum < 0; i++) {
+		if (g_ChrSlots[i].chrnum < 0) {
+			continue;
+		}
+		
+		g_Vars.chicagoghostchrnum = playerCreateChicagoGhost(i);
 	}
 }
 
@@ -3868,6 +3928,15 @@ void playerTick(bool arg0)
 				&g_Vars.currentplayer->bond2.unk1c,
 				&g_Vars.currentplayer->prop->pos,
 				g_Vars.currentplayer->prop->rooms);
+
+		if (g_Vars.normmplayerisrunning == false
+			&& g_Vars.stagenum != STAGE_CITRAINING
+			&& cheatIsActive(CHEAT_CHICAGOGHOST)
+			&& g_Vars.chicagoghostchrnum < 0
+			&& ((g_Vars.lvframenum - 20) % 60) == 0
+			&& g_Vars.lvframenum > 20) {
+			playerChicagoGhostLogic();
+		}
 
 		if (g_Vars.normmplayerisrunning == false
 				&& g_MissionConfig.iscoop

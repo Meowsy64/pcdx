@@ -439,6 +439,7 @@ char *langGet(s32 textid)
 		case L_MPWEAPONS_DEBUG:            return "Debug\n";
 		case L_MPWEAPONS_CLASSICMODE:      return "Classic Mode\n";
 		case L_MPWEAPONS_CLONEINVASION:    return "Clone Invasion\n";
+		case L_MPWEAPONS_CHICAGOGHOST:     return "Chicago Ghost\n";
 		case L_GUN_PP9ISILENCED:           return "PP9i (Silenced)\n";
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                    textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
