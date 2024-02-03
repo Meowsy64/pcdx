@@ -2917,6 +2917,7 @@ enum firingRangeDifficulties
 #define MPOPTION_HTM_SHOWONRADAR        0x00040000
 #define MPOPTION_PAC_HIGHLIGHTTARGET    0x00080000
 #define MPOPTION_PAC_SHOWONRADAR        0x00100000
+#define MPOPTION_SPAWNWITHWEAPON        0x00200000
 
 #define MPPAUSEMODE_UNPAUSED 0
 #define MPPAUSEMODE_PAUSED   1
@@ -4754,6 +4755,10 @@ enum weaponnum {
 #define CROUCHMODE_ANALOG 1 // analog crouch like on n64
 #define CROUCHMODE_TOGGLE 2 // press the crouch buttons to toggle stance
 #define CROUCHMODE_TOGGLE_ANALOG (CROUCHMODE_ANALOG | CROUCHMODE_TOGGLE)
+
+#define CROSSHAIR_HEALTH_OFF 0
+#define CROSSHAIR_HEALTH_ON_GREEN 1
+#define CROSSHAIR_HEALTH_ON_WHITE 2
 
 #endif
 

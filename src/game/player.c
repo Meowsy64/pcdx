@@ -1104,8 +1104,21 @@ void playerSpawn(void)
 				g_Vars.currentplayer->prop->chr->blurnumtimesdied = 0;
 			}
 		} else {
-			bgunEquipWeapon2(HAND_LEFT, g_DefaultWeapons[HAND_LEFT]);
-			bgunEquipWeapon2(HAND_RIGHT, g_DefaultWeapons[HAND_RIGHT]);
+#ifndef PLATFORM_N64
+			if ((g_MpSetup.options & MPOPTION_SPAWNWITHWEAPON)
+					&& g_MpSetup.weapons[0] != MPWEAPON_NONE
+					&& g_MpSetup.weapons[0] != MPWEAPON_DISABLED) {
+				struct mpweapon *mpweapon = &g_MpWeapons[g_MpSetup.weapons[0]];
+				invGiveSingleWeapon(mpweapon->weaponnum);
+				bgunEquipWeapon2(HAND_LEFT, WEAPON_NONE);
+				bgunEquipWeapon2(HAND_RIGHT, mpweapon->weaponnum);
+				bgunSetAmmoQuantity(mpweapon->priammotype, mpweapon->priammoqty / 2);
+			} else
+#endif
+			{
+				bgunEquipWeapon2(HAND_LEFT, g_DefaultWeapons[HAND_LEFT]);
+				bgunEquipWeapon2(HAND_RIGHT, g_DefaultWeapons[HAND_RIGHT]);
+			}
 
 #if VERSION >= VERSION_NTSC_1_0
 			if (g_Vars.currentplayer->model00d4 == NULL

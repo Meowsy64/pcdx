@@ -838,6 +838,10 @@ void inputRumble(s32 idx, f32 strength, f32 time)
 		return;
 	}
 
+	if (padsCfg[idx].rumbleScale <= 0.f) {
+		return;
+	}
+
 	if (padsCfg[idx].rumbleOn) {
 		strength *= padsCfg[idx].rumbleScale;
 		if (strength <= 0.f) {
