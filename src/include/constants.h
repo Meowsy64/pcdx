@@ -461,6 +461,7 @@ enum cheatnum {
 	CHEAT_CLASSICMODE,
 	CHEAT_CLONEINVASION,
 	CHEAT_CHICAGOGHOST,
+	CHEAT_DUALWIELDALLGUNS,
 	NUM_CHEATS
 };
 
@@ -2918,6 +2919,10 @@ enum firingRangeDifficulties
 #define MPOPTION_PAC_HIGHLIGHTTARGET    0x00080000
 #define MPOPTION_PAC_SHOWONRADAR        0x00100000
 #define MPOPTION_SPAWNWITHWEAPON        0x00200000
+#define MPOPTION_NODRUGBLUR             0x00400000
+#define MPOPTION_AUTORANDOMWEAPON_START 0x00800000
+#define MPOPTION_AUTORANDOMWEAPON_END   0x01000000
+#define MPOPTION_FRIENDLYFIRE           0x02000000
 
 #define MPPAUSEMODE_UNPAUSED 0
 #define MPPAUSEMODE_PAUSED   1
@@ -3822,6 +3827,10 @@ enum mpweaponnum {
 #define SLOWMOTION_ON    1
 #define SLOWMOTION_SMART 2
 
+#define AUTORANDOMWEAPON_OFF   0
+#define AUTORANDOMWEAPON_START 1
+#define AUTORANDOMWEAPON_END   2
+
 #define SMOKETYPE_NONE             0
 #define SMOKETYPE_ELECTRICAL       1 // Dr Caroll, mainframes in Infiltration bunker
 #define SMOKETYPE_MINI             2 // Phoenix, Laptop sentry
@@ -4725,6 +4734,9 @@ enum weaponnum {
 #define BUTTON_ACCEPT BUTTON_ACCEPT_WPNFORWARD
 #define BUTTON_WPNFORWARD BUTTON_ACCEPT_WPNFORWARD
 
+#define BUTTON_UI_ACCEPT BUTTON_ACCEPT_WPNFORWARD
+#define BUTTON_UI_CANCEL BUTTON_CANCEL_USE
+
 #else
 
 // xbla behavior
@@ -4744,6 +4756,9 @@ enum weaponnum {
 #define BUTTON_HALF_CROUCH    CONT_4000
 #define BUTTON_FULL_CROUCH    CONT_2000
 
+#define BUTTON_UI_ACCEPT      CONT_0010
+#define BUTTON_UI_CANCEL      CONT_0020
+
 #define MOUSEAIM_CLASSIC 0 // crosshair moves around the screen in aim mode
 #define MOUSEAIM_LOCKED 1  // crosshair locked to the center of the screen in aim mode
 
@@ -4759,6 +4774,8 @@ enum weaponnum {
 #define CROSSHAIR_HEALTH_OFF 0
 #define CROSSHAIR_HEALTH_ON_GREEN 1
 #define CROSSHAIR_HEALTH_ON_WHITE 2
+
+#define EXTRA_SLEEP_TIME 1000LL // 100us
 
 #endif
 

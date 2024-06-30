@@ -102,6 +102,9 @@ struct cheat g_Cheats[] = {
 	{ L_MPWEAPONS_CLASSICMODE,      0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CLASSICMODE
 	{ L_MPWEAPONS_CLONEINVASION,    0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CLONEINVASION
 	{ L_MPWEAPONS_CHICAGOGHOST,     0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE           } }, // CHEAT_CHICAGOGHOST
+#ifndef PLATFORM_N64
+	{ L_MPWEAPONS_215,              0,                 SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE           } }, // Dual wield all guns
+#endif
 };
 
 u32 cheatIsUnlocked(s32 cheat_id)
@@ -1091,6 +1094,16 @@ struct menuitem g_CheatsGameplayMenuItems[] = {
 		0,
 		cheatCheckboxMenuHandler,
 	},
+#ifndef PLATFORM_N64
+	{
+		MENUITEMTYPE_CHECKBOX,
+		CHEAT_DUALWIELDALLGUNS,
+		0,
+		(uintptr_t)&cheatGetNameIfUnlocked,
+		0,
+		cheatCheckboxMenuHandler,
+	},
+#endif
 	{
 		MENUITEMTYPE_CHECKBOX,
 		CHEAT_ULTRAVISIBLE,

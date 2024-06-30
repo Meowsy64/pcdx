@@ -26,9 +26,16 @@
 #include "lib/snd.h"
 #include "data.h"
 #include "types.h"
+#ifndef PLATFORM_N64
+#include "input.h"
+#endif
 
 void menuStop(void)
 {
+#ifndef PLATFORM_N64
+	inputAutoLockMouse(true);
+#endif
+
 	if (var80062944) {
 		var80062944 = 0;
 		var80062948 = 0;
