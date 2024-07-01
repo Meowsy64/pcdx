@@ -179,6 +179,8 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 	static u32 shieldcol = 0x10500090;
 	static u32 armourcol = 0x00c00060;
 	static u32 traumacol = 0xff000060;
+	static u32 bodyarmorcol = 0x0000c090;
+	static u32 shieldbodyarmorcol = 0x5000d090;
 	static u32 bgcol = 0x00000080;
 	static s32 offx = -85;
 	static s32 offy = -185;
@@ -424,12 +426,13 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 	traumamarkers[5].frac = 1;
 
 	// Build shield graphics data
+	f32 shieldfractmp = MAX(shieldfrac, bodyarmorfrac);
 	if (shielddir != 0) {
-		shieldfrac = 1.0f - shieldfrac;
+		shieldfractmp = 1.0f - shieldfractmp;
 	}
 
 	shieldfillincfade = shieldfade * 0.001f;
-	shieldfillincfade = (1.0f + shieldfillincfade) * shieldfrac;
+	shieldfillincfade = (1.0f + shieldfillincfade) * shieldfractmp;
 	shieldfillexcfade = shieldfillincfade - shieldfade * 0.001f;
 
 	numshieldmarkers = 10;
@@ -440,10 +443,28 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 		index = shieldmarkerindexes[i];
 		marker = &shieldmarkers[index];
 
-		if (shielddir != 0) {
-			colour = healthbarChooseColour(bgcol, shieldcol, shieldfillexcfade, shieldfillincfade, marker->frac);
+		u32 tmpcolor;
+		f32 adjFrac = 1.0 - marker->frac;
+		if (shieldfrac > adjFrac && bodyarmorfrac > adjFrac) {
+			tmpcolor = shieldbodyarmorcol;
+		} else if (shieldfrac > adjFrac) {
+			tmpcolor = shieldcol;
+		} else if (bodyarmorfrac > adjFrac) {
+			tmpcolor = bodyarmorcol;
 		} else {
-			colour = healthbarChooseColour(shieldcol, bgcol, shieldfillexcfade, shieldfillincfade, marker->frac);
+			if (shieldfrac == bodyarmorfrac) {
+				tmpcolor = shieldbodyarmorcol;
+			} else if (shieldfrac < bodyarmorfrac) {
+				tmpcolor = bodyarmorcol;
+			} else {
+				tmpcolor = shieldcol;
+			}
+		}
+
+		if (shielddir != 0) {
+			colour = healthbarChooseColour(bgcol, tmpcolor, shieldfillexcfade, shieldfillincfade, marker->frac);
+		} else {
+			colour = healthbarChooseColour(tmpcolor, bgcol, shieldfillexcfade, shieldfillincfade, marker->frac);
 		}
 
 		shieldvertices->x = (s32)marker->x1 + offx;
