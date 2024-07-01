@@ -1909,6 +1909,7 @@ void setupCreateProps(s32 stagenum)
 							shield->amount = shield->initialamount;
 							if (cheatIsActive(CHEAT_CLASSICMODE)) {
 								shield->flags |= 1;
+								shield->base.modelnum = MODEL_BODYARMOUR;
 							}
 							setupCreateObject(obj, index);
 						}
