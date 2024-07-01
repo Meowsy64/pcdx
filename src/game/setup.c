@@ -1512,6 +1512,22 @@ void setupLoadBriefing(s32 stagenum, u8 *buffer, s32 bufferlen, struct briefing 
 	}
 }
 
+void noopAIList(struct ailist *ailists, s32 id)
+{
+	s32 i;
+	u8 hitScript = 0;
+	for (i = 0; ailists[i + 1].list != NULL; i++) {
+		if (ailists[i].id == id) {
+			hitScript = true;
+		}
+		if (!hitScript) {
+			continue;
+		}
+		ailists[i].list = ailists[i + 1].list;
+		ailists[i].id = ailists[i + 1].id;
+	}
+}
+
 void setupLoadFiles(s32 stagenum)
 {
 	s32 i;
@@ -1550,6 +1566,14 @@ void setupLoadFiles(s32 stagenum)
 		g_StageSetup.props = (u32 *)((uintptr_t)setup + (u32)setup->props);
 		g_StageSetup.paths = (struct path *)((uintptr_t)setup + (u32)setup->paths);
 		g_StageSetup.ailists = (struct ailist *)((uintptr_t)setup + (u32)setup->ailists);
+
+		if (g_Vars.stagenum == STAGE_INVESTIGATION && cheatIsActive(CHEAT_CLASSICMODE)) {
+			noopAIList(g_StageSetup.ailists, 0x0415); // func0415_radioactivity
+			noopAIList(g_StageSetup.ailists, 0x1014); // func1014_jo_radioactivity
+			noopAIList(g_StageSetup.ailists, 0x101c); // func101c_msg_radioactive
+			noopAIList(g_StageSetup.ailists, 0x101d); // func101d_coop_radioactivty
+			noopAIList(g_StageSetup.ailists, 0x1021); // func1021_counterop_radioactivity
+		}
 
 		g_LoadType = LOADTYPE_PADS;
 
