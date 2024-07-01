@@ -430,21 +430,25 @@ char *langGet(s32 textid)
 			case L_GUN_PP9ISILENCED: return "PP7 (Silenced)\n";
 			case L_GUN_246: return "Cyanide\n";
 			case L_GUN_072: return "Cyanide Capsule\n";
+			case L_MPWEAPONS_087: return "Enemy Armor\n";
 		}
 	}
 
 	switch (textid) {
-		case L_MPWEAPONS_UNLOCKALLCONTENT: return "Unlock All Content\n";
-		case L_MPWEAPONS_ULTRAVISIBLE:     return "Ultra-Visible\n";
-		case L_MPWEAPONS_DEBUG:            return "Debug\n";
-		case L_MPWEAPONS_CLASSICMODE:      return "Classic Mode\n";
-		case L_MPWEAPONS_CLONEINVASION:    return "Clone Invasion\n";
-		case L_MPWEAPONS_CHICAGOGHOST:     return "Chicago Ghost\n";
-		case L_MPWEAPONS_DUALWIELDALLGUNS: return "Dual-Wield All Guns\n";
-		case L_GUN_PP9ISILENCED:           return "PP9i (Silenced)\n";
-		case L_GUN_CAMERA:                 return "Camera\n";
+		case L_MPWEAPONS_UNLOCKALLCONTENT:    return "Unlock All Content\n";
+		case L_MPWEAPONS_ULTRAVISIBLE:        return "Ultra-Visible\n";
+		case L_MPWEAPONS_DEBUG:               return "Debug\n";
+		case L_MPWEAPONS_CLASSICMODE:         return "Classic Mode\n";
+		case L_MPWEAPONS_CLONEINVASION:       return "Clone Invasion\n";
+		case L_MPWEAPONS_CHICAGOGHOST:        return "Chicago Ghost\n";
+		case L_MPWEAPONS_DUALWIELDALLGUNS:    return "Dual-Wield All Guns\n";
+		case L_GUN_PP9ISILENCED:              return "PP9i (Silenced)\n";
+		case L_GUN_CAMERA:                    return "Camera\n";
+		case L_PROPOBJ_PICKEDUPSOMEBODYARMOR: return "Picked up some body armor.\n";
+		case L_PROPOBJ_SOMEBODYARMOR:         return "Some body armor.\n";
+		case L_MPWEAPONS_BODYARMOR:           return "Body Armor\n";
 #if VERSION < VERSION_PAL_FINAL
-		case L_GUN_246:                    textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
+		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif
 	}
 

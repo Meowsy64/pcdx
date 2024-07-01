@@ -17391,10 +17391,18 @@ s32 propPickupByPlayer(struct prop *prop, bool showhudmsg)
 		break;
 	case OBJTYPE_SHIELD:
 		{
-			playerSetShieldFrac(((struct shieldobj *) prop->obj)->amount);
+			struct shieldobj *shield = (struct shieldobj *)prop->obj;
+			bool isBodyArmor = (shield->flags & 1);
+			
+			if (isBodyArmor) {
+				playerSetBodyArmorFrac(shield->amount);
+			} else {
+				playerSetShieldFrac(shield->amount);
+			}
 
 			if (!g_Vars.in_cutscene) {
-				sndStart(var80095200, SFX_PICKUP_SHIELD, NULL, -1, -1, -1, -1, -1);
+				// Eventually we'll want a "zip up armor" sound.
+				sndStart(var80095200, isBodyArmor ? SFX_PICKUP_SHIELD : SFX_PICKUP_SHIELD, NULL, -1, -1, -1, -1, -1);
 			}
 
 			if (showhudmsg) {
@@ -17404,9 +17412,9 @@ s32 propPickupByPlayer(struct prop *prop, bool showhudmsg)
 					s32 playercount = PLAYERCOUNT();
 
 					if (playercount <= 2 && !(playercount == 2 && (optionsGetScreenSplit() == SCREENSPLIT_VERTICAL || IS4MB()))) {
-						text = langGet(L_PROPOBJ_041); // "Picked up a shield."
+						text = langGet(isBodyArmor ? L_PROPOBJ_PICKEDUPSOMEBODYARMOR : L_PROPOBJ_041); // "Picked up a shield."
 					} else {
-						text = langGet(L_PROPOBJ_042); // "A shield."
+						text = langGet(isBodyArmor ? L_PROPOBJ_SOMEBODYARMOR : L_PROPOBJ_042); // "A shield."
 					}
 				}
 
@@ -17642,9 +17650,12 @@ s32 objTestForPickup(struct prop *prop)
 		}
 	} else if (obj->type == OBJTYPE_SHIELD) {
 		struct shieldobj *shield = (struct shieldobj *) prop->obj;
+		bool isBodyArmor = (shield->flags & 1);
 		bool ignore = false;
 
-		if (shield->amount <= playerGetShieldFrac()) {
+		if (!isBodyArmor && shield->amount <= playerGetShieldFrac()) {
+			ignore = true;
+		} else if (isBodyArmor && shield->amount <= playerGetBodyArmorFrac()) {
 			ignore = true;
 		} else if (g_Vars.normmplayerisrunning
 				&& g_MpSetup.scenario == MPSCENARIO_HOLDTHEBRIEFCASE

@@ -23,7 +23,7 @@
 #include <math.h>
 #include "video.h"
 
-#define SIGHT_COLOUR ((PLAYER_EXTCFG().crosshairhealth >= CROSSHAIR_HEALTH_ON_GREEN) ? sightGetCrosshairHealthColor(g_Vars.currentplayer->bondhealth, g_Vars.currentplayer->prop->chr->cshield * 0.125f) : PLAYER_EXTCFG().crosshaircolour)
+#define SIGHT_COLOUR ((PLAYER_EXTCFG().crosshairhealth >= CROSSHAIR_HEALTH_ON_GREEN) ? sightGetCrosshairHealthColor(g_Vars.currentplayer->bondhealth, (g_Vars.currentplayer->prop->chr->cshield + g_Vars.currentplayer->prop->chr->cbodyarmor) * 0.125f) : PLAYER_EXTCFG().crosshaircolour)
 #define SIGHT_SCALE PLAYER_EXTCFG().crosshairsize
 
 static u32 sightGetCrosshairHealthColor(float health, float shield)

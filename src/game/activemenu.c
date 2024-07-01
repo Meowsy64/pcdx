@@ -1569,6 +1569,7 @@ Gfx *amRender(Gfx *gdl)
 		// Render health bar
 		f32 healthfrac = (chr->maxdamage - chr->damage) / chr->maxdamage;
 		f32 shieldfrac = chr->cshield * 0.125f;
+		f32 bodyarmorfrac = chr->cbodyarmor * 0.125f;
 		bool redhealth = false;
 		s32 xoffset;
 		s32 barwidth;
@@ -1680,17 +1681,28 @@ Gfx *amRender(Gfx *gdl)
 			RECT(gdl++, a2, y, part1left + barwidth, y + barheight);
 		}
 
-		// Render shield bar
+		// Render body armor/shield bars
 		y = y + barheight + 2;
 		barheight = barheight * 0.75f;
 
+		// Render body armor bar
+		gDPSetPrimColorViaWord(gdl++, 0, 0, 0x0000c060);
+
+		a2 = part1left + (s32) (barwidth * bodyarmorfrac);
+
+		RECT(gdl++, part1left, y, a2, y + barheight);
+
+		// Render shield bar
 		gDPSetPrimColorViaWord(gdl++, 0, 0, 0x00c00060);
 
 		a2 = part1left + (s32) (barwidth * shieldfrac);
 
 		RECT(gdl++, part1left, y, a2, y + barheight);
 
+		// Render end of bar
 		gDPSetPrimColorViaWord(gdl++, 0, 0, 0x00000080);
+
+		a2 = part1left + MAX((s32) (barwidth * bodyarmorfrac), (s32) (barwidth * shieldfrac));
 
 		RECT(gdl++, a2, y, part1left + barwidth, y + barheight);
 	}

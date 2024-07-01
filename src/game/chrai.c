@@ -715,6 +715,7 @@ void chraiExecute(void *entity, s32 proptype)
 			u32 animnum = modelGetAnimNum(g_Vars.chrdata->model);
 			if (g_Vars.chrdata->aishotlist >= 0
 					&& g_Vars.chrdata->cshield <= 0
+					&& g_Vars.chrdata->cbodyarmor <= 0
 					&& (0 <= g_Vars.chrdata->damage || g_Vars.chrdata->gunprop != NULL)
 					&& animnum != ANIM_SNIPING_GETDOWN
 					&& animnum != ANIM_SNIPING_GETUP

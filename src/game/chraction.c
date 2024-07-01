@@ -4082,6 +4082,36 @@ void chrSetShield(struct chrdata *chr, f32 amount)
 	}
 }
 
+f32 chrGetBodyArmor(struct chrdata *chr)
+{
+	return chr->cbodyarmor;
+}
+
+void chrSetBodyArmor(struct chrdata *chr, f32 amount)
+{
+	if (amount < 0) {
+		amount = 0;
+	}
+
+	chr->cbodyarmor = amount;
+
+	if ((chr->hidden & CHRHFLAG_INFINITESHIELD) && chr->cbodyarmor < 1) {
+		chr->cbodyarmor = 1;
+	}
+
+	if (chr->prop->type == PROPTYPE_PLAYER) {
+		s32 playernum = playermgrGetPlayerNumByProp(chr->prop);
+
+		if (playernum >= 0) {
+			s32 prevplayernum = g_Vars.currentplayernum;
+			setCurrentPlayerNum(playernum);
+			playerDisplayHealth();
+			g_Vars.currentplayerstats->armourcount += amount * 0.125f;
+			setCurrentPlayerNum(prevplayernum);
+		}
+	}
+}
+
 bool func0f034080(struct chrdata *chr, struct modelnode *node, struct prop *prop, struct model *model, s32 side, s16 *arg5)
 {
 	if (chrGetShield(chr) > 0) {
@@ -4272,6 +4302,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 	bool canchoke = true;
 	s32 aplayernum = -1;
 	s32 choketype = CHOKETYPE_NONE;
+	f32 bodyarmor;
 
 	if (hitpart == HITPART_HEAD) {
 		choketype = CHOKETYPE_GURGLE;
@@ -4581,6 +4612,18 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 			showshield = true;
 			usedshield = true;
 		}
+	}
+
+	bodyarmor = chrGetBodyArmor(chr);
+	if (bodyarmor >= damage / healthscale) {
+		// Has enough body armor to sustain the damage
+		bodyarmor -= damage / healthscale;
+		damage = 0;
+		chrSetBodyArmor(chr, bodyarmor);
+	} else {
+		// Body armor is now gone
+		damage -= bodyarmor;
+		chrSetBodyArmor(chr, 0);
 	}
 
 	// Handle hat shots. This is left over from GE, as hats don't exist in PD

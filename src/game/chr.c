@@ -1210,6 +1210,7 @@ void chrInit(struct prop *prop, u8 *ailist)
 	chr->path = -1;
 	chr->team = TEAM_01;
 	chrSetShield(chr, 0);
+	chrSetBodyArmor(chr, 0);
 	chr->cmnum = 0;
 	chr->cmnum2 = 0;
 	chr->cmnum3 = 0;
@@ -1361,7 +1362,11 @@ struct prop *chrAllocate(struct model *model, struct coord *pos, RoomNum *rooms,
 		prop = chr0f020b14(prop, model, pos, rooms, faceangle, ailist);
 
 		if (cheatIsActive(CHEAT_ENEMYSHIELDS)) {
-			chrSetShield(prop->chr, 8);
+			if (cheatIsActive(CHEAT_CLASSICMODE)) {
+				chrSetBodyArmor(prop->chr, 8);
+			} else {
+				chrSetShield(prop->chr, 8);
+			}
 		}
 	}
 

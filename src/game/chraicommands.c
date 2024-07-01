@@ -3203,7 +3203,11 @@ bool aiSetShield(void)
 		amount = amount < 8 ? 8 : amount;
 	}
 
-	chrSetShield(g_Vars.chrdata, amount);
+	if (cheatIsActive(CHEAT_CLASSICMODE)) {
+		chrSetBodyArmor(g_Vars.chrdata, amount);
+	} else {
+		chrSetShield(g_Vars.chrdata, amount);
+	}
 
 	g_Vars.aioffset += 4;
 

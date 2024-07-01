@@ -1364,6 +1364,8 @@ struct chrdata {
 	/*0x362*/ u8 drcarollimage_left : 4;
 	/*0x362*/ u8 drcarollimage_right : 4;
 	/*0x364*/ struct prop *lift;
+
+	          f32 cbodyarmor;
 };
 
 // This appears to be misnamed. Not only is it projectiles such as grenades and
@@ -1737,7 +1739,7 @@ struct shieldobj { // objtype 0x15
 	struct defaultobj base;
 	/*0x5c*/ f32 initialamount;
 	/*0x60*/ f32 amount;
-	/*0x64*/ u32 unk64;
+	/*0x64*/ u32 flags;
 };
 
 struct tag { // objtype 0x16
@@ -2841,6 +2843,8 @@ struct player {
 	/*0x1c74*/ f32 swivelpos[2];
 #endif
                s32 camerashuttertime;
+			   f32 apparentbodyarmor;
+	           f32 oldbodyarmor;
 };
 
 struct ailist {

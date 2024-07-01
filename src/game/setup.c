@@ -933,6 +933,11 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 				return;
 			}
 			
+			if (weapon->weaponnum == WEAPON_MPBODYARMOR) {
+				chrSetBodyArmor(chr, 8);
+				return;
+			}
+			
 			weapondef = weaponFindById(weapon->weaponnum);
 			if (!weapondef) {
 				return;
@@ -969,6 +974,16 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 		shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
 		shield->initialamount = 1;
 		shield->amount = 1;
+		setupCreateObject(&shield->base, cmdindex);
+	} else if (weapon->weaponnum == WEAPON_MPBODYARMOR) {
+		struct shieldobj *shield = (struct shieldobj *)weapon;
+		shield->base.modelnum = weaponGetChrModel(weapon->weaponnum);
+		shield->base.type = OBJTYPE_SHIELD;
+		shield->base.flags |= OBJFLAG_01000000 | OBJFLAG_INVINCIBLE;
+		shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
+		shield->initialamount = 1;
+		shield->amount = 1;
+		shield->flags = 1;
 		setupCreateObject(&shield->base, cmdindex);
 	} else {
 		weapon->base.modelnum = weaponGetChrModel(weapon->weaponnum);
@@ -1892,6 +1907,9 @@ void setupCreateProps(s32 stagenum)
 							struct shieldobj *shield = (struct shieldobj *)obj;
 							shield->initialamount = *(s32 *)&shield->initialamount / 65536.0f;
 							shield->amount = shield->initialamount;
+							if (cheatIsActive(CHEAT_CLASSICMODE)) {
+								shield->flags |= 1;
+							}
 							setupCreateObject(obj, index);
 						}
 					}

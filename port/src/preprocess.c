@@ -1080,6 +1080,10 @@ void preprocessMpConfigs(u8 *data, u32 size)
 			if (cfg->setup.weapons[j] >= 0x25) {
 				cfg->setup.weapons[j] += (MPWEAPON_SHIELD - MPWEAPON_PP9I);
 			}
+			// PCDX: temp until we have a proper remapping system like for setup loading
+			if (cfg->setup.weapons[j] >= MPWEAPON_BODYARMOR) {
+				cfg->setup.weapons[j]++;
+			}
 #endif
 		}
 	}

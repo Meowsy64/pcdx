@@ -659,8 +659,10 @@ void playerStartNewLife(void)
 		g_Vars.currentplayer->bondhealth = g_Vars.currentplayer->stealhealth;
 		g_Vars.currentplayer->oldhealth = 0;
 		g_Vars.currentplayer->oldarmour = 0;
+		g_Vars.currentplayer->oldbodyarmor = 0;
 		g_Vars.currentplayer->apparenthealth = 0;
 		g_Vars.currentplayer->apparentarmour = 0;
+		g_Vars.currentplayer->apparentbodyarmor = 0;
 	}
 
 	bmoveUpdateRooms(g_Vars.currentplayer);
@@ -726,8 +728,10 @@ void playerLoadDefaults(void)
 
 	g_Vars.currentplayer->oldhealth = 1;
 	g_Vars.currentplayer->oldarmour = 0;
+	g_Vars.currentplayer->oldbodyarmor = 0;
 	g_Vars.currentplayer->apparenthealth = 1;
 	g_Vars.currentplayer->apparentarmour = 0;
+	g_Vars.currentplayer->apparentbodyarmor = 0;
 	g_Vars.currentplayer->damageshowtime = -1;
 	g_Vars.currentplayer->healthshowtime = -1;
 	g_Vars.currentplayer->shieldshowtime = -1;
@@ -893,6 +897,7 @@ bool playerSpawnAnti(struct chrdata *hostchr, bool force)
 		}
 
 		chrSetShield(playerchr, chrGetShield(hostchr));
+		chrSetBodyArmor(playerchr, chrGetBodyArmor(hostchr));
 
 		g_Vars.currentplayer->haschrbody = false;
 		g_Vars.currentplayer->model00d4 = NULL;
@@ -970,6 +975,7 @@ void playerSpawn(void)
 
 	invGiveSingleWeapon(WEAPON_UNARMED);
 	playerSetShieldFrac(0);
+	playerSetBodyArmorFrac(0);
 
 	if (cheatIsActive(CHEAT_JOSHIELD)) {
 		playerSetShieldFrac(1);
@@ -1113,7 +1119,8 @@ void playerSpawn(void)
 			if ((g_MpSetup.options & MPOPTION_SPAWNWITHWEAPON)
 					&& g_MpSetup.weapons[0] != MPWEAPON_NONE
 					&& g_MpSetup.weapons[0] != MPWEAPON_DISABLED
-					&& g_MpSetup.weapons[0] != MPWEAPON_SHIELD) {
+					&& g_MpSetup.weapons[0] != MPWEAPON_SHIELD
+					&& g_MpSetup.weapons[0] != MPWEAPON_BODYARMOR) {
 				struct mpweapon *mpweapon = &g_MpWeapons[g_MpSetup.weapons[0]];
 				invGiveSingleWeapon(mpweapon->weaponnum);
 				const s32 ammotype = (g_MpSetup.weapons[0] == MPWEAPON_COMBATBOOST) ? AMMOTYPE_BOOST : mpweapon->priammotype;
@@ -2482,6 +2489,7 @@ void playerDisplayHealth(void)
 	case HEALTHSHOWMODE_HIDDEN:
 		g_Vars.currentplayer->oldhealth = g_Vars.currentplayer->bondhealth;
 		g_Vars.currentplayer->oldarmour = playerGetShieldFrac();
+		g_Vars.currentplayer->oldbodyarmor = playerGetBodyArmorFrac();
 		break;
 	case HEALTHSHOWMODE_OPENING:
 	case HEALTHSHOWMODE_PREVIOUS:
@@ -2490,10 +2498,12 @@ void playerDisplayHealth(void)
 	case HEALTHSHOWMODE_CURRENT:
 		g_Vars.currentplayer->oldhealth = g_Vars.currentplayer->apparenthealth;
 		g_Vars.currentplayer->oldarmour = g_Vars.currentplayer->apparentarmour;
+		g_Vars.currentplayer->oldbodyarmor = g_Vars.currentplayer->apparentbodyarmor;
 		break;
 	case HEALTHSHOWMODE_CLOSING:
 		g_Vars.currentplayer->oldhealth = g_Vars.currentplayer->bondhealth;
 		g_Vars.currentplayer->oldarmour = playerGetShieldFrac();
+		g_Vars.currentplayer->oldbodyarmor = playerGetBodyArmorFrac();
 		break;
 	}
 
@@ -2617,11 +2627,13 @@ void playerTickDamageAndHealth(void)
 			f32 frac;
 			f32 healthdiff;
 			f32 armourdiff;
+			f32 bodyarmordiff;
 
 			switch (g_Vars.currentplayer->healthshowmode) {
 			case HEALTHSHOWMODE_OPENING:
 				g_Vars.currentplayer->apparenthealth = g_Vars.currentplayer->oldhealth;
 				g_Vars.currentplayer->apparentarmour = g_Vars.currentplayer->oldarmour;
+				g_Vars.currentplayer->apparentbodyarmor = g_Vars.currentplayer->oldbodyarmor;
 				g_Vars.currentplayer->healthshowtime += g_Vars.diffframe60freal;
 
 				if (g_Vars.currentplayer->healthshowtime >= g_HealthDamageTypes[g_Vars.currentplayer->healthdamagetype].openendframe) {
@@ -2631,6 +2643,7 @@ void playerTickDamageAndHealth(void)
 			case HEALTHSHOWMODE_PREVIOUS:
 				g_Vars.currentplayer->apparenthealth = g_Vars.currentplayer->oldhealth;
 				g_Vars.currentplayer->apparentarmour = g_Vars.currentplayer->oldarmour;
+				g_Vars.currentplayer->apparentbodyarmor = g_Vars.currentplayer->oldbodyarmor;
 				g_Vars.currentplayer->healthshowtime += g_Vars.diffframe60freal;
 
 				if (currentPlayerIsMenuOpenInSoloOrMp()) {
@@ -2662,9 +2675,11 @@ void playerTickDamageAndHealth(void)
 
 				healthdiff = g_Vars.currentplayer->oldhealth - g_Vars.currentplayer->bondhealth;
 				armourdiff = g_Vars.currentplayer->oldarmour - playerGetShieldFrac();
+				bodyarmordiff = g_Vars.currentplayer->oldbodyarmor - playerGetBodyArmorFrac();
 
 				g_Vars.currentplayer->apparenthealth = g_Vars.currentplayer->oldhealth - frac * healthdiff;
 				g_Vars.currentplayer->apparentarmour = g_Vars.currentplayer->oldarmour - frac * armourdiff;
+				g_Vars.currentplayer->apparentbodyarmor = g_Vars.currentplayer->oldbodyarmor - frac * bodyarmordiff;
 
 				if (g_Vars.currentplayer->healthshowtime >= g_HealthDamageTypes[g_Vars.currentplayer->healthdamagetype].updateendframe) {
 					g_Vars.currentplayer->healthshowmode = HEALTHSHOWMODE_CURRENT;
@@ -2673,6 +2688,7 @@ void playerTickDamageAndHealth(void)
 			case HEALTHSHOWMODE_CURRENT:
 				g_Vars.currentplayer->apparenthealth = g_Vars.currentplayer->bondhealth;
 				g_Vars.currentplayer->apparentarmour = playerGetShieldFrac();
+				g_Vars.currentplayer->apparentbodyarmor = playerGetBodyArmorFrac();
 				g_Vars.currentplayer->healthshowtime += g_Vars.diffframe60freal;
 
 				if (currentPlayerIsMenuOpenInSoloOrMp()) {
@@ -4064,6 +4080,7 @@ void playerTick(bool arg0)
 						|| spawnWeap == MPWEAPON_CLOAKINGDEVICE
 						|| spawnWeap == MPWEAPON_COMBATBOOST
 						|| spawnWeap == MPWEAPON_SHIELD
+						|| spawnWeap == MPWEAPON_BODYARMOR
 						|| spawnWeap == MPWEAPON_DISABLED
 						)
 					{
@@ -4090,6 +4107,7 @@ void playerTick(bool arg0)
 						|| spawnWeap == MPWEAPON_CLOAKINGDEVICE
 						|| spawnWeap == MPWEAPON_COMBATBOOST
 						|| spawnWeap == MPWEAPON_SHIELD
+						|| spawnWeap == MPWEAPON_BODYARMOR
 						|| spawnWeap == MPWEAPON_DISABLED
 						)
 					{
@@ -4790,6 +4808,8 @@ Gfx *playerRenderHud(Gfx *gdl)
 								u32 prevplayernum = g_Vars.currentplayernum;
 								f32 stealhealth;
 								f32 shield;
+								f32 bodyarmor;
+								f32 stolenhealth;
 
 								canrestart = joyGetButtons(optionsGetContpadNum1(g_Vars.currentplayerstats->mpindex), 0xb000)
 									&& !mpIsPaused();
@@ -4800,7 +4820,14 @@ Gfx *playerRenderHud(Gfx *gdl)
 
 								setCurrentPlayerNum(buddyplayernum);
 								shield = chrGetShield(g_Vars.currentplayer->prop->chr) * 0.125f;
-								totalhealth = g_Vars.currentplayer->bondhealth + shield;
+								bodyarmor = chrGetBodyArmor(g_Vars.currentplayer->prop->chr) * 0.125f;
+								// This is a lazy way of doing it, but it should work for now.
+								if (cheatIsActive(CHEAT_CLASSICMODE)) {
+									totalhealth = g_Vars.currentplayer->bondhealth + bodyarmor;
+								} else {
+									totalhealth = g_Vars.currentplayer->bondhealth + shield;
+								}
+								stolenhealth = 0;
 
 #if VERSION >= VERSION_NTSC_FINAL
 								// NTSC final prevents coop from being able to respawn
@@ -4814,11 +4841,21 @@ Gfx *playerRenderHud(Gfx *gdl)
 
 										stealhealth = totalhealth * 0.5f;
 
-										if (stealhealth < shield) {
-											chrSetShield(g_Vars.currentplayer->prop->chr, (shield - stealhealth) * 8.0f);
+										// This is a lazy way of doing it, but it should work for now.
+										if (cheatIsActive(CHEAT_CLASSICMODE)) {
+											if (stealhealth < bodyarmor) {
+												chrSetBodyArmor(g_Vars.currentplayer->prop->chr, (bodyarmor - stealhealth) * 8.0f);
+											} else {
+												chrSetBodyArmor(g_Vars.currentplayer->prop->chr, 0);
+												g_Vars.currentplayer->bondhealth -= stealhealth - bodyarmor;
+											}
 										} else {
-											chrSetShield(g_Vars.currentplayer->prop->chr, 0);
-											g_Vars.currentplayer->bondhealth -= stealhealth - shield;
+											if (stealhealth < shield) {
+												chrSetShield(g_Vars.currentplayer->prop->chr, (shield - stealhealth) * 8.0f);
+											} else {
+												chrSetShield(g_Vars.currentplayer->prop->chr, 0);
+												g_Vars.currentplayer->bondhealth -= stealhealth - shield;
+											}
 										}
 
 										// Back to the player who died
@@ -4826,8 +4863,10 @@ Gfx *playerRenderHud(Gfx *gdl)
 										g_Vars.currentplayer->dostartnewlife = true;
 										g_Vars.currentplayer->oldhealth = 0;
 										g_Vars.currentplayer->oldarmour = 0;
+										g_Vars.currentplayer->oldbodyarmor = 0;
 										g_Vars.currentplayer->apparenthealth = 0;
 										g_Vars.currentplayer->apparentarmour = 0;
+										g_Vars.currentplayer->apparentbodyarmor = 0;
 										g_Vars.currentplayer->stealhealth = stealhealth;
 									} else {
 										setCurrentPlayerNum(prevplayernum);
@@ -4856,8 +4895,10 @@ Gfx *playerRenderHud(Gfx *gdl)
 									g_Vars.currentplayer->dostartnewlife = true;
 									g_Vars.currentplayer->oldhealth = 0;
 									g_Vars.currentplayer->oldarmour = 0;
+									g_Vars.currentplayer->oldbodyarmor = 0;
 									g_Vars.currentplayer->apparenthealth = 0;
 									g_Vars.currentplayer->apparentarmour = 0;
+									g_Vars.currentplayer->apparentbodyarmor = 0;
 									g_Vars.currentplayer->stealhealth = stealhealth;
 								} else {
 									setCurrentPlayerNum(prevplayernum);
@@ -5397,6 +5438,34 @@ void playerGetBbox(struct prop *prop, f32 *radius, f32 *ymax, f32 *ymin)
 f32 playerGetHealthFrac(void)
 {
 	return g_Vars.currentplayer->bondhealth;
+}
+
+f32 playerGetBodyArmorFrac(void)
+{
+	f32 frac = chrGetBodyArmor(g_Vars.currentplayer->prop->chr) * 0.125f;
+
+	if (frac < 0) {
+		frac = 0;
+	}
+
+	if (frac > 1) {
+		frac = 1;
+	}
+
+	return frac;
+}
+
+void playerSetBodyArmorFrac(f32 frac)
+{
+	if (frac < 0) {
+		frac = 0;
+	}
+
+	if (frac > 1) {
+		frac = 1;
+	}
+
+	chrSetBodyArmor(g_Vars.currentplayer->prop->chr, frac * 8);
 }
 
 f32 playerGetShieldFrac(void)

@@ -18,7 +18,7 @@
 #include "data.h"
 #include "types.h"
 
-struct aibotweaponpreference g_AibotWeaponPreferences[] = {
+struct aibotweaponpreference g_AibotWeaponPreferences[NUM_WEAPONS] = {
 	//                             haspriammogoal
 	//                             |  hassecammogoal
 	//                             |  |  pridistconfig
@@ -134,6 +134,7 @@ struct aibotweaponpreference g_AibotWeaponPreferences[] = {
 	/*0x59*/ { 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_CHOPPERGUN
 	/*0x5a*/ { 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_WATCHLASER
 	/*0x5b*/ { 220, 220, 0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_MPSHIELD
+	         { 220, 220, 0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_MPBODYARMOR
 	/*0x5c*/ { 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_DISABLED
 	/*0x5d*/ { 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_SUICIDEPILL
 };
@@ -434,6 +435,21 @@ bool mpHasShield(void)
 		s32 weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
 
 		if (weaponnum == WEAPON_MPSHIELD) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool mpHasBodyArmor(void)
+{
+	s32 i;
+
+	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
+		s32 weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
+
+		if (weaponnum == WEAPON_MPBODYARMOR) {
 			return true;
 		}
 	}

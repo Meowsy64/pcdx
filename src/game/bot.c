@@ -86,6 +86,7 @@ void botReset(struct chrdata *chr, u8 respawning)
 			chr->chrpreset1 = -1;
 			chr->cover = -1;
 			chrSetShield(chr, 0);
+			chrSetBodyArmor(chr, 0);
 			chr->cmnum = 0;
 			chr->cmnum2 = 0;
 #ifndef PLATFORM_N64
@@ -265,7 +266,8 @@ void botSpawn(struct chrdata *chr, u8 respawning)
 		if ((g_MpSetup.options & MPOPTION_SPAWNWITHWEAPON)
 				&& g_MpSetup.weapons[0] != MPWEAPON_NONE
 				&& g_MpSetup.weapons[0] != MPWEAPON_DISABLED
-				&& g_MpSetup.weapons[0] != MPWEAPON_SHIELD) {
+				&& g_MpSetup.weapons[0] != MPWEAPON_SHIELD
+				&& g_MpSetup.weapons[0] != MPWEAPON_BODYARMOR) {
 			struct mpweapon *mpweapon = &g_MpWeapons[g_MpSetup.weapons[0]];
 			botinvGiveSingleWeapon(chr, mpweapon->weaponnum);
 			const s32 ammotype = (g_MpSetup.weapons[0] == MPWEAPON_COMBATBOOST) ? AMMOTYPE_BOOST : mpweapon->priammotype;
@@ -432,11 +434,16 @@ u32 botPickupProp(struct prop *prop, struct chrdata *chr)
 	case OBJTYPE_SHIELD:
 		{
 			struct shieldobj *shield = (struct shieldobj *)prop->obj;
+			bool isBodyArmor = (shield->flags & 1);
 
 			psCreate(NULL, prop, SFX_PICKUP_SHIELD, -1,
 				-1, PSFLAG_0400, 0, PSTYPE_NONE, 0, -1, 0, -1, -1, -1, -1);
 
-			chrSetShield(chr, shield->amount * 8);
+			if (isBodyArmor) {
+				chrSetBodyArmor(chr, shield->amount * 8);
+			} else {
+				chrSetShield(chr, shield->amount * 8);
+			}
 			objFree(obj, false, obj->hidden2 & OBJH2FLAG_CANREGEN);
 		}
 		return 3;
@@ -592,9 +599,12 @@ bool botTestPropForPickup(struct prop *prop, struct chrdata *chr)
 		}
 	} else if (obj->type == OBJTYPE_SHIELD) {
 		shield = (struct shieldobj *)prop->obj;
+		bool isBodyArmor = (shield->flags & 1);
 		ignore2 = false;
 
-		if (shield->amount <= chrGetShield(chr) * 0.125f) {
+		if (isBodyArmor && shield->amount <= chrGetBodyArmor(chr) * 0.125f) {
+			ignore2 = true;
+		} else if (!isBodyArmor && shield->amount <= chrGetShield(chr) * 0.125f) {
 			ignore2 = true;
 		} else if (g_MpSetup.scenario == MPSCENARIO_HOLDTHEBRIEFCASE && chr->aibot->hasbriefcase) {
 			ignore2 = true;
@@ -1796,6 +1806,102 @@ void botScheduleReload(struct chrdata *chr, s32 handnum)
 #define HASENOUGHPRI(aibot, weaponnum, goal) (g_AibotWeaponPreferences[weaponnum].haspriammogoal && botactGetAmmoQuantityByWeapon(aibot, weaponnum, FUNC_PRIMARY, true) >= (goal))
 #define HASENOUGHSEC(aibot, weaponnum, goal) (g_AibotWeaponPreferences[weaponnum].hassecammogoal && botactGetAmmoQuantityByWeapon(aibot, weaponnum, FUNC_SECONDARY, true) >= (goal))
 
+struct prop * botCheckForProtection(struct chrdata *chr, s32 criteria, s32 weaponnum, s32 i, bool barelydominatinghill, struct prop **weapproplist, s32 *scores2, s32 bestscore1)
+{
+	if ((weaponnum == WEAPON_MPSHIELD || weaponnum == WEAPON_MPBODYARMOR)
+			&& (g_MpSetup.scenario != MPSCENARIO_HOLDTHEBRIEFCASE || !chr->aibot->hasbriefcase)) {
+		f32 triggerathealth = 8.1f;
+		f32 desiredshield = 0;
+		s32 rand;
+
+		if (chr->aibot->config->type == BOTTYPE_SHIELD && weaponnum == WEAPON_MPSHIELD) {
+			// ShieldSims are more likely to fetch shields
+			if (criteria == PICKUPCRITERIA_ANY) {
+				desiredshield = 7.9f;
+			} else if (criteria == PICKUPCRITERIA_DEFAULT) {
+				desiredshield = 6 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+			} else if (criteria == PICKUPCRITERIA_CRITICAL) {
+				desiredshield = 4 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+			}
+		} else if (barelydominatinghill) {
+			// Bots will be less likely to fetch shields while defending the hill
+			triggerathealth = 4 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+			desiredshield = 1 - chr->aibot->randomfrac;
+		} else if (g_MpSetup.scenario == MPSCENARIO_CAPTURETHECASE && botShouldReturnCtcToken(chr)) {
+			// Bots will be less likely to fetch shields while returning a CTC case
+			triggerathealth = 3 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+		} else if (chr->myaction == MA_AIBOTDOWNLOAD) {
+			// Bots will be less likely to fetch shields while uplinking
+			triggerathealth = 4 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+			desiredshield = 1;
+		} else {
+			// Default behaviour
+			if (criteria == PICKUPCRITERIA_ANY) {
+				desiredshield = 7.9f;
+			} else if (criteria == PICKUPCRITERIA_DEFAULT) {
+				desiredshield = 4 - (chr->aibot->randomfrac + chr->aibot->randomfrac);
+			} else if (criteria == PICKUPCRITERIA_CRITICAL) {
+				desiredshield = 2 - chr->aibot->randomfrac;
+			}
+		}
+
+		// Meat, easy and normal sims reduce the limits further,
+		// making them less likely to fetch shields.
+		if (chr->aibot->config->difficulty == BOTDIFF_MEAT) {
+			rand = chr->aibot->random2 % 8;
+
+			if (rand < 2) {
+				desiredshield = 0;
+				triggerathealth = 0;
+			} else if (rand < 4) {
+				desiredshield = 0;
+				triggerathealth = 2 - chr->aibot->randomfrac;
+			} else {
+				desiredshield -= chr->aibot->randomfrac * 16;
+
+				if (desiredshield <= 0) {
+					triggerathealth += desiredshield;
+					desiredshield = 0;
+				}
+			}
+		} else if (chr->aibot->config->difficulty == BOTDIFF_EASY) {
+			rand = chr->aibot->random2 % 8;
+
+			if (rand <= 0) {
+				desiredshield = 0;
+				triggerathealth = 0;
+			} else {
+				desiredshield -= chr->aibot->randomfrac * 11;
+
+				if (desiredshield <= 0) {
+					triggerathealth += desiredshield;
+					desiredshield = 0;
+				}
+			}
+		} else if (chr->aibot->config->difficulty == BOTDIFF_NORMAL) {
+			desiredshield -= chr->aibot->randomfrac * 4;
+
+			if (desiredshield <= 0) {
+				triggerathealth += desiredshield;
+				desiredshield = 0;
+			}
+		}
+
+		// Actually check the limits
+		if (chr->maxdamage - chr->damage < triggerathealth
+				&& weapproplist[i] != NULL
+				&& scores2[i] >= bestscore1) {
+			// decide if the shield/body armor is desired
+			if (weaponnum == WEAPON_MPSHIELD && chr->cshield <= desiredshield) {
+				return weapproplist[i];
+			} else if (weaponnum == WEAPON_MPBODYARMOR && chr->cbodyarmor <= desiredshield) {
+				return weapproplist[i];
+			}
+		}
+	}
+	return NULL;
+}
+
 /**
  * Find a prop for the bot to pick up.
  *
@@ -1948,8 +2054,10 @@ struct prop *botFindPickup(struct chrdata *chr, s32 criteria)
 							}
 						}
 					} else if (obj->type == OBJTYPE_SHIELD) {
+						struct shieldobj *shield = (struct shieldobj *)obj;
+						bool isBodyArmor = (shield->flags & 1);
 						for (i = 0; i < ARRAYCOUNT(weaponnums); i++) {
-							if (weaponnums[i] == WEAPON_MPSHIELD) {
+							if ((weaponnums[i] == WEAPON_MPSHIELD && !isBodyArmor) || (weaponnums[i] == WEAPON_MPBODYARMOR && !isBodyArmor)) {
 								sqdist2 = chrGetSquaredDistanceToCoord(chr, &prop->pos);
 
 								if (random() % 16 == 0) {
@@ -1978,7 +2086,6 @@ struct prop *botFindPickup(struct chrdata *chr, s32 criteria)
 	done = false;
 
 	for (i = 0; i < ARRAYCOUNT(weaponnums); i++) {
-		if (1);
 		if ((botinvAllowsWeapon(chr, weaponnums[i], FUNC_PRIMARY) || botinvAllowsWeapon(chr, weaponnums[i], FUNC_SECONDARY))
 				&& (g_AibotWeaponPreferences[weaponnums[i]].haspriammogoal || g_AibotWeaponPreferences[weaponnums[i]].hassecammogoal)
 				&& scores1[i] > bestscore1) {
@@ -1992,94 +2099,11 @@ struct prop *botFindPickup(struct chrdata *chr, s32 criteria)
 	// Note that max health and shield is 8 each, and that the bot must be under
 	// BOTH the limits for a shield to be fetched.
 	for (i = 0; i < ARRAYCOUNT(weaponnums) && !done; i++) {
-		if (weaponnums[i] == WEAPON_MPSHIELD
-				&& (g_MpSetup.scenario != MPSCENARIO_HOLDTHEBRIEFCASE || !chr->aibot->hasbriefcase)) {
-			f32 triggerathealth = 8.1f;
-			f32 desiredshield = 0;
-			s32 rand;
-
-			if (aibot->config->type == BOTTYPE_SHIELD) {
-				// ShieldSims are more likely to fetch shields
-				if (criteria == PICKUPCRITERIA_ANY) {
-					desiredshield = 7.9f;
-				} else if (criteria == PICKUPCRITERIA_DEFAULT) {
-					desiredshield = 6 - (aibot->randomfrac + aibot->randomfrac);
-				} else if (criteria == PICKUPCRITERIA_CRITICAL) {
-					desiredshield = 4 - (aibot->randomfrac + aibot->randomfrac);
-				}
-			} else if (barelydominatinghill) {
-				// Bots will be less likely to fetch shields while defending the hill
-				triggerathealth = 4 - (aibot->randomfrac + aibot->randomfrac);
-				desiredshield = 1 - aibot->randomfrac;
-			} else if (g_MpSetup.scenario == MPSCENARIO_CAPTURETHECASE && botShouldReturnCtcToken(chr)) {
-				// Bots will be less likely to fetch shields while returning a CTC case
-				triggerathealth = 3 - (aibot->randomfrac + aibot->randomfrac);
-			} else if (chr->myaction == MA_AIBOTDOWNLOAD) {
-				// Bots will be less likely to fetch shields while uplinking
-				triggerathealth = 4 - (aibot->randomfrac + aibot->randomfrac);
-				desiredshield = 1;
-			} else {
-				// Default behaviour
-				if (criteria == PICKUPCRITERIA_ANY) {
-					desiredshield = 7.9f;
-				} else if (criteria == PICKUPCRITERIA_DEFAULT) {
-					desiredshield = 4 - (aibot->randomfrac + aibot->randomfrac);
-				} else if (criteria == PICKUPCRITERIA_CRITICAL) {
-					desiredshield = 2 - aibot->randomfrac;
-				}
-			}
-
-			// Meat, easy and normal sims reduce the limits further,
-			// making them less likely to fetch shields.
-			if (aibot->config->difficulty == BOTDIFF_MEAT) {
-				rand = aibot->random2 % 8;
-
-				if (rand < 2) {
-					desiredshield = 0;
-					triggerathealth = 0;
-				} else if (rand < 4) {
-					desiredshield = 0;
-					triggerathealth = 2 - aibot->randomfrac;
-				} else {
-					desiredshield -= aibot->randomfrac * 16;
-
-					if (desiredshield <= 0) {
-						triggerathealth += desiredshield;
-						desiredshield = 0;
-					}
-				}
-			} else if (aibot->config->difficulty == BOTDIFF_EASY) {
-				rand = aibot->random2 % 8;
-
-				if (rand <= 0) {
-					desiredshield = 0;
-					triggerathealth = 0;
-				} else {
-					desiredshield -= aibot->randomfrac * 11;
-
-					if (desiredshield <= 0) {
-						triggerathealth += desiredshield;
-						desiredshield = 0;
-					}
-				}
-			} else if (aibot->config->difficulty == BOTDIFF_NORMAL) {
-				desiredshield -= aibot->randomfrac * 4;
-
-				if (desiredshield <= 0) {
-					triggerathealth += desiredshield;
-					desiredshield = 0;
-				}
-			}
-
-			// Actually check the limits and decide if the shield is desired
-			if (chr->maxdamage - chr->damage < triggerathealth
-					&& chr->cshield <= desiredshield
-					&& weapproplist[i] != NULL
-					&& scores2[i] >= bestscore1) {
-				chosenprop = weapproplist[i];
-				done = true;
-				break;
-			}
+		struct prop * tmp = botCheckForProtection(chr, criteria, weaponnums[i], i, barelydominatinghill, weapproplist, scores2, bestscore1);
+		if (tmp != NULL) {
+			chosenprop = tmp;
+			done = true;
+			break;
 		}
 	}
 
@@ -2090,6 +2114,7 @@ struct prop *botFindPickup(struct chrdata *chr, s32 criteria)
 	// picked up.
 	for (i = 0; i < ARRAYCOUNT(weaponnums) && !done; i++) {
 		if (weaponnums[i] != WEAPON_MPSHIELD
+				&& weaponnums[i] != WEAPON_MPBODYARMOR
 				&& invitems[i] != NULL
 				&& (g_AibotWeaponPreferences[weaponnums[i]].haspriammogoal
 					|| g_AibotWeaponPreferences[weaponnums[i]].hassecammogoal)

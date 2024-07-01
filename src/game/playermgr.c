@@ -257,8 +257,10 @@ void playermgrAllocatePlayer(s32 index)
 	g_Vars.players[index]->stealhealth = -1;
 	g_Vars.players[index]->oldhealth = 1;
 	g_Vars.players[index]->oldarmour = 0;
+	g_Vars.players[index]->oldbodyarmor = 0;
 	g_Vars.players[index]->apparenthealth = 1;
 	g_Vars.players[index]->apparentarmour = 0;
+	g_Vars.players[index]->apparentbodyarmor = 0;
 	g_Vars.players[index]->damageshowtime = -1;
 	g_Vars.players[index]->healthshowtime = -1;
 	g_Vars.players[index]->shieldshowtime = -1;

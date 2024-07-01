@@ -73,6 +73,8 @@ bool playerUpdateGeometry(struct prop *prop, u8 **start, u8 **end);
 void playerUpdatePerimInfo(void);
 void playerGetBbox(struct prop *prop, f32 *radius, f32 *ymax, f32 *ymin);
 f32 playerGetHealthFrac(void);
+f32 playerGetBodyArmorFrac(void);
+void playerSetBodyArmorFrac(f32 frac);
 f32 playerGetShieldFrac(void);
 void playerSetShieldFrac(f32 frac);
 s32 playerGetMissionTime(void);

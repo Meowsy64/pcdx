@@ -168,6 +168,7 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 	s32 numvertsremaining;
 	f32 len0 = 0.0f;
 	s32 coloursize;
+	f32 bodyarmorfrac;
 
 	static s32 radmax = 30; // outer radius of the shield
 	static s32 radmed = 18; // inner radius of the shield
@@ -230,6 +231,7 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 	if (chr == NULL || offyarg <= 0 || heightfracarg <= 0.0f) {
 		// Use the player's health
 		shieldfrac = g_Vars.currentplayer->apparentarmour;
+		bodyarmorfrac = g_Vars.currentplayer->apparentbodyarmor;
 		armourfrac = (g_Vars.currentplayer->apparenthealth - 0.25f) / 0.75f;
 		traumafrac = (0.25f - g_Vars.currentplayer->apparenthealth) * 4.0f;
 		heightfrac = playerGetHealthBarHeightFrac();
@@ -237,6 +239,7 @@ Gfx *healthbarDraw(Gfx *gdl, struct chrdata *chr, s32 offyarg, f32 heightfracarg
 		// Use the given chr's health
 		healthfrac = (chr->maxdamage - chr->damage) / chr->maxdamage;
 		shieldfrac = chr->cshield * 0.125f;
+		bodyarmorfrac = chr->cbodyarmor * 0.125f;
 		armourfrac = (healthfrac - 0.25f) / 0.75f;
 		traumafrac = (0.25f - healthfrac) * 4.0f;
 		heightfrac = heightfracarg;

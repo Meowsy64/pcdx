@@ -6359,9 +6359,10 @@ struct weapon *g_Weapons[] = {
 	&invitem_rocket,
 	&invitem_choppergun,
 	&invitem_watchlaser,
-	&invitem_hammer,
-	&invitem_hammer,
-	&invitem_suicidepill,
+	&invitem_hammer, // WEAPON_MPSHIELD
+	&invitem_hammer, // WEAPON_MPBODYARMOR
+	&invitem_hammer, // WEAPON_DISABLED
+	&invitem_suicidepill, // WEAPON_SUICIDEPILL
 };
 
 struct pcdx_weapon extweap_nothing = {
@@ -6959,6 +6960,20 @@ struct pcdx_weapon extweap_watchlaser = {
 	256,
 };
 
+struct pcdx_weapon extweap_shield = {
+	MODEL_CHRSHIELD,
+	WEAPON_NONE,
+	WEAPONFLAG2_NONE,
+	256,
+};
+
+struct pcdx_weapon extweap_bodyarmor = {
+	MODEL_BODYARMOUR,
+	WEAPON_NONE,
+	WEAPONFLAG2_NONE,
+	256,
+};
+
 struct pcdx_weapon extweap_suicidepill = {
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
@@ -7060,7 +7075,8 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_rocket,
 	&extweap_choppergun,
 	&extweap_watchlaser,
-	&extweap_hammer,
-	&extweap_hammer,
-	&extweap_suicidepill,
+	&extweap_shield,
+	&extweap_bodyarmor,
+	&extweap_hammer, // WEAPON_DISABLED
+	&extweap_suicidepill, // WEAPON_SUICIDEPILL
 };
