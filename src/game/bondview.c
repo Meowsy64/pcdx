@@ -614,6 +614,135 @@ static inline Gfx *bviewDrawFisheyeLine(Gfx *gdl, s32 viewleft, s32 viewwidth, s
 
 #endif
 
+Gfx *bviewDrawStandaloneCamera(Gfx *gdl, u32 colour, u32 alpha, s32 shuttertime60, s8 startuptimer60, u8 hit)
+{
+	u16 *fb = viGetBackBuffer();
+	s32 viewtop;
+	s32 viewheight;
+	f32 f26;
+	f32 halfheight;
+	f32 sqhalfheight;
+	s32 viewwidth;
+	s32 viewleft;
+	s32 s2;
+	s32 i;
+	s32 s3;
+	u8 starting;
+	s32 curradius;
+	f32 startupfrac;
+	f32 fullradius;
+	s32 one = 1;
+	s32 spec;
+	u8 alpha2;
+
+	f32 tmp;
+
+	viewtop = viGetViewTop();
+	viewheight = viGetViewHeight();
+	viewwidth = viGetViewWidth();
+	viewleft = viGetViewLeft();
+
+	startupfrac = 1.0f;
+	s2 = 0;
+
+	halfheight = viewheight * 0.5f;
+	sqhalfheight = halfheight * halfheight;
+	f26 = -(halfheight + halfheight) / viewheight;
+
+	starting = (startuptimer60 < TICKS(50));
+
+	var8007f840++;
+
+	if (var8007f840 >= 2) {
+		return gdl;
+	}
+
+	strcpy(var800a41c0, "blurGfxFisheye");
+
+	s3 = 1;
+
+	if (starting) {
+		fullradius = viewheight * 0.5f;
+		startupfrac = startuptimer60 / (PAL ? 41.0f : 50.0f);
+		curradius = fullradius * startupfrac;
+		spec = startupfrac * 255.0f;
+
+		if (spec > 255) {
+			spec = 255;
+		}
+	}
+
+	gDPPipeSync(gdl++);
+	gDPSetCycleType(gdl++, G_CYC_1CYCLE);
+	gDPSetRenderMode(gdl++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+	gDPSetCombineMode(gdl++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+	gDPSetPrimColor(gdl++, 0, 0, 0x00, 0x00, 0x00, 0xff);
+
+	s3 = 1;
+
+	if (shuttertime60 != 0 || starting) {
+		s32 s7;
+		s32 spa8 = viewheight * 0.5f;
+		f32 f20;
+
+		if (!starting) {
+			shuttertime60 -= TICKS(12);
+
+			if (shuttertime60 < 0) {
+				shuttertime60 = -shuttertime60;
+			}
+
+			s7 = spa8 * (shuttertime60 / TICKS(12.0f));
+		} else {
+			s7 = curradius;
+		}
+
+		for (i = viewtop; i < viewtop + spa8 - s7; i++) {
+			gdl = bviewDrawFisheyeRect(gdl, i, 0.0f, viewleft, viewwidth);
+			gdl = bviewDrawFisheyeRect(gdl, viewtop + viewtop + viewheight - i, 0.0f, viewleft, viewwidth);
+		}
+
+		gDPSetPrimColorViaWord(gdl++, 0, 0, 0x000000ff);
+
+		tmp = (f32) one * halfheight;
+		f20 = halfheight;
+
+		for (i = viewtop + spa8 - s7; i <= viewtop + spa8; i++) {
+			f32 f2;
+
+			if (sqhalfheight > f20 * f20) {
+				f2 = sqrtf(sqhalfheight - f20 * f20) * (1.0f / 160.0f);
+			} else {
+				f2 = 0.01f;
+			}
+
+			f20 += -tmp / s7;
+
+			gdl = bviewDrawFisheyeRect(gdl, i, f2 * startupfrac, viewleft, viewwidth);
+
+			if (i != viewtop + viewtop + viewheight - i) {
+				gdl = bviewDrawFisheyeRect(gdl, viewtop + viewtop + viewheight - i, f2 * startupfrac, viewleft, viewwidth);
+			}
+		}
+	} else {
+		s2 = 0;
+
+		for (i = viewtop; i < viewtop + viewheight; i++) {
+			tmp = bview0f142d74(s2, f26, halfheight, sqhalfheight);
+			gdl = bviewDrawFisheyeRect(gdl, i, tmp, viewleft, viewwidth);
+
+			s2 += s3;
+
+			if (s2 >= viewheight * 0.5f) {
+				s2 = viewheight * 0.5f;
+				s3 = -s3;
+			}
+		}
+	}
+
+	return gdl;
+}
+
 /**
  * Draw the fisheye curved effect when using an eyespy.
  *

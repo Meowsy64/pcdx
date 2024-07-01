@@ -2840,6 +2840,7 @@ struct player {
 #ifndef PLATFORM_N64
 	/*0x1c74*/ f32 swivelpos[2];
 #endif
+               s32 camerashuttertime;
 };
 
 struct ailist {

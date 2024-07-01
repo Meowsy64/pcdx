@@ -5628,6 +5628,32 @@ struct weapon invitem_datauplink = {
 	WEAPONFLAG_ONEHANDED | WEAPONFLAG_00000040 | WEAPONFLAG_00002000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_UNDROPPABLE | WEAPONFLAG_FIRETOACTIVATE,
 };
 
+struct weapon invitem_camera = {
+	FILE_PKEYCARD, // hi model
+	FILE_PKEYCARD, // lo model
+	NULL, // equip animation
+	NULL, // unequip animation
+	NULL, // pritosec animation
+	NULL, // sectopri animation
+	NULL, // pri function
+	NULL, // sec function
+	NULL, // pri ammo
+	NULL, // sec ammo
+	&invaimsettings_default,
+	1, // muzzlez
+	15.5, // posx
+	-20.2, // posy
+	-33.5, // posz
+	1, // sway
+	NULL, // gunviscmds
+	NULL, // part visibility
+	L_GUN_CAMERA, // short name
+	L_GUN_CAMERA, // name
+	L_GUN_000, // manufacturer
+	L_GUN_192, // description
+	WEAPONFLAG_ONEHANDED | WEAPONFLAG_UNDROPPABLE | WEAPONFLAG_FIRETOACTIVATE | WEAPONFLAG_HIDEMENUMODEL,
+};
+
 struct weapon invitem_doordecoder = {
 	FILE_PCHRDOORDECODER, // hi model
 	FILE_PCHRDOORDECODER, // lo model
@@ -6294,6 +6320,7 @@ struct weapon *g_Weapons[] = {
 	&invitem_rocketlauncher_34,
 	&invitem_ecmmine,
 	&invitem_datauplink,
+	&invitem_camera,
 	&invitem_rtracker,
 	&invitem_presidentscanner,
 	&invitem_doordecoder,
@@ -6729,6 +6756,13 @@ struct pcdx_weapon extweap_datauplink = {
 	256,
 };
 
+struct pcdx_weapon extweap_camera = {
+	MODEL_CHRWPPK,
+	WEAPON_NONE,
+	WEAPONFLAG2_NONE,
+	256,
+};
+
 struct pcdx_weapon extweap_rtracker = {
 	MODEL_RUSSDAR,
 	WEAPON_NONE,
@@ -6989,6 +7023,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_rocketlauncher_34,
 	&extweap_ecmmine,
 	&extweap_datauplink,
+	&extweap_camera,
 	&extweap_rtracker,
 	&extweap_presidentscanner,
 	&extweap_doordecoder,

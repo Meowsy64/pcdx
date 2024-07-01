@@ -442,6 +442,7 @@ char *langGet(s32 textid)
 		case L_MPWEAPONS_CHICAGOGHOST:     return "Chicago Ghost\n";
 		case L_MPWEAPONS_DUALWIELDALLGUNS: return "Dual-Wield All Guns\n";
 		case L_GUN_PP9ISILENCED:           return "PP9i (Silenced)\n";
+		case L_GUN_CAMERA:                 return "Camera\n";
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                    textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif

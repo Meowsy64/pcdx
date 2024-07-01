@@ -15,6 +15,7 @@ Gfx *bviewDrawSlayerRocketInterlace(Gfx *gdl, u32 arg1, u32 arg2);
 Gfx *bviewDrawFilmInterlace(Gfx *gdl, u32 colour, u32 alpha);
 Gfx *bviewDrawZoomBlur(Gfx *gdl, u32 colour, s32 alpha, f32 arg3, f32 arg4);
 f32 bview0f142d74(s32 arg0, f32 arg1, f32 arg2, f32 arg3);
+Gfx *bviewDrawStandaloneCamera(Gfx *gdl, u32 colour, u32 alpha, s32 shuttertime60, s8 startuptimer60, u8 hit);
 Gfx *bviewDrawFisheye(Gfx *gdl, u32 colour, u32 alpha, s32 shuttertime60, s8 startuptimer60, u8 hit);
 Gfx *bviewDrawEyespySideRect(Gfx *gdl, s32 *points, u8 r, u8 g, u8 b, u8 alpha);
 Gfx *bviewDrawEyespyMetrics(Gfx *gdl);

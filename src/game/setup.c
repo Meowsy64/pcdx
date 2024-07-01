@@ -1703,6 +1703,9 @@ void setupLoadMappings(s32 fileNum)
 	for (int i = 0; i < ARRAYCOUNT(g_SetupPerfectDarkWeaponMappings); i++)
 	{
 		g_SetupWeaponMappings[i] = g_SetupPerfectDarkWeaponMappings[i];
+		if (g_SetupWeaponMappings[i] == WEAPON_EYESPY && (g_Vars.stagenum == STAGE_INVESTIGATION || g_Vars.stagenum == STAGE_G5BUILDING)) {
+			g_SetupWeaponMappings[i] = WEAPON_CAMERA;
+		}
 	}
 
 	for (int i = 0; i < ARRAYCOUNT(g_SetupPerfectDarkAmmoMappings); i++)

@@ -821,6 +821,7 @@ void playerLoadDefaults(void)
 	g_Vars.currentplayer->prevoverexposureblue = 0;
 	g_Vars.currentplayer->amdowntime = 0;
 	g_Vars.currentplayer->altdowntime = 0;
+	g_Vars.currentplayer->camerashuttertime = 0;
 }
 
 bool playerSpawnAnti(struct chrdata *hostchr, bool force)
@@ -4917,6 +4918,16 @@ Gfx *playerRenderHud(Gfx *gdl)
 
 		if (bgunGetWeaponNum(HAND_RIGHT) == WEAPON_HORIZONSCANNER) {
 			gdl = bviewDrawHorizonScanner(gdl);
+		}
+
+		if (bgunGetWeaponNum(HAND_RIGHT) == WEAPON_CAMERA) {
+			if (g_Vars.currentplayer->camerashuttertime > 0) {
+				gdl = bviewDrawStandaloneCamera(gdl, 0xffffffff, 255, g_Vars.currentplayer->camerashuttertime, TICKS(50), false);
+				g_Vars.currentplayer->camerashuttertime -= g_Vars.lvupdate60;
+			} else {
+				gdl = bviewDrawStandaloneCamera(gdl, 0xffffffff, 255, 0, TICKS(50), false);
+				g_Vars.currentplayer->camerashuttertime = 0;
+			}
 		}
 
 		if (optionsGetAmmoOnScreen(g_Vars.currentplayerstats->mpindex)) {

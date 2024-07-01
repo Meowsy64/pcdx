@@ -1304,6 +1304,10 @@ Gfx *lvRender(Gfx *gdl)
 								EXPLOSIONTYPE_DRAGONBOMBSPY, 0);
 						chrBeginDeath(g_Vars.currentplayer->eyespy->prop->chr, &vel, 0, 0, &gset, false, 0);
 					}
+				} else if (bgunGetWeaponNum(HAND_RIGHT) == WEAPON_CAMERA && g_Vars.currentplayer->bondactivateorreload & JO_ACTION_ACTIVATE) {
+					g_Vars.currentplayer->camerashuttertime = TICKS(24);
+					objectiveCheckHolograph(400);
+					sndStart(var80095200, SFX_CAMSPY_SHUTTER, 0, -1, -1, -1, -1, -1);
 				}
 
 				// Handle opening doors and reloading

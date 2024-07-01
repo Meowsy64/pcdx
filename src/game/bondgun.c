@@ -3062,6 +3062,7 @@ s32 bgunTickIncChangeGun(struct handweaponinfo *info, s32 handnum, struct hand *
 				case WEAPON_PROXIMITYMINE:
 				case WEAPON_ECMMINE:
 				case WEAPON_DATAUPLINK:
+				case WEAPON_CAMERA:
 				case WEAPON_RTRACKER:
 				case WEAPON_PRESIDENTSCANNER:
 				case WEAPON_DOORDECODER:

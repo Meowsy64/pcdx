@@ -660,6 +660,7 @@ u32 currentPlayerGetSight(void)
 
 	switch (g_Vars.currentplayer->hands[HAND_RIGHT].gset.weaponnum) {
 	case WEAPON_HORIZONSCANNER:
+	case WEAPON_CAMERA:
 		return SIGHT_NONE;
 	case WEAPON_NONE:
 	case WEAPON_UNARMED:
