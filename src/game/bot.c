@@ -24,6 +24,7 @@
 #include "game/pad.h"
 #include "game/padhalllv.h"
 #include "game/propobj.h"
+#include "game/setup.h"
 #include "game/splat.h"
 #include "bss.h"
 #include "lib/collision.h"
@@ -370,14 +371,12 @@ u32 botPickupProp(struct prop *prop, struct chrdata *chr)
 			dprint();
 
 			for (i = 0; i != 19; i++) {
+				s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
+
 				qty = crate->slots[i].quantity;
 
 				if (qty) {
-					dprint();
-				}
-
-				if (qty) {
-					botactGiveAmmoByType(chr->aibot, i + 1, qty);
+					botactGiveAmmoByType(chr->aibot, ammotype, qty);
 				}
 			}
 
@@ -578,10 +577,12 @@ bool botTestPropForPickup(struct prop *prop, struct chrdata *chr)
 		}
 
 		for (i = 0; i < 0x13; i++) {
-			weaponnum = botactGetWeaponByAmmoType(i + 1);
+			s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
+
+			weaponnum = botactGetWeaponByAmmoType(ammotype);
 
 			if (crate2->slots[i].quantity > 0) {
-				if (botactGetAmmoQuantityByType(chr->aibot, i + 1, false) < bgunGetCapacityByAmmotype(i + 1)) {
+				if (botactGetAmmoQuantityByType(chr->aibot, ammotype, false) < bgunGetCapacityByAmmotype(ammoGetReplacement(g_SetupAmmoMappings[i + 1]))) {
 					ignore1 = false;
 
 					if (weaponnum && !botinvGetItemType(chr, weaponnum)) {
@@ -2026,7 +2027,7 @@ struct prop *botFindPickup(struct chrdata *chr, s32 criteria)
 						sqdist2 = chrGetSquaredDistanceToCoord(chr, &prop->pos);
 
 						for (i = 0; i < 19; i++) {
-							s32 ammotype = i + 1;
+							s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
 
 							if (crate->slots[i].quantity > 0) {
 								weaponnum = botactGetWeaponByAmmoType(ammotype);

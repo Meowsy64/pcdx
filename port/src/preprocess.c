@@ -765,8 +765,8 @@ static void preprocessPropObj(struct defaultobj *obj)
 			for (s32 i = 0; i < ARRAYCOUNT(mammo->slots); ++i) {
 				PD_SWAP_VAL(mammo->slots[i].modelnum);
 				PD_SWAP_VAL(mammo->slots[i].quantity);
-				// PCDX: TODO: Fix up for ammo mappings (will be a huge PITA)
 			}
+			// PCDX: We can't fix up the ammo mappings here without expanding the size of the struct.
 			break;
 		}
 		case OBJTYPE_TRUCK: {

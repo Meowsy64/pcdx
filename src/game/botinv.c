@@ -13,6 +13,7 @@
 #include "game/botinv.h"
 #include "game/mplayer/mplayer.h"
 #include "game/propobj.h"
+#include "game/setup.h"
 #include "bss.h"
 #include "lib/rng.h"
 #include "data.h"
@@ -354,7 +355,8 @@ bool botinvGiveProp(struct chrdata *chr, struct prop *prop)
 
 		for (i = 0; i < 19; i++) {
 			if (multi->slots[i].quantity > 0) {
-				s32 weaponnum = botactGetWeaponByAmmoType(i + 1);
+				s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
+				s32 weaponnum = botactGetWeaponByAmmoType(ammotype);
 
 				if (weaponnum > 0) {
 					botinvGiveSingleWeapon(chr, weaponnum);

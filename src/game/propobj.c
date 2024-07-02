@@ -56,6 +56,7 @@
 #include "game/options.h"
 #include "game/propobj.h"
 #include "game/wallhit.h"
+#include "game/setup.h"
 #include "game/shards.h"
 #include "bss.h"
 #include "tvcmds.h"
@@ -15525,7 +15526,7 @@ void objDamage(struct defaultobj *obj, f32 damage, struct coord *pos, s32 weapon
 
 							newcrate->base = tmp;
 							newcrate->base.modelnum = modelnum;
-							newcrate->ammotype = i + 1;
+							newcrate->ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
 
 							if (objInitWithModelDef(&newcrate->base, g_ModelStates[modelnum].modeldef)) {
 								propReparent(newcrate->base.prop, obj->prop);
@@ -17241,13 +17242,14 @@ s32 propPickupByPlayer(struct prop *prop, bool showhudmsg)
 			s32 i;
 
 			for (i = 0; i != 19; i++) {
+				s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
 				s32 qty = crate->slots[i].quantity;
 
 				if (!g_Vars.normmplayerisrunning) {
 					qty *= g_AmmoQuantityScale;
 				}
 
-				ammoHandlePickup(i + 1, qty, false, showhudmsg);
+				ammoHandlePickup(ammotype, qty, false, showhudmsg);
 			}
 
 			if (g_Vars.in_cutscene == false) {
@@ -17623,7 +17625,7 @@ s32 objTestForPickup(struct prop *prop)
 		}
 
 		for (i = 0; i <= AMMOTYPE_NBOMB; i++) {
-			s32 ammotype = i + 1;
+			s32 ammotype = ammoGetReplacement(g_SetupAmmoMappings[i + 1]);
 
 			if (crate->slots[i].quantity > 0) {
 				if (bgunGetReservedAmmoCount(ammotype) < bgunGetCapacityByAmmotype(ammotype)) {
