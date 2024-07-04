@@ -817,6 +817,9 @@ s32 weaponGetReplacement(s32 weaponnum, bool isplayer)
 	enemyrockets = !isplayer && marquisreplace && cheatIsActive(CHEAT_ENEMYROCKETS);
 	weapondef = weaponExtFindById(weaponnum);
 	weapclassicweap = weapondef->classicweapon;
+	if (weaponnum == WEAPON_SUPERDRAGON && g_Vars.stagenum == STAGE_ESCAPE) {
+		weapclassicweap = WEAPON_KF7SPECIAL;
+	}
 	hasclassicweapon = weapclassicweap != WEAPON_NONE;
 	classicweapons = cheatIsActive(CHEAT_CLASSICMODE);
 
