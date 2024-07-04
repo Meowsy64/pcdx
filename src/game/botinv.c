@@ -79,6 +79,7 @@ struct aibotweaponpreference g_AibotWeaponPreferences[NUM_WEAPONS] = {
 	/*0x27*/ { 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 }, // WEAPON_KF7SPECIAL
 	/*0x28*/ { 116, 128, 136, 152, 1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        100,           0,   30, 0,  1, 0 }, // WEAPON_ZZT
 	/*0x29*/ { 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 }, // WEAPON_DMC
+	         { 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 }, // WEAPON_DMC_SILENCER
 	/*0x2a*/ { 156, 180, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        150,           0,   30, 0,  1, 0 }, // WEAPON_AR53
 	/*0x2b*/ { 164, 188, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        200,           0,   40, 0,  1, 0 }, // WEAPON_RCP45
 	/*0x2c*/ { 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 }, // WEAPON_PSYCHOSISGUN

@@ -709,6 +709,7 @@ u32 currentPlayerGetSight(void)
 	case WEAPON_KF7SPECIAL:
 	case WEAPON_ZZT:
 	case WEAPON_DMC:
+	case WEAPON_DMC_SILENCER:
 	case WEAPON_AR53:
 	case WEAPON_RCP45:
 		return SIGHT_CLASSIC;

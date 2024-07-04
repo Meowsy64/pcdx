@@ -9575,6 +9575,7 @@ void chrCalculateHit(struct chrdata *chr, bool *angleokptr, bool *hit, struct gs
 	case WEAPON_KF7SPECIAL:
 	case WEAPON_ZZT:
 	case WEAPON_DMC:
+	case WEAPON_DMC_SILENCER:
 	case WEAPON_AR53:
 	case WEAPON_RCP45:
 	case WEAPON_PSYCHOSISGUN:
@@ -10525,6 +10526,7 @@ void chrTickShoot(struct chrdata *chr, s32 handnum)
 			case WEAPON_KF7SPECIAL:
 			case WEAPON_ZZT:
 			case WEAPON_DMC:
+			case WEAPON_DMC_SILENCER:
 			case WEAPON_AR53:
 			case WEAPON_RCP45:
 				makebeam = true;

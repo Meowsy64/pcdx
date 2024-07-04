@@ -5793,6 +5793,7 @@ u8 g_AutoSwitchWeaponsPrimary[] = {
 	WEAPON_CYCLONE,
 	WEAPON_ZZT,
 	WEAPON_DMC,
+	WEAPON_DMC_SILENCER,
 	WEAPON_KL01313,
 	WEAPON_FARSIGHT,
 	WEAPON_SHOTGUN,
@@ -7520,6 +7521,7 @@ void bgunCreateFx(struct hand *hand, s32 handnum, struct weaponfunc *funcdef, s3
 		case WEAPON_KF7SPECIAL:
 		case WEAPON_ZZT:
 		case WEAPON_DMC:
+		case WEAPON_DMC_SILENCER:
 		case WEAPON_AR53:
 		case WEAPON_RCP45:
 			beamCreateForHand(handnum);

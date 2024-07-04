@@ -427,10 +427,12 @@ char *langGet(s32 textid)
 			case L_GUN_055: case L_MPWEAPONS_114: return "D5K Deutsche\n";
 			case L_GUN_056: case L_MPWEAPONS_115: return "US AR33 Assault Rifle\n";
 			case L_GUN_057: case L_MPWEAPONS_116: return "RC-P90\n";
-			case L_GUN_PP9ISILENCED: return "PP7 (Silenced)\n";
-			case L_GUN_246: return "Cyanide\n";
-			case L_GUN_072: return "Cyanide Capsule\n";
-			case L_MPWEAPONS_087: return "Enemy Armor\n";
+			case L_GUN_PP9ISILENCED:              return "PP7 (Silenced)\n";
+			case L_GUN_246:                       return "Cyanide\n";
+			case L_GUN_072:                       return "Cyanide Capsule\n";
+			case L_MPWEAPONS_087:                 return "Enemy Armor\n";
+			case L_GUN_DMCSIL_SHORT:              return "D5K (s)\n";
+			case L_GUN_DMCSIL_LONG:               return "D5K (silenced)\n";
 		}
 	}
 
@@ -447,6 +449,11 @@ char *langGet(s32 textid)
 		case L_PROPOBJ_PICKEDUPSOMEBODYARMOR: return "Picked up some body armor.\n";
 		case L_PROPOBJ_SOMEBODYARMOR:         return "Some body armor.\n";
 		case L_MPWEAPONS_BODYARMOR:           return "Body Armor\n";
+		case L_GUN_FALCON2_SILSCO_SHORT:      return "Falcon 2 (s)\n";
+		case L_GUN_FALCON2_SILSCO_LONG:       return "Falcon 2 (silencer+scope)\n";
+		case L_GUN_FALCON2_SILSCO_DESC:       return "An upgraded Falcon 2, featuring a 2x magnification scope which allows you to take advantage of the Falcon's superior accuracy, and the added benefit of being silent, but deadly.\n";
+		case L_GUN_DMCSIL_SHORT:              return "DMC (s)\n";
+		case L_GUN_DMCSIL_LONG:               return "DMC (silenced)\n";
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif

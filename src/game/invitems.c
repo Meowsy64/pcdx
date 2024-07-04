@@ -4614,6 +4614,34 @@ struct weaponfunc_shootauto invfunc_dmc_shoot = {
 	0, // turretdecel
 };
 
+struct weaponfunc_shootauto invfunc_dmcsil_shoot = {
+	INVENTORYFUNCTYPE_SHOOT_AUTOMATIC,
+	L_GUN_086, // name
+	0, // unused
+	0, // ammoindex
+	&invnoisesettings_silenced,
+	NULL, // fire animation
+	FUNCFLAG_NOMUZZLEFLASH, // flags
+	&invrecoilsettings_default,
+	0, // recoverytime60
+	1, // damage
+	7, // spread
+	6, 18, 0, 6,
+	4, // recoildist
+	3, // recoilangle
+	0, // slidemax
+	0, // impactforce
+	4, // duration60
+	SFX_8054, // shootsound
+	1, // penetration
+	450, // initialrpm
+	450, // maxrpm
+	NULL, // vibrationstart
+	NULL, // vibrationmax
+	0, // turretaccel
+	0, // turretdecel
+};
+
 struct inventory_ammo invammo_dmc = {
 	AMMOTYPE_SMG,
 	CASING_STANDARD,
@@ -4642,6 +4670,31 @@ struct weapon invitem_dmc = {
 	invpartvisibility_classic, // part visibility
 	L_GUN_055, // short name
 	L_GUN_055, // name
+	L_GUN_000, // manufacturer
+	L_GUN_000, // description
+	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00008000,
+};
+
+struct weapon invitem_dmcsil = {
+	FILE_GMP5K, // hi model
+	FILE_GMP5K, // lo model
+	NULL, // equip animation
+	NULL, // unequip animation
+	NULL, // pritosec animation
+	NULL, // sectopri animation
+	{ &invfunc_dmcsil_shoot, NULL }, // functions
+	&invammo_dmc, // pri ammo
+	NULL, // sec ammo
+	&invaimsettings_smg,
+	1, // muzzlez
+	16.5, // posx
+	-22.9, // posy
+	-35, // posz
+	1, // sway
+	NULL, // gunviscmds
+	invpartvisibility_classic, // part visibility
+	L_GUN_DMCSIL_SHORT, // short name
+	L_GUN_DMCSIL_LONG, // name
 	L_GUN_000, // manufacturer
 	L_GUN_000, // description
 	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00008000,
@@ -6349,6 +6402,7 @@ struct weapon *g_Weapons[] = {
 	&invitem_kf7special,
 	&invitem_zzt9mm,
 	&invitem_dmc,
+	&invitem_dmcsil,
 	&invitem_ar53,
 	&invitem_rcp45,
 	&invitem_psychosisgun,
@@ -6715,6 +6769,13 @@ struct pcdx_weapon extweap_dmc = {
 	256,
 };
 
+struct pcdx_weapon extweap_dmcsil = {
+	MODEL_CHRMP5K,
+	WEAPON_NONE,
+	WEAPONFLAG2_CHEATCANREPLACE,
+	256,
+};
+
 struct pcdx_weapon extweap_ar53 = {
 	MODEL_CHRM16,
 	WEAPON_NONE,
@@ -7075,6 +7136,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_kf7special,
 	&extweap_zzt9mm,
 	&extweap_dmc,
+	&extweap_dmcsil,
 	&extweap_ar53,
 	&extweap_rcp45,
 	&extweap_psychosisgun,
