@@ -6852,6 +6852,10 @@ void bgunUpdateLasersight(struct hand *hand, struct modeldef *modeldef, s32 hand
 
 	node = modelGetPart(modeldef, MODELPART_GUN_LASERSIGHT);
 
+	if (!node) {
+		node = modelGetPart(modeldef, MODELPART_GUN_MUZZLEPOS);
+	}
+
 	if (node) {
 		mtxindex = modelFindNodeMtxIndex(node, 0);
 
