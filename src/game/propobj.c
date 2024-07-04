@@ -14851,7 +14851,7 @@ void objCheckDestroyed(struct defaultobj *obj, struct coord *pos, s32 playernum)
 
 				func0f065e74(&rootprop->pos, rootprop->rooms, pos, rooms);
 
-				if (exptype != EXPLOSIONTYPE_NONE) {
+				if (exptype != EXPLOSIONTYPE_NONE || cheatIsActive(CHEAT_CLASSICMODE)) {
 					explosionCreateSimple(prop, pos, rooms, EXPLOSIONTYPE_6, playernum);
 				}
 			}

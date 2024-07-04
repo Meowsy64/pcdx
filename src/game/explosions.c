@@ -103,6 +103,10 @@ bool explosionCreateComplex(struct prop *prop, struct coord *pos, RoomNum *rooms
 	struct prop *collisionprop;
 
 	if (type == EXPLOSIONTYPE_NONE) {
+		if (cheatIsActive(CHEAT_CLASSICMODE)) {
+			type == EXPLOSIONTYPE_6;
+		}
+
 		return false;
 	}
 
