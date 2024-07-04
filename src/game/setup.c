@@ -1738,11 +1738,11 @@ void setupLoadMappings(s32 fileNum)
 		g_SetupAmmoMappings[i] = WEAPON_NONE;
 	}
 
-	// TODO: This needs to check what mod the map we're loading from is.
+	// TODO: This needs to check what mod the map we're loading is from.
 	for (int i = 0; i < ARRAYCOUNT(g_SetupPerfectDarkWeaponMappings); i++)
 	{
 		g_SetupWeaponMappings[i] = g_SetupPerfectDarkWeaponMappings[i];
-		if (g_SetupWeaponMappings[i] == WEAPON_EYESPY && (g_Vars.stagenum == STAGE_INVESTIGATION /*|| g_Vars.stagenum == STAGE_G5BUILDING*/)) {
+		if (cheatIsActive(CHEAT_CLASSICMODE) && g_SetupWeaponMappings[i] == WEAPON_EYESPY && (g_Vars.stagenum == STAGE_INVESTIGATION /*|| g_Vars.stagenum == STAGE_G5BUILDING*/)) {
 			g_SetupWeaponMappings[i] = WEAPON_CAMERA;
 		}
 	}
