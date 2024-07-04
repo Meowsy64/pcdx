@@ -9582,6 +9582,7 @@ void chrCalculateHit(struct chrdata *chr, bool *angleokptr, bool *hit, struct gs
 		// Use default distance (300)
 		break;
 	case WEAPON_FALCON2_SCOPE:
+	case WEAPON_FALCON2_SILENCERSCOPE:
 	case WEAPON_MAGSEC4:
 		taperdist = 600;
 		break;
@@ -10498,6 +10499,7 @@ void chrTickShoot(struct chrdata *chr, s32 handnum)
 			case WEAPON_FALCON2:
 			case WEAPON_FALCON2_SILENCER:
 			case WEAPON_FALCON2_SCOPE:
+			case WEAPON_FALCON2_SILENCERSCOPE:
 			case WEAPON_MAGSEC4:
 			case WEAPON_MAULER:
 			case WEAPON_PHOENIX:

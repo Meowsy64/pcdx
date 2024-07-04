@@ -2546,6 +2546,7 @@ s32 bgunTickIncAttackEmpty(struct handweaponinfo *info, s32 handnum, struct hand
 	case WEAPON_FALCON2:
 	case WEAPON_FALCON2_SILENCER:
 	case WEAPON_FALCON2_SCOPE:
+	case WEAPON_FALCON2_SILENCERSCOPE:
 	case WEAPON_MAGSEC4:
 	case WEAPON_MAULER:
 	case WEAPON_PHOENIX:
@@ -5802,6 +5803,7 @@ u8 g_AutoSwitchWeaponsPrimary[] = {
 	WEAPON_MAGSEC4,
 	WEAPON_PHOENIX,
 	WEAPON_FALCON2_SCOPE,
+	WEAPON_FALCON2_SILENCERSCOPE,
 	WEAPON_FALCON2,
 	WEAPON_FALCON2_SILENCER,
 	WEAPON_PP9I,
@@ -5828,6 +5830,7 @@ u8 g_AutoSwitchWeaponsSecondary[] = {
 	WEAPON_DY357LX,
 	WEAPON_DY357MAGNUM,
 	WEAPON_FALCON2_SCOPE,
+	WEAPON_FALCON2_SILENCERSCOPE,
 	WEAPON_FALCON2,
 	WEAPON_FALCON2_SILENCER,
 	WEAPON_UNARMED,
@@ -6737,6 +6740,7 @@ void bgunUpdateSmoke(struct hand *hand, s32 handnum, s32 weaponnum, struct weapo
 		switch (weaponnum) {
 		case WEAPON_FALCON2:
 		case WEAPON_FALCON2_SCOPE:
+		case WEAPON_FALCON2_SILENCERSCOPE:
 			if (hand->gunsmokepoint * mult > 0.66f) {
 				hand->createsmoke = true;
 			}
@@ -6798,6 +6802,7 @@ void bgunUpdateSmoke(struct hand *hand, s32 handnum, s32 weaponnum, struct weapo
 		switch (weaponnum) {
 		case WEAPON_FALCON2:
 		case WEAPON_FALCON2_SCOPE:
+		case WEAPON_FALCON2_SILENCERSCOPE:
 		case WEAPON_MAGSEC4:
 		case WEAPON_MAULER:
 		case WEAPON_DY357MAGNUM:
@@ -7490,6 +7495,7 @@ void bgunCreateFx(struct hand *hand, s32 handnum, struct weaponfunc *funcdef, s3
 		case WEAPON_FALCON2:
 		case WEAPON_FALCON2_SILENCER:
 		case WEAPON_FALCON2_SCOPE:
+		case WEAPON_FALCON2_SILENCERSCOPE:
 		case WEAPON_MAGSEC4:
 		case WEAPON_MAULER:
 		case WEAPON_PHOENIX:
@@ -11264,6 +11270,7 @@ void bgunPlayPropHitSound(struct gset *gset, struct prop *prop, s32 texturenum)
 						&& (gset->weaponnum == WEAPON_FALCON2
 							|| gset->weaponnum == WEAPON_FALCON2_SILENCER
 							|| gset->weaponnum == WEAPON_FALCON2_SCOPE
+							|| gset->weaponnum == WEAPON_FALCON2_SILENCERSCOPE
 							|| gset->weaponnum == WEAPON_DY357MAGNUM
 							|| gset->weaponnum == WEAPON_DY357LX))) {
 				s16 sounds[] = { SFX_002F, SFX_0030, SFX_0031 };
@@ -11409,6 +11416,7 @@ void bgunPlayPropHitSound(struct gset *gset, struct prop *prop, s32 texturenum)
 						&& (gset->weaponnum == WEAPON_FALCON2
 							|| gset->weaponnum == WEAPON_FALCON2_SILENCER
 							|| gset->weaponnum == WEAPON_FALCON2_SCOPE
+							|| gset->weaponnum == WEAPON_FALCON2_SILENCERSCOPE
 							|| gset->weaponnum == WEAPON_DY357MAGNUM
 							|| gset->weaponnum == WEAPON_DY357LX))) {
 				s16 sounds[] = { SFX_002F, SFX_0030, SFX_0031 };

@@ -687,6 +687,7 @@ u32 currentPlayerGetSight(void)
 	case WEAPON_ECMMINE:
 		return SIGHT_DEFAULT;
 	case WEAPON_FALCON2_SCOPE:
+	case WEAPON_FALCON2_SILENCERSCOPE:
 	case WEAPON_MAGSEC4:
 	case WEAPON_SNIPERRIFLE:
 	case WEAPON_LAPTOPGUN:
@@ -847,5 +848,5 @@ s32 ammoGetReplacement(s32 ammonum)
 
 bool weaponHasLaserSight(s32 weaponnum)
 {
-	return weaponnum >= WEAPON_FALCON2 && weaponnum <= WEAPON_FALCON2_SCOPE;
+	return weaponnum >= WEAPON_FALCON2 && weaponnum <= WEAPON_FALCON2_SILENCERSCOPE;
 }

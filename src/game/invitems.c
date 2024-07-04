@@ -364,6 +364,13 @@ struct modelpartvisibility invpartvisibility_falcon2silencer[] = {
 	{ 255 },
 };
 
+struct modelpartvisibility invpartvisibility_falcon2silencerscope[] = {
+	{ MODELPART_GUN_MUZZLEFLASH1,  false },
+	{ MODELPART_FALCON2_MAGAZINE1, false },
+	{ MODELPART_FALCON2_MAGAZINE2, false },
+	{ 255 },
+};
+
 struct gunviscmd gunviscmds_falcon2[] = {
 	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE1)
 	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE2)
@@ -389,6 +396,15 @@ struct gunviscmd gunviscmds_falcon2silencer[] = {
 	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE1)
 	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE2)
 	gunviscmd_sethidden(MODELPART_FALCON2_SCOPE)
+	gunviscmd_sethidden(MODELPART_FALCON2_002E)
+	gunviscmd_sethidden(MODELPART_FALCON2_002F)
+	gunviscmd_sethidden(MODELPART_HAND_LEFT)
+	gunviscmd_end
+};
+
+struct gunviscmd gunviscmds_falcon2silencerscope[] = {
+	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE1)
+	gunviscmd_sethidden(MODELPART_FALCON2_MAGAZINE2)
 	gunviscmd_sethidden(MODELPART_FALCON2_002E)
 	gunviscmd_sethidden(MODELPART_FALCON2_002F)
 	gunviscmd_sethidden(MODELPART_HAND_LEFT)
@@ -643,6 +659,31 @@ struct weapon invitem_falcon2silencer = {
 	L_GUN_150, // manufacturer
 	L_GUN_157, // description
 	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_GANGSTA,
+};
+
+struct weapon invitem_falcon2silencerscope = {
+	FILE_GFALCON2, // hi model
+	FILE_GFALCON2LOD, // lo model
+	invanim_falcon2_equip, // equip animation
+	invanim_falcon2_unequip, // unequip animation
+	NULL, // pritosec animation
+	NULL, // sectopri animation
+	{ &invfunc_falcon2silenced_singleshot, &invfunc_falcon2_pistolwhip }, // functions
+	&invammo_falcon2scope, // pri ammo
+	NULL, // sec ammo
+	&invaimsettings_falcon2scope,
+	1, // muzzlez
+	9, // posx
+	-15.7, // posy
+	-23.8, // posz
+	1, // sway
+	gunviscmds_falcon2silencerscope, // gunviscmds
+	invpartvisibility_falcon2silencerscope, // part visibility
+	L_GUN_FALCON2_SILSCO_SHORT, // short name
+	L_GUN_FALCON2_SILSCO_LONG, // name
+	L_GUN_150, // manufacturer
+	L_GUN_FALCON2_SILSCO_DESC, // description
+	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS,
 };
 
 struct modelpartvisibility invpartvisibility_magsec[] = {
@@ -6269,6 +6310,7 @@ struct weapon *g_Weapons[] = {
 	&invitem_falcon2,
 	&invitem_falcon2silencer,
 	&invitem_falcon2scope,
+	&invitem_falcon2silencerscope,
 	&invitem_magsec,
 	&invitem_mauler,
 	&invitem_phoenix,
@@ -6396,6 +6438,13 @@ struct pcdx_weapon extweap_falcon2silencer = {
 struct pcdx_weapon extweap_falcon2scope = {
 	MODEL_CHRFALCON2SCOPE,
 	WEAPON_PP9I,
+	WEAPONFLAG2_CHEATCANREPLACE,
+	256,
+};
+
+struct pcdx_weapon extweap_falcon2silencerscope = {
+	MODEL_CHRFALCON2SIL,
+	WEAPON_PP9I_SILENCER,
 	WEAPONFLAG2_CHEATCANREPLACE,
 	256,
 };
@@ -6828,14 +6877,14 @@ struct pcdx_weapon extweap_targetamplifier = {
 };
 
 struct pcdx_weapon extweap_disguise40 = {
-	MODEL_CHRWPPK,
+	MODEL_LABCOAT,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
 	256,
 };
 
 struct pcdx_weapon extweap_disguise41 = {
-	MODEL_CHRWPPK,
+	MODEL_STEWARDESS_TROLLEY,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
 	256,
@@ -6987,6 +7036,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_falcon2,
 	&extweap_falcon2silencer,
 	&extweap_falcon2scope,
+	&extweap_falcon2silencerscope,
 	&extweap_magsec,
 	&extweap_mauler,
 	&extweap_phoenix,

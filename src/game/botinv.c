@@ -36,6 +36,7 @@ struct aibotweaponpreference g_AibotWeaponPreferences[NUM_WEAPONS] = {
 	/*0x02*/ { 56,  60,  84,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 }, // WEAPON_FALCON2
 	/*0x03*/ { 52,  60,  80,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 }, // WEAPON_FALCON2_SILENCER
 	/*0x04*/ { 60,  60,  88,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 }, // WEAPON_FALCON2_SCOPE
+	         { 60,  60,  88,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 }, // WEAPON_FALCON2_SILENCERSCOPE
 	/*0x05*/ { 76,  88,  104, 120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 1, 0 }, // WEAPON_MAGSEC4
 	/*0x06*/ { 64,  88,  92,  120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 1, 0 }, // WEAPON_MAULER
 	/*0x07*/ { 72,  76,  100, 120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 2, 0 }, // WEAPON_PHOENIX
@@ -552,6 +553,7 @@ void botinvScoreWeapon(struct chrdata *chr, s32 weaponnum, s32 funcnum, s32 arg3
 		}
 		break;
 	case WEAPON_FALCON2:
+	case WEAPON_FALCON2_SILENCERSCOPE:
 		if (funcnum != FUNC_PRIMARY) {
 			score1 = 15;
 			score2 = 15;

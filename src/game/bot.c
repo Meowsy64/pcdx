@@ -3468,6 +3468,7 @@ void botTickUnpaused(struct chrdata *chr)
 										case WEAPON_FALCON2:
 										case WEAPON_FALCON2_SILENCER:
 										case WEAPON_FALCON2_SCOPE:
+										case WEAPON_FALCON2_SILENCERSCOPE:
 										case WEAPON_DY357MAGNUM:
 										case WEAPON_DY357LX:
 										case WEAPON_COMBATKNIFE:
