@@ -4068,8 +4068,8 @@ void playerTick(bool arg0)
 
 				s32 spawnWeap = buddy.weapon1;
 				if (spawnWeap == WEAPON_TESTER) {
-					while (spawnWeap == WEAPON_TESTER
-						|| spawnWeap == MPWEAPON_NONE
+					spawnWeap = MPWEAPON_NONE;
+					while (spawnWeap == MPWEAPON_NONE
 						|| spawnWeap == MPWEAPON_COMBATKNIFE
 						|| spawnWeap == MPWEAPON_GRENADE
 						|| spawnWeap == MPWEAPON_NBOMB
@@ -4095,8 +4095,8 @@ void playerTick(bool arg0)
 
 				spawnWeap = buddy.weapon2;
 				if (spawnWeap == WEAPON_TESTER) {
-					while (spawnWeap == WEAPON_TESTER
-						|| spawnWeap == MPWEAPON_NONE
+					spawnWeap = MPWEAPON_NONE;
+					while (spawnWeap == MPWEAPON_NONE
 						|| spawnWeap == MPWEAPON_COMBATKNIFE
 						|| spawnWeap == MPWEAPON_GRENADE
 						|| spawnWeap == MPWEAPON_NBOMB
