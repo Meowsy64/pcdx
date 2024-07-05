@@ -12,6 +12,10 @@
 
 f32 pdmodeGetEnemyReactionSpeed(void)
 {
+	if (g_MissionConfig.pdmode) {
+		return g_MissionConfig.pdmodereactionf;
+	}
+
 	return 0;
 }
 

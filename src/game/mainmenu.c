@@ -883,6 +883,7 @@ MenuItemHandlerResult menuhandlerAcceptPdModeSettings(s32 operation, struct menu
 {
 	if (operation == MENUOP_SET) {
 		g_MissionConfig.pdmode = true;
+		g_MissionConfig.pdmodereactionf = func0f1036ac(g_MissionConfig.pdmodereaction, PDMODEPROP_REACTION);
 		g_MissionConfig.pdmodehealthf = func0f1036ac(g_MissionConfig.pdmodehealth, PDMODEPROP_HEALTH);
 		g_MissionConfig.pdmodedamagef = func0f1036ac(g_MissionConfig.pdmodedamage, PDMODEPROP_DAMAGE);
 		g_MissionConfig.pdmodeaccuracyf = func0f1036ac(g_MissionConfig.pdmodeaccuracy, PDMODEPROP_ACCURACY);
@@ -904,6 +905,14 @@ struct menuitem g_PdModeSettingsMenuItems[] = {
 		L_MPWEAPONS_222, // "Choose Settings:"
 		0,
 		NULL,
+	},
+	{
+		MENUITEMTYPE_SLIDER,
+		0,
+		MENUITEMFLAG_SLIDER_ALTSIZE,
+		L_MPWEAPONS_223, // "Enemy Reaction Speed:"
+		0x000000ff,
+		menuhandlerPdModeSetting,
 	},
 	{
 		MENUITEMTYPE_SLIDER,
