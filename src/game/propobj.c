@@ -1578,6 +1578,17 @@ void propCalculateShadeColour(struct prop *prop, u8 *nextcol, u16 floorcol)
 	static u32 scol = 0x00;
 	static u32 salp = 0x00;
 
+	if (prop->type == PROPTYPE_WEAPON) {
+		u32 customTint = weaponGetCustomTint(prop->weapon->weaponnum);
+		if (customTint) {
+			nextcol[0] = (customTint >> 24) & 0xFF;
+			nextcol[1] = (customTint >> 16) & 0xFF;
+			nextcol[2] = (customTint >> 8) & 0xFF;
+			nextcol[3] = (customTint) & 0xFF;
+			return;
+		}
+	}
+
 	mainOverrideVariable("scol", &scol);
 	mainOverrideVariable("salp", &salp);
 

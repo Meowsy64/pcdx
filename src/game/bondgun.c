@@ -11076,6 +11076,11 @@ void bgunRender(Gfx **gdlptr)
 				renderdata.envcolour = player->gunshadecol[0] << 24 | player->gunshadecol[1] << 16 | player->gunshadecol[2] << 8 | player->gunshadecol[3];
 				colour = renderdata.envcolour;
 
+				u32 customTint = weaponGetCustomTint(hand->gset.weaponnum);
+				if (customTint) {
+					renderdata.envcolour = colourBlend(customTint, renderdata.envcolour, 0xbf);
+				}
+
 				// 838
 				if (hand->gset.weaponnum == WEAPON_MAULER) {
 					u32 weight = hand->matmot1 * 50.0f;

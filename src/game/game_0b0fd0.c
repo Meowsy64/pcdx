@@ -852,3 +852,19 @@ bool weaponHasLaserSight(s32 weaponnum)
 {
 	return weaponnum >= WEAPON_FALCON2 && weaponnum <= WEAPON_FALCON2_SILENCERSCOPE;
 }
+
+u32 weaponGetCustomTint(s32 weaponnum)
+{
+	switch (weaponnum)
+	{
+		/*
+		case WEAPON_GOLDENGUN:
+		case WEAPON_GOLDENPP9I:
+			return 0xffff007f;
+		case WEAPON_SILVERPP9I:
+			return 0xc0c0c07f;
+		*/
+		default:
+			return 0;
+	}
+}

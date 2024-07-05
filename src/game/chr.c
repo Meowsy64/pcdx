@@ -3269,7 +3269,16 @@ void chrRenderAttachedObject(struct prop *prop, struct modelrenderdata *renderda
 		struct model *model = obj->model;
 		struct prop *child;
 
+		u32 prevcolour = renderdata->fogcolour;
+		u32 customTint = 0x00000000;
+		if (prop->type == PROPTYPE_WEAPON) {
+			customTint = weaponGetCustomTint(prop->weapon->weaponnum);
+		}
+		if (customTint) {
+			renderdata->fogcolour = colourBlend(customTint, renderdata->fogcolour, 0xbf);
+		}
 		modelRender(renderdata, model);
+		renderdata->fogcolour = prevcolour;
 
 		// Note: OBJH2FLAG_HASOPA << 1 is OBJH2FLAG_HASXLU
 		// so this is just checking if the appropriate flag is enabled
