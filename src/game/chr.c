@@ -36,6 +36,7 @@
 #include "game/propobj.h"
 #include "game/splat.h"
 #include "game/wallhit.h"
+#include "game/game_006900.h"
 #include "bss.h"
 #include "lib/vi.h"
 #include "lib/main.h"
