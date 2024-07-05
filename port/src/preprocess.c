@@ -11,6 +11,7 @@
 #include "game/setuputils.h"
 #include "game/texdecompress.h"
 #include "game/setup.h"
+#include "game/cheats.h"
 #include "preprocess.h"
 #include "romdata.h"
 #include "mod.h"
@@ -520,6 +521,12 @@ static inline void preprocessDefaultPropObj(struct defaultobj *obj)
 	for (s32 i = 0; i < 3; ++i) {
 		for (s32 j = 0; j < 3; ++j) {
 			PD_SWAP_VAL(obj->realrot[i][j]);
+		}
+	}
+
+	if (cheatIsActive(CHEAT_CLASSICMODE)) {
+		if (obj->modelnum == MODEL_A51_CRATE1 || obj->modelnum == MODEL_A51_CRATE2 || obj->modelnum == MODEL_A51_CRATE3) {
+			obj->flags &= ~OBJFLAG_INVINCIBLE;
 		}
 	}
 }
