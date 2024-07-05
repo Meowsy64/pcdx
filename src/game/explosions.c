@@ -18,6 +18,7 @@
 #include "game/propobj.h"
 #include "game/utils.h"
 #include "game/wallhit.h"
+#include "game/cheats.h"
 #include "bss.h"
 #include "lib/collision.h"
 #include "lib/vi.h"
