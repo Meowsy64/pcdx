@@ -15,9 +15,11 @@
 #include "game/pak.h"
 #include "game/options.h"
 #include "game/utils.h"
+#include "../src/lib/inih/ini.h"
 #include "bss.h"
 #include "lib/fault.h"
 #include "lib/snd.h"
+#include "lib/str.h"
 #include "data.h"
 #include "types.h"
 
@@ -25,15 +27,76 @@ u8 var800a22d0[0x5b];
 u8 g_AltTitleUnlocked;
 u8 g_AltTitleEnabled;
 
-void bossfileSetDefaults2(void)
+/**
+ * Read a zero-terminated string from the buffer.
+ */
+void iniReadString(char *src, char *dst, bool addlinebreak)
 {
-	bossfileSetDefaults();
+	s32 i;
+
+	for (i = 0; i < 10; i++) {
+		s32 byte = src[i];
+		if (byte == '\0') {
+			break;
+		} else {
+			dst[i] = byte;
+		}
+	}
+
+	if (addlinebreak) {
+		i++;
+		dst[i] = '\n';
+	}
+
+	i++;
+	dst[i] = '\0';
 }
 
-void bossfileSetAndSaveDefaults(void)
+static int handler(void* user, const char* section, const char* name, const char* value)
 {
-	bossfileSetDefaults();
-	bossfileSave();
+	if (strcasecmp(section, "bossfile") == 0) {
+		if (strcasecmp(name, "language") == 0) {
+			g_Vars.language = atoi(value);
+			return 1;
+		} else if (strcasecmp(name, "tracknum") == 0) {
+			int tracknum = atoi(value);
+			if (tracknum == 0xff) {
+				g_BossFile.tracknum = -1;
+			} else {
+				g_BossFile.tracknum = tracknum;
+			}
+			return 1;
+		} else if (strcasecmp(name, "usingmultipletunes") == 0) {
+			g_BossFile.usingmultipletunes = atoi(value);
+			return 1;
+		} else if (strcasecmp(name, "alttitleunlocked") == 0) {
+			g_AltTitleUnlocked = atoi(value);
+			return 1;
+		} else if (strcasecmp(name, "alttitleenabled") == 0) {
+			g_AltTitleEnabled = atoi(value);
+			return 1;
+		} else {
+			return 0;
+		}
+	} else if (strcasecmp(section, "teamnames") == 0) {
+		int teamnum = atoi(name);
+		if (teamnum >= ARRAYCOUNT(g_BossFile.teamnames)) {
+			return 0;
+		}
+		iniReadString(value, g_BossFile.teamnames[teamnum], 1);
+		return 1;
+	} else if (strcasecmp(section, "multipletracknums") == 0) {
+		int i = atoi(name);
+		if (i >= ARRAYCOUNT(g_BossFile.multipletracknums)) {
+			return 0;
+		}
+		g_BossFile.multipletracknums[i] = atoi(value);
+		return 1;
+	} else {
+		return 0;
+	}
+
+    return 1;
 }
 
 bool bossfileLoadFull(void)
@@ -47,154 +110,43 @@ bool bossfileLoadFull(void)
 	return true;
 }
 
-void func0f1106ec(void)
-{
-	// empty
-}
-
-void func0f1106f4(u8 *dst)
-{
-	bcopy(var800a22d0, dst, sizeof(var800a22d0));
-}
-
-u32 bossfileFindFileId(void)
-{
-	struct pakfileheader header;
-	u32 fileids[513];
-	u32 candidate = 0;
-	s32 i;
-
-	if (pakGetFileIdsByType(SAVEDEVICE_GAMEPAK, PAKFILETYPE_BOSS, fileids) == 0) {
-		for (i = 0; fileids[i] != 0; i++) {
-			pakFindFile(SAVEDEVICE_GAMEPAK, fileids[i], &header);
-
-			if (!header.occupied) {
-				candidate = fileids[i];
-				break;
-			}
-		}
-
-		for (i = 0; fileids[i] != 0; i++) {
-			pakFindFile(SAVEDEVICE_GAMEPAK, fileids[i], &header);
-
-			if (header.occupied) {
-				candidate = fileids[i];
-				break;
-			}
-		}
-	}
-
-	return candidate;
-}
-
 void bossfileLoad(void)
 {
-	bool failed = false;
-	struct savebuffer buffer;
-	s32 i;
-	s32 fileid;
-	struct fileguid guid;
-
-	fileid = bossfileFindFileId();
-
-	if (fileid == 0) {
-		failed = true;
-	} else {
-		savebufferClear(&buffer);
-
-		if (pakReadBodyAtGuid(SAVEDEVICE_GAMEPAK, fileid, buffer.bytes, 0) != 0) {
-			failed = true;
-		}
-	}
-
-	if (!failed) {
-		u8 tracknum;
-
-		savebufferReadGuid(&buffer, &guid);
-
-		g_Vars.bossfileid = guid.fileid;
-		g_Vars.bossdeviceserial = guid.deviceserial;
-
-		g_BossFile.unk89 = savebufferReadBits(&buffer, 1);
-
-		g_Vars.language = savebufferReadBits(&buffer, 4);
-
-		for (i = 0; i < ARRAYCOUNT(g_BossFile.teamnames); i++) {
-			savebufferReadString(&buffer, g_BossFile.teamnames[i], 1);
-		}
-
-		tracknum = savebufferReadBits(&buffer, 8);
-
-		if (tracknum == 0xff) {
-			g_BossFile.tracknum = -1;
-		} else {
-			g_BossFile.tracknum = tracknum;
-		}
-
-		for (i = 0; i < ARRAYCOUNT(g_BossFile.multipletracknums); i++) {
-			g_BossFile.multipletracknums[i] = savebufferReadBits(&buffer, 8);
-		}
-
-		g_BossFile.usingmultipletunes = savebufferReadBits(&buffer, 1);
-		g_AltTitleUnlocked = savebufferReadBits(&buffer, 1);
-		g_AltTitleEnabled = savebufferReadBits(&buffer, 1);
-
-		func0f0d54c4(&buffer);
-	}
-
-	if (failed) {
-		bossfileSetDefaults();
+	bossfileSetDefaults();
+	if (ini_parse("bossfile.ini", handler, NULL) < 0) {
 		bossfileSave();
 	}
 }
 
 void bossfileSave(void)
 {
-	volatile bool sp12c = false;
-	struct savebuffer buffer;
-	struct fileguid guid;
-	u32 stack;
-	s32 i;
-	s32 fileid;
-
-	savebufferClear(&buffer);
-
-	guid.fileid = g_Vars.bossfileid;
-	guid.deviceserial = g_Vars.bossdeviceserial;
-
-	savebufferWriteGuid(&buffer, &guid);
-
-	savebufferOr(&buffer, g_BossFile.unk89, 1);
-	savebufferOr(&buffer, g_Vars.language, 4);
-
-	for (i = 0; i < ARRAYCOUNT(g_BossFile.teamnames); i++) {
-		func0f0d55a4(&buffer, g_BossFile.teamnames[i]);
-	}
-
-	if (g_BossFile.tracknum == -1) {
-		savebufferOr(&buffer, 0xff, 8);
-	} else {
-		savebufferOr(&buffer, g_BossFile.tracknum, 8);
-	}
-
-	for (i = 0; i < ARRAYCOUNT(g_BossFile.multipletracknums); i++) {
-		savebufferOr(&buffer, g_BossFile.multipletracknums[i], 8);
-	}
-
-	savebufferOr(&buffer, g_BossFile.usingmultipletunes, 1);
-	savebufferOr(&buffer, g_AltTitleUnlocked, 1);
-	savebufferOr(&buffer, g_AltTitleEnabled, 1);
-
-	func0f0d54c4(&buffer);
-
-	fileid = bossfileFindFileId();
-
-	if (fileid == 0) {
-		faultAssert("fileGuid", "bossfile.c", VERSION >= VERSION_PAL_BETA ? 377 : 375);
-	}
-
-	if (pakSaveAtGuid(SAVEDEVICE_GAMEPAK, fileid, PAKFILETYPE_BOSS, buffer.bytes, NULL, 0) != 0) {
-		sp12c = true;
+    FILE *file = fopen("bossfile.ini", "w");
+    if (file != NULL) {
+		fprintf(file, "[bossfile]\n");
+		fprintf(file, "language=%i\n", g_Vars.language);
+		fprintf(file, "tracknum=%i\n", g_BossFile.tracknum);
+		fprintf(file, "usingmultipletunes=%i\n", g_BossFile.usingmultipletunes);
+		fprintf(file, "alttitleunlocked=%i\n", g_AltTitleUnlocked);
+		fprintf(file, "alttitleenabled=%i\n", g_AltTitleEnabled);
+		fprintf(file, "[teamnames]\n");
+		for (int i = 0; i < ARRAYCOUNT(g_BossFile.teamnames); i++) {
+			fprintf(file, "%i=", i);
+			for (int j = 0; j < 10; j++) {
+				char c = g_BossFile.teamnames[i][j];
+				if (c == '\0' || c == '\n') {
+					break;
+				} else {
+					fprintf(file, "%c", c);
+				}
+			}
+			fprintf(file, "\n");
+		}
+		fprintf(file, "[multipletracknums]\n");
+		for (int i = 0; i < ARRAYCOUNT(g_BossFile.multipletracknums); i++) {
+			fprintf(file, "%i=%i\n", i, g_BossFile.multipletracknums[i]);
+		}
+		fflush(file);
+		fclose(file);
 	}
 }
 
@@ -212,10 +164,7 @@ void bossfileSetDefaults(void)
 	g_BossFile.tracknum = -1;
 	mpEnableAllMultiTracks();
 	g_BossFile.usingmultipletunes = false;
-	g_BossFile.unk89 = 0;
 	g_BossFile.locktype = MPLOCKTYPE_NONE;
-	g_Vars.bossfileid = 0;
-	g_Vars.bossdeviceserial = 0;
 	g_Vars.language = (PAL ? 7 : 0);
 	g_AltTitleUnlocked = 0;
 	g_AltTitleEnabled = false;

@@ -221,7 +221,8 @@ C_FILES := $(C_FILES) \
   src/lib/speaker.c \
   src/lib/varsinit.c \
   src/lib/vi.c \
-  src/textureconfig.c
+  src/textureconfig.c \
+  src/lib/inih/ini.c
 
 CXX_FILES :=$(shell find port -name '*.cpp')
 

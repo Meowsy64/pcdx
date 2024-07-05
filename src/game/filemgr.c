@@ -554,8 +554,6 @@ void filemgrHandleSuccess(void)
 				align16(g_FileTypeSizes[g_Menus[g_MpPlayerNum].fm.filetypeplusone - 1]));
 		break;
 	case FILEOP_LOAD_GAME:
-		g_Vars.bossfileid = g_Menus[g_MpPlayerNum].fm.fileid;
-		g_Vars.bossdeviceserial = g_Menus[g_MpPlayerNum].fm.deviceserial;
 		bossfileSave();
 
 		if (IS4MB()) {
@@ -2583,13 +2581,9 @@ MenuItemHandlerResult filemgrChooseAgentListMenuHandler(s32 operation, struct me
 			g_Menus[g_MpPlayerNum].fm.unke2c = 0;
 		}
 
-		if (pass && g_Vars.bossfileid) {
+		if (pass) {
 			for (j = 0; j < g_FileLists[0]->numfiles; j++) {
-				if (g_Vars.bossfileid == g_FileLists[0]->files[j].fileid
-						&& g_Vars.bossdeviceserial == g_FileLists[0]->files[j].deviceserial) {
-					data->list.value = j;
-					g_Vars.bossfileid = 0;
-				}
+				data->list.value = j;
 			}
 		}
 

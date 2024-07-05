@@ -237,8 +237,6 @@ struct g_vars {
 	/*0x46c*/ s32 restartlevel;
 	/*0x470*/ s32 perfectbuddynum;
 	/*0x478*/ bool aibuddiesspawned;
-	/*0x47c*/ s32 bossfileid;
-	/*0x480*/ u16 bossdeviceserial;
 	/*0x482*/ u16 language;
 	/*0x484*/ s32 mphilltime;
 	/*0x488*/ s32 totalkills;
@@ -4141,7 +4139,6 @@ struct mpsetup {
 struct bossfile {
 	/*0x00*/ char teamnames[MAX_TEAMS][12];
 	/*0x60*/ u8 locktype;
-	/*0x61*/ u8 unk89;
 	/*0x62*/ u8 usingmultipletunes;
 	/*0x63*/ u8 unk8b;
 	/*0x64*/ s8 tracknum; // -1 = random
