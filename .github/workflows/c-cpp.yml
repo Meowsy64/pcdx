@@ -27,6 +27,8 @@ jobs:
             mingw-w64-i686-zlib
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
       - name: Build pd.exe
         run: make -f Makefile.port -j
       - name: Build pd.pal.exe
@@ -58,6 +60,8 @@ jobs:
           sudo apt-get install git gcc g++ gcc-multilib g++-multilib make libsdl2-dev zlib1g-dev libsdl2-dev:i386 zlib1g-dev:i386
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
       - name: Build pd.exe
         run: make -f Makefile.port TARGET_PLATFORM=i686-linux -j2
       - name: Build pd.pal.exe
