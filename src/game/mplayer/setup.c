@@ -607,6 +607,7 @@ MenuItemHandlerResult mpCharacterBodyMenuHandler(s32 operation, struct menuitem 
 	case MENUOP_CHECKPREFOCUSED:
 		g_Menus[g_MpPlayerNum].menumodel.removingpiece = false;
 
+		g_Menus[g_MpPlayerNum].menumodel.customtint = 0;
 		menuConfigureModel(&g_Menus[g_MpPlayerNum].menumodel, 0, 0, 0, 0, 0, 0, 1, MENUMODELFLAG_HASSCALE);
 
 		g_Menus[g_MpPlayerNum].menumodel.curposx = 8.2f;
@@ -1988,6 +1989,7 @@ MenuItemHandlerResult mpCharacterHeadMenuHandler(s32 operation, struct menuitem 
 
 		mpGetNumHeads2();
 
+		g_Menus[g_MpPlayerNum].menumodel.customtint = 0;
 		menuConfigureModel(&g_Menus[g_MpPlayerNum].menumodel, 0, 0, 0, 0, 0, 0, 1, MENUMODELFLAG_HASSCALE);
 
 		g_Menus[g_MpPlayerNum].menumodel.curposx = 0;

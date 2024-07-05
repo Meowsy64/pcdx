@@ -3968,6 +3968,7 @@ struct menumodel {
 	/*0x5b1*/ u8 unk5b1_06 : 1; // unused
 	/*0x5b1*/ u8 drawbehinddialog : 1;
 	/*0x5b4*/ struct modelpartvisibility *partvisibility;
+			  u32 customtint;
 };
 
 struct menurow {

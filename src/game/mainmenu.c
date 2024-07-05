@@ -3946,6 +3946,7 @@ void func0f105948(s32 weaponnum)
 		g_Menus[g_MpPlayerNum].menumodel.newrotx = gunconfig[useindex][3];
 		g_Menus[g_MpPlayerNum].menumodel.currotx = gunconfig[useindex][3];
 
+		g_Menus[g_MpPlayerNum].menumodel.customtint = weaponGetCustomTint(weaponnum);
 		menuConfigureModel(&g_Menus[g_MpPlayerNum].menumodel, 0, 0, 0, 0, 0, 0, gunconfig[useindex][4], MENUMODELFLAG_HASSCALE);
 
 		g_Menus[g_MpPlayerNum].menumodel.curscale = 0;
@@ -3962,6 +3963,7 @@ void func0f105948(s32 weaponnum)
 			g_Menus[g_MpPlayerNum].menumodel.partvisibility = NULL;
 			g_Menus[g_MpPlayerNum].menumodel.removingpiece = false;
 
+			g_Menus[g_MpPlayerNum].menumodel.customtint = 0;
 			menuConfigureModel(&g_Menus[g_MpPlayerNum].menumodel, 0, 0, 0, 0, 0, 0, 1, MENUMODELFLAG_HASSCALE);
 
 			g_Menus[g_MpPlayerNum].menumodel.rottimer60 = TICKS(60);

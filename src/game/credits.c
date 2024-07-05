@@ -1928,6 +1928,7 @@ void creditsReset(void)
 
 	g_CreditsData->menumodel.removingpiece = false;
 
+	g_CreditsData->menumodel.customtint = 0;
 	menuConfigureModel(&g_CreditsData->menumodel, 0, 0, 0, 0, 0, 0, 1, MENUMODELFLAG_HASSCALE | MENUMODELFLAG_HASROTATION);
 
 	g_CreditsData->menumodel.newposy = 90;
