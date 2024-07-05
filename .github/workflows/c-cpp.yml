@@ -31,16 +31,10 @@ jobs:
           submodules: recursive
       - name: Build pd.exe
         run: make -f Makefile.port -j
-      - name: Build pd.pal.exe
-        run: make -f Makefile.port -j ROMID=pal-final
-      - name: Build pd.jpn.exe
-        run: make -f Makefile.port -j ROMID=jpn-final
       - name: Prepare artifact for packaging
         run: |
           mkdir -p bin/data
           cp build/ntsc-final-port/pd.exe bin/
-          cp build/pal-final-port/pd.pal.exe bin/
-          cp build/jpn-final-port/pd.jpn.exe bin/
           cp /mingw32/bin/{SDL2.dll,zlib1.dll,libgcc_s_dw2-1.dll,libwinpthread-1.dll} bin/
           touch bin/data/put_your_rom_here.txt
       - name: Upload artifact
@@ -64,16 +58,10 @@ jobs:
           submodules: recursive
       - name: Build pd.exe
         run: make -f Makefile.port TARGET_PLATFORM=i686-linux -j2
-      - name: Build pd.pal.exe
-        run: make -f Makefile.port TARGET_PLATFORM=i686-linux -j2 ROMID=pal-final
-      - name: Build pd.jpn.exe
-        run: make -f Makefile.port TARGET_PLATFORM=i686-linux -j2 ROMID=jpn-final
       - name: Prepare artifact for packaging
         run: |
           mkdir -p bin/data
           cp build/ntsc-final-port/pd.exe bin/pd
-          cp build/pal-final-port/pd.pal.exe bin/pd.pal
-          cp build/jpn-final-port/pd.jpn.exe bin/pd.jpn
           touch bin/data/put_your_rom_here.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
