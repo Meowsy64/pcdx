@@ -518,5 +518,7 @@
         "fr": "YOUR ",
         "de": "YOUR ",
         "es": "YOUR "
-    }
+    },
+    { "id": "L_PROPOBJ_PICKEDUPSOMEBODYARMOR", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_PROPOBJ_SOMEBODYARMOR", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
 ]

@@ -2644,5 +2644,7 @@
     { "id": "L_MPWEAPONS_DEBUG", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
     { "id": "L_MPWEAPONS_CLASSICMODE", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
     { "id": "L_MPWEAPONS_CLONEINVASION", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
-    { "id": "L_MPWEAPONS_CHICAGOGHOST", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
+    { "id": "L_MPWEAPONS_CHICAGOGHOST", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPWEAPONS_DUALWIELDALLGUNS", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPWEAPONS_BODYARMOR", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
 ]
