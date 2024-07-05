@@ -454,6 +454,7 @@ char *langGet(s32 textid)
 		case L_GUN_FALCON2_SILSCO_DESC:       return "An upgraded Falcon 2, featuring a 2x magnification scope which allows you to take advantage of the Falcon's superior accuracy, and the added benefit of being silent, but deadly.\n";
 		case L_GUN_DMCSIL_SHORT:              return "DMC (s)\n";
 		case L_GUN_DMCSIL_LONG:               return "DMC (silenced)\n";
+		case L_GUN_AUTOSHOTGUN:               return "Auto-Shotgun\n";
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif

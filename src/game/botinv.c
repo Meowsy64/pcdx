@@ -52,6 +52,7 @@ struct aibotweaponpreference g_AibotWeaponPreferences[NUM_WEAPONS] = {
 	/*0x11*/ { 148, 176, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        120,           0,   40, 0,  2, 0 }, // WEAPON_AR34
 	/*0x12*/ { 164, 188, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_SHOOTEXPLOSIVE, 120,           20,  30, 6,  1, 0 }, // WEAPON_SUPERDRAGON
 	/*0x13*/ { 140, 156, 0,   0,   1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_PISTOL,         18,            18,  8,  8,  6, 1 }, // WEAPON_SHOTGUN
+	         { 140, 156, 0,   0,   1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_PISTOL,         18,            18,  8,  8,  6, 1 }, // WEAPON_AUTOSHOTGUN
 	/*0x14*/ { 144, 176, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_CLOSE,          400,           0,   80, 0,  3, 0 }, // WEAPON_REAPER
 	/*0x15*/ { 28,  40,  0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 2, 0 }, // WEAPON_SNIPERRIFLE
 	/*0x16*/ { 188, 188, 0,   0,   1, 0, BOTDISTCFG_SHOOTEXPLOSIVE, BOTDISTCFG_FARSIGHT,       16,            0,   4,  0,  2, 0 }, // WEAPON_FARSIGHT
@@ -639,6 +640,7 @@ void botinvScoreWeapon(struct chrdata *chr, s32 weaponnum, s32 funcnum, s32 arg3
 		}
 		break;
 	case WEAPON_SHOTGUN:
+	case WEAPON_AUTOSHOTGUN:
 		if (funcnum == (chr->aibot->random1 % 2)) {
 			score1--;
 		}

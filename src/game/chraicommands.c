@@ -6078,6 +6078,7 @@ bool aiIfSafety2LessThan(void)
 	case WEAPON_AR34:
 	case WEAPON_SUPERDRAGON:
 	case WEAPON_SHOTGUN:
+	case WEAPON_AUTOSHOTGUN:
 	case WEAPON_SNIPERRIFLE:
 		score--;
 		break;

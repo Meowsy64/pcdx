@@ -2459,7 +2459,8 @@ void chrAttackWalk(struct chrdata *chr, bool run)
 						&& weapon->weaponnum == WEAPON_DY357LX)
 					|| (
 						!g_Vars.normmplayerisrunning
-						&& weapon->weaponnum == WEAPON_SHOTGUN)) {
+						&& (weapon->weaponnum == WEAPON_SHOTGUN
+							|| weapon->weaponnum == WEAPON_AUTOSHOTGUN))) {
 				singleshot[i] = true;
 			}
 		}
@@ -2624,7 +2625,8 @@ void chrAttackRoll(struct chrdata *chr, bool toleft)
 						&& weapon->weaponnum == WEAPON_DY357LX)
 					|| (
 						!g_Vars.normmplayerisrunning
-						&& weapon->weaponnum == WEAPON_SHOTGUN)) {
+						&& (weapon->weaponnum == WEAPON_SHOTGUN
+							|| weapon->weaponnum == WEAPON_AUTOSHOTGUN))) {
 				singleshot[i] = true;
 			}
 		}
@@ -2877,7 +2879,8 @@ void chrAttack(struct chrdata *chr, struct attackanimgroup **animgroups, bool fl
 							&& weapon->weaponnum == WEAPON_DY357LX)
 						|| (
 							!g_Vars.normmplayerisrunning
-							&& weapon->weaponnum == WEAPON_SHOTGUN)) {
+							&& (weapon->weaponnum == WEAPON_SHOTGUN
+								|| weapon->weaponnum == WEAPON_AUTOSHOTGUN))) {
 					singleshot[i] = true;
 				}
 			}
@@ -4545,7 +4548,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 	}
 
 	// If using the shotgun, scale the damage based on distance
-	if (aprop && aprop->type == PROPTYPE_CHR && gset->weaponnum == WEAPON_SHOTGUN) {
+	if (aprop && aprop->type == PROPTYPE_CHR && (gset->weaponnum == WEAPON_SHOTGUN || gset->weaponnum == WEAPON_AUTOSHOTGUN)) {
 		f32 xdiff = aprop->pos.x - vprop->pos.x;
 		f32 ydiff = aprop->pos.y - vprop->pos.y;
 		f32 zdiff = aprop->pos.z - vprop->pos.z;
@@ -9555,6 +9558,7 @@ void chrCalculateHit(struct chrdata *chr, bool *angleokptr, bool *hit, struct gs
 	case WEAPON_AR34:
 	case WEAPON_SUPERDRAGON:
 	case WEAPON_SHOTGUN:
+	case WEAPON_AUTOSHOTGUN:
 	case WEAPON_REAPER:
 	case WEAPON_DEVASTATOR:
 	case WEAPON_ROCKETLAUNCHER:
@@ -9630,7 +9634,7 @@ void chrCalculateHit(struct chrdata *chr, bool *angleokptr, bool *hit, struct gs
 		}
 
 		// Shotgun doubles the value due to more bullets
-		if (gset->weaponnum == WEAPON_SHOTGUN) {
+		if (gset->weaponnum == WEAPON_SHOTGUN || gset->weaponnum == WEAPON_AUTOSHOTGUN) {
 			accuracy += accuracy;
 		}
 

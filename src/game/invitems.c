@@ -2625,6 +2625,53 @@ struct weapon invitem_shotgun = {
 	WEAPONFLAG_AICANUSE | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_00002000 | WEAPONFLAG_00004000 | WEAPONFLAG_HASHANDS,
 };
 
+struct weaponfunc_shootsingle invfunc_autoshotgun_single = {
+	INVENTORYFUNCTYPE_SHOOT_SINGLE,
+	L_GUN_089, // name
+	0, // unused
+	0, // ammoindex
+	&invnoisesettings_loudest,
+	NULL, // fire animation
+	0, // flags
+	&invrecoilsettings_default,
+	0, // recoverytime60
+	0.6, // damage
+	30, // spread
+	20, 28, 0, 0,
+	0, // recoildist
+	0, // recoilangle
+	0, // slidemax
+	4, // impactforce
+	0, // duration60
+	SFX_FIRE_SHOTGUN, // shootsound
+	1, // penetration
+};
+
+struct weapon invitem_autoshotgun = {
+	FILE_GSHOTGUN, // hi model
+	FILE_GSHOTGUNLOD, // lo model
+	invanim_shotgun_singleshot, // equip animation
+	NULL, // unequip animation
+	NULL, // pritosec animation
+	NULL, // sectopri animation
+	{ &invfunc_autoshotgun_single, NULL }, // functions
+	&invammo_shotgun, // pri ammo
+	NULL, // sec ammo
+	&invaimsettings_default,
+	1, // muzzlez
+	12, // posx
+	-16.7, // posy
+	-21, // posz
+	1, // sway
+	gunviscmds_shotgun, // gunviscmds
+	invpartvisibility_shotgun, // part visibility
+	L_GUN_AUTOSHOTGUN, // short name
+	L_GUN_AUTOSHOTGUN, // name
+	L_GUN_149, // manufacturer
+	L_GUN_173, // description
+	WEAPONFLAG_AICANUSE | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_00002000 | WEAPONFLAG_00004000 | WEAPONFLAG_HASHANDS,
+};
+
 f32 vibrationstart_reaper[] = {0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
 f32 vibrationmax_reaper[] = {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
 
@@ -6379,6 +6426,7 @@ struct weapon *g_Weapons[] = {
 	&invitem_ar34,
 	&invitem_superdragon,
 	&invitem_shotgun,
+	&invitem_autoshotgun,
 	&invitem_reaper,
 	&invitem_sniperrifle,
 	&invitem_farsight,
@@ -6603,7 +6651,14 @@ struct pcdx_weapon extweap_superdragon = {
 
 struct pcdx_weapon extweap_shotgun = {
 	MODEL_CHRSHOTGUN,
-	WEAPON_NONE, // WEAPON_GESHOTGUN
+	WEAPON_AUTOSHOTGUN,
+	WEAPONFLAG2_CHEATCANREPLACE,
+	256,
+};
+
+struct pcdx_weapon extweap_autoshotgun = {
+	MODEL_CHRSHOTGUN,
+	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
 	256,
 };
@@ -7113,6 +7168,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_ar34,
 	&extweap_superdragon,
 	&extweap_shotgun,
+	&extweap_autoshotgun,
 	&extweap_reaper,
 	&extweap_sniperrifle,
 	&extweap_farsight,

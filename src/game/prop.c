@@ -1434,7 +1434,7 @@ void handTickAttack(s32 handnum)
 				chrUncloakTemporarily(g_Vars.currentplayer->prop->chr);
 				mpstatsIncrementPlayerShotCount2(&gset, 0);
 
-				if (weaponnum == WEAPON_SHOTGUN) {
+				if (weaponnum == WEAPON_SHOTGUN || weaponnum == WEAPON_AUTOSHOTGUN) {
 					shotCreate(handnum, true, true, 1, true);
 					shotCreate(handnum, true, true, 1, true);
 					shotCreate(handnum, true, true, 1, true);

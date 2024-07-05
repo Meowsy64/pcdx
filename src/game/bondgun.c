@@ -5796,6 +5796,7 @@ u8 g_AutoSwitchWeaponsPrimary[] = {
 	WEAPON_DMC_SILENCER,
 	WEAPON_KL01313,
 	WEAPON_FARSIGHT,
+	WEAPON_AUTOSHOTGUN,
 	WEAPON_SHOTGUN,
 	WEAPON_REAPER,
 	WEAPON_DY357LX,
@@ -6788,6 +6789,7 @@ void bgunUpdateSmoke(struct hand *hand, s32 handnum, s32 weaponnum, struct weapo
 			hand->forcecreatesmoke = true;
 			// fall-through
 		case WEAPON_SHOTGUN:
+		case WEAPON_AUTOSHOTGUN:
 			if (hand->firing) {
 				hand->createsmoke = true;
 			}
@@ -6814,6 +6816,7 @@ void bgunUpdateSmoke(struct hand *hand, s32 handnum, s32 weaponnum, struct weapo
 			smoketype = SMOKETYPE_MUZZLE_REAPER;
 			break;
 		case WEAPON_SHOTGUN:
+		case WEAPON_AUTOSHOTGUN:
 			smoketype = SMOKETYPE_MUZZLE_SHOTGUN;
 			break;
 		}
@@ -8004,6 +8007,7 @@ void bgun0f0a5550(s32 handnum)
 				bgunUpdateDevastator(hand, mtxallocation, modeldef);
 				break;
 			case WEAPON_SHOTGUN:
+			case WEAPON_AUTOSHOTGUN:
 				bgunUpdateShotgun(hand, mtxallocation, sp1e4[0], modeldef);
 				break;
 			}

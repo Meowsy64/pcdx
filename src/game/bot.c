@@ -3446,6 +3446,7 @@ void botTickUnpaused(struct chrdata *chr)
 										case WEAPON_AR34:
 										case WEAPON_SUPERDRAGON:
 										case WEAPON_SHOTGUN:
+										case WEAPON_AUTOSHOTGUN:
 										case WEAPON_SNIPERRIFLE:
 										case WEAPON_FARSIGHT:
 										case WEAPON_DEVASTATOR:
