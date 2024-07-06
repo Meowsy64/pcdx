@@ -890,12 +890,6 @@ s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpo
 			texturenum = ingdl->words.w1 & 0xfff;
 			flag = ingdl->words.w0 & 0x200;
 
-			if (cheatIsActive(CHEAT_CLASSICMODE)) {
-				if (texturenum == 0x151 || texturenum == 0x152 || texturenum == 0x202) {
-					texturenum = 0x1ed;
-				}
-			}
-
 			texLoadFromTextureNum(texturenum, pool);
 
 			tex1 = texFindInPool(texturenum, pool);
