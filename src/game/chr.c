@@ -3278,7 +3278,12 @@ void chrRenderAttachedObject(struct prop *prop, struct modelrenderdata *renderda
 		if (customTint) {
 			renderdata->fogcolour = colourBlend(customTint, renderdata->fogcolour, 0xbf);
 		}
-		modelRender(renderdata, model);
+		if (prop->type == PROPTYPE_WEAPON && prop->weapon->weaponnum == WEAPON_FALCON2_SILENCERSCOPE) {
+			modelnumRender(renderdata, model, MODEL_CHRFALCON2SIL);
+			modelnumRender(renderdata, model, MODEL_CHRFALCON2SCOPE);
+		} else {
+			modelRender(renderdata, model);
+		}
 		renderdata->fogcolour = prevcolour;
 
 		// Note: OBJH2FLAG_HASOPA << 1 is OBJH2FLAG_HASXLU

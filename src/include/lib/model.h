@@ -94,6 +94,7 @@ void modelRenderNodeDl(struct modelrenderdata *renderdata, struct model *model, 
 void modelRenderNodeStarGunfire(struct modelrenderdata *renderdata, struct modelnode *node);
 void modelSelectTexture(struct modelrenderdata *renderdata, struct textureconfig *tconfig, s32 arg2);
 void modelRenderNodeChrGunfire(struct modelrenderdata *renderdata, struct model *model, struct modelnode *node);
+void modelnumRender(struct modelrenderdata *renderdata, struct model *model, s16 modelnum);
 void modelRender(struct modelrenderdata *renderdata, struct model *model);
 bool modelTestBboxNodeForHit(struct modelrodata_bbox *bbox, Mtxf *mtx, struct coord *arg2, struct coord *arg3);
 s32 modelTestForHit(struct model *model, struct coord *arg1, struct coord *arg2, struct modelnode **startnode);

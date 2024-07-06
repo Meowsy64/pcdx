@@ -13497,7 +13497,12 @@ void objRenderProp(struct prop *prop, struct modelrenderdata *renderdata, bool x
 		}
 
 		renderdata->gdl = gdl;
-		modelRender(renderdata, model);
+		if (prop->type == PROPTYPE_WEAPON && prop->weapon->weaponnum == WEAPON_FALCON2_SILENCERSCOPE) {
+			modelnumRender(renderdata, model, MODEL_CHRFALCON2SIL);
+			modelnumRender(renderdata, model, MODEL_CHRFALCON2SCOPE);
+		} else {
+			modelRender(renderdata, model);
+		}
 		gdl = renderdata->gdl;
 
 		if (obj->type == OBJTYPE_DOOR) {

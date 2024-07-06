@@ -10,6 +10,8 @@
 #include "game/gfxmemory.h"
 #include "game/bg.h"
 #include "game/file.h"
+#include "game/setuputils.h"
+#include "game/modelmgr.h"
 #include "bss.h"
 #include "lib/rng.h"
 #include "lib/mtx.h"
@@ -3494,6 +3496,20 @@ void modelRenderNodeChrGunfire(struct modelrenderdata *renderdata, struct model 
 		gSPColor(renderdata->gdl++, osVirtualToPhysical(colours), 1);
 		gSPVertex(renderdata->gdl++, osVirtualToPhysical(vertices), 4, 0);
 		gSPTri2(renderdata->gdl++, 0, 1, 2, 2, 3, 0);
+	}
+}
+
+void modelnumRender(struct modelrenderdata *renderdata, struct model *model, s16 modelnum)
+{
+	setupLoadModeldef(modelnum);
+	struct modeldef *modeldef = g_ModelStates[modelnum].modeldef;
+	struct model *newmodel = modelmgrInstantiateModelWithoutAnim(modeldef);
+	if (newmodel) {
+		newmodel->attachedtomodel = model->attachedtomodel;
+		newmodel->attachedtonode = model->attachedtonode;
+		newmodel->matrices = model->matrices;
+		modelRender(renderdata, newmodel);
+		modelmgrFreeModel(newmodel);
 	}
 }
 
