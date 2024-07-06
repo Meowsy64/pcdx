@@ -2239,24 +2239,23 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 		tex = texFindInPool(g_TexNumToLoad, pool);
 
 		if (tex == NULL) {
-			if (g_TexNumToLoad >= NUM_TEXTURES) {
+			if (g_TexNumToLoad >= NUM_TEXTURES && !modTextureCanLoad(g_TexNumToLoad)) {
 				return;
 			}
 
 			alignedcompbuffer = (u8 *) (((uintptr_t)compbuffer + 0xf) >> 4 << 4);
 
-			if (alignedcompbuffer);
-			if (tex);
-
 			osWritebackDCacheAll();
 			osInvalDCache(alignedcompbuffer, DCACHE_SIZE);
 
-			thisoffset = g_Textures[g_TexNumToLoad].dataoffset;
-			nextoffset = g_Textures[g_TexNumToLoad + 1].dataoffset;
+			if (g_TexNumToLoad < NUM_TEXTURES) {
+				thisoffset = g_Textures[g_TexNumToLoad].dataoffset;
+				nextoffset = g_Textures[g_TexNumToLoad + 1].dataoffset;
 
-			if (thisoffset == nextoffset) {
-				// The texture has no data
-				return;
+				if (thisoffset == nextoffset) {
+					// The texture has no data
+					return;
+				}
 			}
 
 #ifndef PLATFORM_N64

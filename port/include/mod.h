@@ -9,6 +9,7 @@ struct animtableentry;
 
 s32 modConfigLoad(const char *path);
 
+s32 modTextureCanLoad(u16 num);
 s32 modTextureLoad(u16 num, void *dst, u32 dstSize);
 
 s32 modAnimationLoadDescriptor(u16 num, struct animtableentry *anim);

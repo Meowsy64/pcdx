@@ -416,7 +416,7 @@ s32 modConfigLoad(const char *fname)
 	return success;
 }
 
-s32 modTextureLoad(u16 num, void *dst, u32 dstSize)
+s32 modTextureCanLoad(u16 num)
 {
 	static s32 dirExists = -1;
 	if (dirExists < 0) {
@@ -424,6 +424,18 @@ s32 modTextureLoad(u16 num, void *dst, u32 dstSize)
 	}
 
 	if (!dirExists) {
+		return -1;
+	}
+
+	char path[FS_MAXPATH + 1];
+	snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/%04x.bin", num);
+
+	return fsFileSize(path) >= 0;
+}
+
+s32 modTextureLoad(u16 num, void *dst, u32 dstSize)
+{
+	if (!modTextureCanLoad(num)) {
 		return -1;
 	}
 
