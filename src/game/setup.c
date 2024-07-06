@@ -966,7 +966,7 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 	}
 
 
-	if (weapon->weaponnum == WEAPON_MPSHIELD) {
+	if (weapon->weaponnum == WEAPON_MPSHIELD || weapon->weaponnum == WEAPON_MPBODYARMOR) {
 		struct shieldobj *shield = (struct shieldobj *)weapon;
 		shield->base.modelnum = weaponGetChrModel(weapon->weaponnum);
 		shield->base.type = OBJTYPE_SHIELD;
@@ -974,16 +974,9 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 		shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
 		shield->initialamount = 1;
 		shield->amount = 1;
-		setupCreateObject(&shield->base, cmdindex);
-	} else if (weapon->weaponnum == WEAPON_MPBODYARMOR) {
-		struct shieldobj *shield = (struct shieldobj *)weapon;
-		shield->base.modelnum = weaponGetChrModel(weapon->weaponnum);
-		shield->base.type = OBJTYPE_SHIELD;
-		shield->base.flags |= OBJFLAG_01000000 | OBJFLAG_INVINCIBLE;
-		shield->base.flags2 |= OBJFLAG2_IMMUNETOEXPLOSIONS | OBJFLAG2_IMMUNETOGUNFIRE;
-		shield->initialamount = 1;
-		shield->amount = 1;
-		shield->flags = 1;
+		if (weapon->weaponnum == WEAPON_MPBODYARMOR) {
+			shield->flags = 1;
+		}
 		setupCreateObject(&shield->base, cmdindex);
 	} else {
 		weapon->base.modelnum = weaponGetChrModel(weapon->weaponnum);
