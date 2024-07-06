@@ -15494,6 +15494,37 @@ void objDamage(struct defaultobj *obj, f32 damage, struct coord *pos, s32 weapon
 			objCheckDestroyed(obj, pos, playernum);
 		}
 
+		if (cheatIsActive(CHEAT_CLASSICMODE)) {
+			if (objGetDestroyedLevel(obj) == 1 && !(obj->flags & OBJFLAG_WEAPON_NOAMMO)) {
+				if (obj->modelnum == MODEL_A51_CRATE1 || obj->modelnum == MODEL_A51_CRATE2 || obj->modelnum == MODEL_A51_CRATE3) {
+					obj->flags |= OBJFLAG_WEAPON_NOAMMO;
+					int randnum = obj->pad % 36;
+					s32 weaponnum;
+					if (randnum == 0) {
+						weaponnum = WEAPON_RCP45;
+					} else if (randnum < 4) {
+						weaponnum = WEAPON_KF7SPECIAL;
+					} else if (randnum < 8) {
+						weaponnum = WEAPON_PP9I;
+					} else if (randnum < 12) {
+						weaponnum = WEAPON_CC13;
+					} else {
+						weaponnum = WEAPON_NONE;
+					}
+
+					if (weaponnum != WEAPON_NONE) {
+						struct prop *prop = weaponCreateForCrate(obj, weaponGetChrModel(weaponnum), weaponnum, OBJFLAG_WEAPON_AICANNOTUSE, NULL, NULL);
+						propReparent(prop, obj->prop);
+
+						if (prop) {
+							objSetDropped(prop, DROPTYPE_DEFAULT);
+							objDrop(prop, true);
+						}
+					}
+				}
+			}
+		}
+
 		// This code appears to be unused...
 		// It appears to handle spawning a weapon when the ammo crate is shot.
 		if (obj->type == OBJTYPE_MULTIAMMOCRATE) {
@@ -18440,7 +18471,7 @@ struct prop *func0f08b108(struct weaponobj *weapon, struct chrdata *chr, struct 
 
 		modelSetScale(weapon->base.model, weapon->base.model->scale * scale);
 
-		if (!chrEquipWeapon(weapon, chr)) {
+		if (chr && !chrEquipWeapon(weapon, chr)) {
 			propFree(prop);
 			prop = NULL;
 			weapon->base.prop = NULL;
@@ -18823,6 +18854,95 @@ struct prop *weaponCreateForChr(struct chrdata *chr, s32 modelnum, s32 weaponnum
 		obj->base.pad = chr->chrnum;
 
 		prop = func0f08b108(obj, chr, modeldef, prop, model);
+	} else {
+		if (model) {
+			modelmgrFreeModel(model);
+		}
+
+		if (prop) {
+			propFree(prop);
+			prop = NULL;
+		}
+
+		if (obj) {
+			obj->base.prop = NULL;
+			obj->base.model = NULL;
+		}
+	}
+
+	return prop;
+}
+
+struct prop *weaponCreateForCrate(struct defaultobj *crate, s32 modelnum, s32 weaponnum, u32 flags, struct weaponobj *obj, struct modeldef *modeldef)
+{
+	struct prop *prop;
+	struct model *model;
+
+	if (modeldef == NULL) {
+		setupLoadModeldef(modelnum);
+		modeldef = g_ModelStates[modelnum].modeldef;
+	}
+
+	prop = propAllocate();
+	model = modelmgrInstantiateModelWithoutAnim(modeldef);
+
+	if (obj == NULL) {
+		obj = weaponCreate(prop == NULL, model == NULL, modeldef);
+	}
+
+	if (prop == NULL) {
+		prop = propAllocate();
+	}
+
+	if (model == NULL) {
+		model = modelmgrInstantiateModelWithoutAnim(modeldef);
+	}
+
+	if (obj && prop && model) {
+		struct weaponobj tmp = {
+			256,                    // extrascale
+			0,                      // hidden2
+			OBJTYPE_WEAPON,         // type
+			0,                      // modelnum
+			0,                      // pad
+			OBJFLAG_FALL,           // flags
+			0,                      // flags2
+			0,                      // flags3
+			NULL,                   // prop
+			NULL,                   // model
+			1, 0, 0,                // realrot
+			0, 1, 0,
+			0, 0, 1,
+			0,                      // hidden
+			NULL,                   // geo
+			NULL,                   // projectile
+			0,                      // damage
+			1000,                   // maxdamage
+			0xff, 0xff, 0xff, 0x00, // shadecol
+			0xff, 0xff, 0xff, 0x00, // nextcol
+			0x0fff,                 // floorcol
+			0,                      // tiles
+			0,                      // weaponnum
+			0,                      // unk5d
+			0,                      // unk5e
+			0,                      // gunfunc
+			0,                      // fadeouttimer60
+			-1,                     // dualweaponnum
+			-1,                     // timer240
+			NULL,                   // dualweapon
+		};
+
+		*obj = tmp;
+
+		obj->weaponnum = weaponnum;
+		obj->gunfunc = FUNC_PRIMARY;
+		obj->unk5e = 0;
+		obj->unk5d = 0;
+		obj->base.modelnum = modelnum;
+		obj->base.flags = flags;
+		obj->base.pad = crate->pad;
+
+		prop = func0f08b108(obj, NULL, modeldef, prop, model);
 	} else {
 		if (model) {
 			modelmgrFreeModel(model);
