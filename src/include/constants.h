@@ -30,7 +30,7 @@
 #define MAX_TEAMS              8
 
 #define NUM_BOTDIFFS          6
-#define NUM_CYCLEABLE_WEAPONS 45
+#define NUM_CYCLEABLE_WEAPONS (WEAPON_PSYCHOSISGUN + 1)
 #define NUM_DEVICETESTS       10
 #define NUM_FRAMEBUFFERS      2
 #define NUM_GFXTASKS          2
