@@ -2011,13 +2011,18 @@
 #define FILE_AP16_03_JOM             0x07db
 #define FILE_ACARRBYE02M             0x07dc
 #define FILE_ASAUCEREXP1M            0x07dd
+
+#define FILE_PCARDBOARDBOX           0x07de
+
+#if VERSION >= VERSION_JPN_FINAL
 #define FILE_PJPNLOGO                0x07de
 #define FILE_PJPNPD                  0x07df
+#endif
 
 #if VERSION >= VERSION_JPN_FINAL
 #define NUM_FILES 2016
 #elif VERSION >= VERSION_NTSC_1_0
-#define NUM_FILES 2014
+#define NUM_FILES (FILE_PCARDBOARDBOX + 1)
 #else
 #define NUM_FILES 2013
 #endif

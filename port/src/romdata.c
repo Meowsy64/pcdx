@@ -420,12 +420,16 @@ u8 *romdataFileLoad(s32 fileNum, u32 *outSize)
 	// try to load external file
 	if (fileSlots[fileNum].source == SRC_UNLOADED) {
 		char tmp[FS_MAXPATH] = { 0 };
-		snprintf(tmp, sizeof(tmp), ROMDATA_FILEDIR "/%s", fileSlots[fileNum].name);
+		const char* filename = fileSlots[fileNum].name;
+		switch (fileNum ) {
+			case FILE_PCARDBOARDBOX: filename = "PcardboardboxZ"; break;
+		}
+		snprintf(tmp, sizeof(tmp), ROMDATA_FILEDIR "/%s", filename);
 		if (fsFileSize(tmp) > 0) {
 			u32 size = 0;
 			out = fsFileLoad(tmp, &size);
 			if (out && size) {
-				sysLogPrintf(LOG_NOTE, "file %d (%s) loaded externally", fileNum, fileSlots[fileNum].name);
+				sysLogPrintf(LOG_NOTE, "file %d (%s) loaded externally", fileNum, filename);
 				fileSlots[fileNum].data = out;
 				fileSlots[fileNum].size = size;
 				fileSlots[fileNum].source = SRC_EXTERNAL;

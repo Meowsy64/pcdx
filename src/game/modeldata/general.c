@@ -847,6 +847,8 @@ struct modelstate g_ModelStates[NUM_MODELS] = {
 #if VERSION == VERSION_JPN_FINAL
 	/*0x01b9*/ { NULL, FILE_PJPNLOGO,               0x1000 },
 	/*0x01ba*/ { NULL, FILE_PJPNPD,                 0x1000 },
+#else
+	/*0x01b9*/ { NULL, FILE_PCARDBOARDBOX,          0x1000 },
 #endif
 };
 

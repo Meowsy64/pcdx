@@ -526,6 +526,7 @@ static inline void preprocessDefaultPropObj(struct defaultobj *obj)
 
 	if (cheatIsActive(CHEAT_CLASSICMODE)) {
 		if (obj->modelnum == MODEL_A51_CRATE1 || obj->modelnum == MODEL_A51_CRATE2 || obj->modelnum == MODEL_A51_CRATE3) {
+			obj->modelnum = MODEL_CARDBOARDBOX;
 			obj->flags &= ~OBJFLAG_INVINCIBLE;
 		}
 	}
