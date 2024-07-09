@@ -864,8 +864,8 @@ u32 weaponGetCustomTint(s32 weaponnum)
 		case WEAPON_SILVERPP9I:
 			return 0xc0c0c07f;
 		*/
-		case WEAPON_AUTOSHOTGUN:
-			return 0x7f00007f;
+		/*case WEAPON_AUTOSHOTGUN:
+			return 0x7f00007f;*/
 		default:
 			return 0;
 	}

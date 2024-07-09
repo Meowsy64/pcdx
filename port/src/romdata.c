@@ -50,14 +50,19 @@
 #error "This ROM version is unsupported."
 #endif
 
-#define ROMDATA_MAX_FILES 2048
+#define ROMDATA_MAX_FILES (2048 * 2)
 
 u8 *g_RomFile;
 u32 g_RomFileSize;
+u8 *g_GexFile;
+u32 g_GexFileSize;
 
 static u8 *romDataSeg;
 static u32 romDataSegSize;
+static u8 *gexDataSeg;
+static u32 gexDataSegSize;
 static const char *romName = ROMDATA_ROM_NAME;
+static const char *gexName = "gex.5e-clouds.z64";
 
 enum loadsource {
 	SRC_UNLOADED = 0,
@@ -189,12 +194,19 @@ static inline void romdataWrongRomError(const char *fmt, ...)
 
 static inline void romdataLoadRom(void)
 {
-	sysLogPrintf(LOG_NOTE, "ROM file: %s", romName);
-
 	g_RomFile = fsFileLoad(romName, &g_RomFileSize);
+	g_GexFile = fsFileLoad(gexName, &g_GexFileSize);
 
 	if (!g_RomFile) {
 		sysFatalError("Could not open ROM file %s.\nEnsure that it is in the %s directory.", romName, fsFullPath(""));
+	} else {
+		sysLogPrintf(LOG_NOTE, "Perfect Dark ROM file: %s", romName);
+	}
+
+	if (!g_GexFile) {
+		sysFatalError("Could not open ROM file %s.\nEnsure that it is in the %s directory.", gexName, fsFullPath(""));
+	} else {
+		sysLogPrintf(LOG_NOTE, "GoldenEye X ROM file: %s", gexName);
 	}
 
 	// zips are not guaranteed to start with PK, but might as well at least try
@@ -217,7 +229,7 @@ static inline void romdataLoadRom(void)
 		romdataWrongRomError("Data segment is not 1173-compressed.");
 	}
 
-	const u32 dataSegLen = ((u32)zipped[2] << 16) | ((u32)zipped[3] << 8) | (u32)zipped[4];
+	u32 dataSegLen = ((u32)zipped[2] << 16) | ((u32)zipped[3] << 8) | (u32)zipped[4];
 	if (dataSegLen < ROMDATA_FILES_OFS) {
 		romdataWrongRomError("Data segment too small (%u), need at least %u.", dataSegLen, ROMDATA_FILES_OFS);
 	}
@@ -235,6 +247,31 @@ static inline void romdataLoadRom(void)
 
 	romDataSeg = dataSeg;
 	romDataSegSize = dataSegLen;
+
+	// inflate the GEX compressed data segment
+
+	zipped = g_GexFile + ROMDATA_DATA_OFS;
+	if (!rzipIs1173(zipped)) {
+		romdataWrongRomError("GEX Data segment is not 1173-compressed.");
+	}
+
+	dataSegLen = ((u32)zipped[2] << 16) | ((u32)zipped[3] << 8) | (u32)zipped[4];
+	if (dataSegLen < ROMDATA_FILES_OFS) {
+		romdataWrongRomError("GEX Data segment too small (%u), need at least %u.", dataSegLen, ROMDATA_FILES_OFS);
+	}
+
+	dataSeg = sysMemAlloc(dataSegLen);
+	if (!dataSeg) {
+		sysFatalError("Could not allocate %u bytes for GEX data segment.", dataSegLen);
+	}
+
+	if (rzipInflate(zipped, dataSeg, scratch) < 0) {
+		free(dataSeg);
+		sysFatalError("Could not inflate GEX data segment.");
+	}
+
+	gexDataSeg = dataSeg;
+	gexDataSegSize = dataSegLen;
 }
 
 static inline void romdataInitSegment(struct romfile *seg)
@@ -324,6 +361,8 @@ static inline s32 romdataLoadExternalFileList(void)
 	return n - 1;
 }
 
+#define GEX_FILE_OFFSET (FILE_GEX_BG_SEV_SEG - 1)
+
 static inline void romdataInitFiles(void)
 {
 	if (!g_RomFile) {
@@ -353,6 +392,26 @@ static inline void romdataInitFiles(void)
 	for (i = 1; nameOffsets[i]; ++i) {
 		const u32 ofs = PD_BE32(nameOffsets[i]);
 		fileSlots[i].name = (const char *)nameOffsets + ofs; // ofs is relative to the start of the name table
+	}
+
+	// the file offset table is in the data seg
+	const u32 *gexOffsets = (u32 *)(gexDataSeg + ROMDATA_FILES_OFS);
+	for (i = 1; gexOffsets[i]; ++i) {
+		if (gexOffsets + i + 1 < (u32 *)(gexDataSeg + gexDataSegSize)) {
+			const u32 nextofs = PD_BE32(gexOffsets[i + 1]);
+			const u32 ofs = PD_BE32(gexOffsets[i]);
+			fileSlots[i + GEX_FILE_OFFSET].data = g_GexFile + ofs;
+			fileSlots[i + GEX_FILE_OFFSET].size = nextofs - ofs;
+			fileSlots[i + GEX_FILE_OFFSET].source = SRC_UNLOADED;
+			fileSlots[i + GEX_FILE_OFFSET].preprocessed = 0;
+		}
+	}
+
+	// last offset is to the name table
+	const u32 *gexNameOffsets = (u32 *)(g_GexFile + PD_BE32(gexOffsets[i - 1]));
+	for (i = 1; gexNameOffsets[i]; ++i) {
+		const u32 ofs = PD_BE32(gexNameOffsets[i]);
+		fileSlots[i + GEX_FILE_OFFSET].name = (const char *)gexNameOffsets + ofs; // ofs is relative to the start of the name table
 	}
 }
 

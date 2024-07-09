@@ -2647,9 +2647,14 @@ struct weaponfunc_shootsingle invfunc_autoshotgun_single = {
 	1, // penetration
 };
 
+struct modelpartvisibility invpartvisibility_classic[] = {
+	{ MODELPART_GUN_MUZZLEFLASH1, false },
+	{ 255 },
+};
+
 struct weapon invitem_autoshotgun = {
-	FILE_GSHOTGUN, // hi model
-	FILE_GSHOTGUNLOD, // lo model
+	FILE_GEX_GRCP120, // hi model
+	FILE_GEX_GRCP120LOD, // lo model
 	invanim_shotgun_singleshot, // equip animation
 	NULL, // unequip animation
 	NULL, // pritosec animation
@@ -2664,7 +2669,7 @@ struct weapon invitem_autoshotgun = {
 	-21, // posz
 	1, // sway
 	gunviscmds_shotgun, // gunviscmds
-	invpartvisibility_shotgun, // part visibility
+	invpartvisibility_classic, // part visibility
 	L_GUN_AUTOSHOTGUN, // short name
 	L_GUN_AUTOSHOTGUN, // name
 	L_GUN_149, // manufacturer
@@ -4269,11 +4274,6 @@ struct weapon invitem_laser = {
 	L_GUN_150, // manufacturer
 	L_GUN_189, // description
 	WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_00002000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_DONTCOUNTSHOTS | WEAPONFLAG_04000000,
-};
-
-struct modelpartvisibility invpartvisibility_classic[] = {
-	{ MODELPART_GUN_MUZZLEFLASH1, false },
-	{ 255 },
 };
 
 struct gunviscmd gunviscmds_classicpistol[] = {
