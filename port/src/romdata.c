@@ -207,13 +207,13 @@ static inline void romdataLoadRom(void)
 	g_GexFile = fsFileLoad(gexName, &g_GexFileSize);
 
 	if (!g_RomFile) {
-		sysFatalError("Could not open ROM file %s.\nEnsure that it is in the %s directory.", romName, fsFullPath(""));
+		sysFatalError("Could not open the Perfect Dark ROM file %s.\nEnsure that it is in the %s directory.", romName, fsFullPath(""));
 	} else {
 		sysLogPrintf(LOG_NOTE, "Perfect Dark ROM file: %s", romName);
 	}
 
 	if (!g_GexFile) {
-		sysFatalError("Could not open ROM file %s.\nEnsure that it is in the %s directory.", gexName, fsFullPath(""));
+		sysLogPrintf(LOG_WARNING, "Could not open the GoldenEye X ROM file %s.\nEnsure that it is in the %s directory.", gexName, fsFullPath(""));
 	} else {
 		sysLogPrintf(LOG_NOTE, "GoldenEye X ROM file: %s", gexName);
 	}
@@ -258,29 +258,30 @@ static inline void romdataLoadRom(void)
 	romDataSegSize = dataSegLen;
 
 	// inflate the GEX compressed data segment
+	if (g_GexFile) {
+		zipped = g_GexFile + ROMDATA_DATA_OFS;
+		if (!rzipIs1173(zipped)) {
+			romdataWrongRomError("GEX Data segment is not 1173-compressed.");
+		}
 
-	zipped = g_GexFile + ROMDATA_DATA_OFS;
-	if (!rzipIs1173(zipped)) {
-		romdataWrongRomError("GEX Data segment is not 1173-compressed.");
+		dataSegLen = ((u32)zipped[2] << 16) | ((u32)zipped[3] << 8) | (u32)zipped[4];
+		if (dataSegLen < ROMDATA_FILES_OFS) {
+			romdataWrongRomError("GEX Data segment too small (%u), need at least %u.", dataSegLen, ROMDATA_FILES_OFS);
+		}
+
+		dataSeg = sysMemAlloc(dataSegLen);
+		if (!dataSeg) {
+			sysFatalError("Could not allocate %u bytes for GEX data segment.", dataSegLen);
+		}
+
+		if (rzipInflate(zipped, dataSeg, scratch) < 0) {
+			free(dataSeg);
+			sysFatalError("Could not inflate GEX data segment.");
+		}
+
+		gexDataSeg = dataSeg;
+		gexDataSegSize = dataSegLen;
 	}
-
-	dataSegLen = ((u32)zipped[2] << 16) | ((u32)zipped[3] << 8) | (u32)zipped[4];
-	if (dataSegLen < ROMDATA_FILES_OFS) {
-		romdataWrongRomError("GEX Data segment too small (%u), need at least %u.", dataSegLen, ROMDATA_FILES_OFS);
-	}
-
-	dataSeg = sysMemAlloc(dataSegLen);
-	if (!dataSeg) {
-		sysFatalError("Could not allocate %u bytes for GEX data segment.", dataSegLen);
-	}
-
-	if (rzipInflate(zipped, dataSeg, scratch) < 0) {
-		free(dataSeg);
-		sysFatalError("Could not inflate GEX data segment.");
-	}
-
-	gexDataSeg = dataSeg;
-	gexDataSegSize = dataSegLen;
 }
 
 static inline void romdataInitSegment(struct romfile *seg, bool gex)
@@ -409,24 +410,26 @@ static inline void romdataInitFiles(void)
 		fileSlots[i].name = (const char *)nameOffsets + ofs; // ofs is relative to the start of the name table
 	}
 
-	// the file offset table is in the data seg
-	const u32 *gexOffsets = (u32 *)(gexDataSeg + ROMDATA_FILES_OFS);
-	for (i = 1; gexOffsets[i]; ++i) {
-		if (gexOffsets + i + 1 < (u32 *)(gexDataSeg + gexDataSegSize)) {
-			const u32 nextofs = PD_BE32(gexOffsets[i + 1]);
-			const u32 ofs = PD_BE32(gexOffsets[i]);
-			fileSlots[i + GEX_FILE_OFFSET].data = g_GexFile + ofs;
-			fileSlots[i + GEX_FILE_OFFSET].size = nextofs - ofs;
-			fileSlots[i + GEX_FILE_OFFSET].source = SRC_UNLOADED;
-			fileSlots[i + GEX_FILE_OFFSET].preprocessed = 0;
+	if (g_GexFile) {
+		// the file offset table is in the data seg
+		const u32 *gexOffsets = (u32 *)(gexDataSeg + ROMDATA_FILES_OFS);
+		for (i = 1; gexOffsets[i]; ++i) {
+			if (gexOffsets + i + 1 < (u32 *)(gexDataSeg + gexDataSegSize)) {
+				const u32 nextofs = PD_BE32(gexOffsets[i + 1]);
+				const u32 ofs = PD_BE32(gexOffsets[i]);
+				fileSlots[i + GEX_FILE_OFFSET].data = g_GexFile + ofs;
+				fileSlots[i + GEX_FILE_OFFSET].size = nextofs - ofs;
+				fileSlots[i + GEX_FILE_OFFSET].source = SRC_UNLOADED;
+				fileSlots[i + GEX_FILE_OFFSET].preprocessed = 0;
+			}
 		}
-	}
 
-	// last offset is to the name table
-	const u32 *gexNameOffsets = (u32 *)(g_GexFile + PD_BE32(gexOffsets[i - 1]));
-	for (i = 1; gexNameOffsets[i]; ++i) {
-		const u32 ofs = PD_BE32(gexNameOffsets[i]);
-		fileSlots[i + GEX_FILE_OFFSET].name = (const char *)gexNameOffsets + ofs; // ofs is relative to the start of the name table
+		// last offset is to the name table
+		const u32 *gexNameOffsets = (u32 *)(g_GexFile + PD_BE32(gexOffsets[i - 1]));
+		for (i = 1; gexNameOffsets[i]; ++i) {
+			const u32 ofs = PD_BE32(gexNameOffsets[i]);
+			fileSlots[i + GEX_FILE_OFFSET].name = (const char *)gexNameOffsets + ofs; // ofs is relative to the start of the name table
+		}
 	}
 }
 
@@ -451,6 +454,8 @@ static struct textureextractiondata texturesToExtract[] = {
 	{ 0x1b330ae, 0x000,  408 },
 	{ 0x1B33246, 0x001,   15 },
 	{ 0x1B58E41, 0x0b2,  550 },
+	{ 0x1B66F4A, 0x0f2,  760 },
+	{ 0x1B67242, 0x0f3,  444 },
 	{ 0x1B6AB78, 0x106,  984 },
 	{ 0x1B6AF50, 0x107, 1033 },
 	{ 0x1B6B359, 0x108, 1010 },
@@ -461,10 +466,10 @@ static struct textureextractiondata texturesToExtract[] = {
 	{ 0x1B6C7C9, 0x10d,  270 },
 	{ 0x1B6C8D7, 0x10e, 1734 },
 	{ 0x1B6CF9D, 0x10f,  551 },
-	{ 0x1D6045D, 0x954,  690 },
-	{ 0x1D6070F, 0x955,  225 },
-	{ 0x1B66F4A, 0x0f2,  760 },
-	{ 0x1B67242, 0x0f3,  444 },
+	{ 0x1C05E84, 0x3ab, 1881 },
+	{ 0x1C065DD, 0x3ac, 1680 },
+	{ 0x1C06C6D, 0x3ad, 1636 },
+	{ 0x1C072D1, 0x3ae, 1715 },
 	{ 0x1CC41F8, 0x738,  833 },
 	{ 0x1D0A1B0, 0x864,  381 },
 	{ 0x1D0A32D, 0x865,  135 },
@@ -477,6 +482,42 @@ static struct textureextractiondata texturesToExtract[] = {
 	{ 0x1D609E7, 0x957,  410 },
 	{ 0x1D60B81, 0x958,  554 },
 	{ 0x1D60DAB, 0x959,  748 },
+	{ 0x1B33B7F, 0x005, 1159 },
+	{ 0x1BA7CD0, 0x203, 1532 },
+	{ 0x1BA82CC, 0x204, 1461 },
+	{ 0x1BA8881, 0x205, 1220 },
+	{ 0x1BEE4DB, 0x329,  851 },
+	{ 0x1BEE82E, 0x32a,  747 },
+	{ 0x1BEEB19, 0x32b,  891 },
+	{ 0x1BEEE94, 0x32c,  487 },
+	{ 0x1BEF07B, 0x32d,  363 },
+	{ 0x1BEF3D1, 0x32f,  746 },
+	{ 0x1BFEC6E, 0x386,  321 },
+	{ 0x1BFEDAF, 0x387,  147 },
+	{ 0x1BFF049, 0x389,  215 },
+	{ 0x1BFF120, 0x38a,  730 },
+	{ 0x1BFF3FA, 0x38b,  839 },
+	{ 0x1BFF741, 0x38c,  479 },
+	{ 0x1BFF920, 0x38d,  573 },
+	{ 0x1BFFD5A, 0x38f, 1325 },
+	{ 0x1C788B1, 0x5ff,  461 },
+	{ 0x1D6B5D7, 0x988,  191 },
+	{ 0x1DED0BC, 0xbbc,  655 },
+	{ 0x1E1744D, 0xcc8,  401 },
+	{ 0x1E175DE, 0xcc9,  172 },
+	{ 0x1E19D92, 0xcd3,  496 },
+	{ 0x1D6B995, 0x98f,   15 },
+	{ 0x1DD0FB5, 0xb3c, 2098 },
+	{ 0x1DD17E7, 0xb3d, 2023 },
+	{ 0x1DD1FCE, 0xb3e, 2003 },
+	{ 0x1DD27A1, 0xb3f, 1927 },
+	{ 0x1E17375, 0xcc7,  216 },
+	{ 0x1B361DB, 0x000e, 837 },
+	{ 0x1B6F473, 0x011b, 199 },
+	{ 0x1BA5873, 0x01f5, 424 },
+	{ 0x1BA8FA7, 0x0208, 705 },
+	{ 0x1BA9268, 0x0209, 854 },
+	{ 0x1CC1B0D, 0x072e, 420 },
 };
 
 s32 romdataInit(void)
@@ -493,18 +534,20 @@ s32 romdataInit(void)
 		romdataInitSegment(seg, false);
 	}
 
-	// set segments to point to the rom or load them externally
-	for (struct romfile *seg = gexSegs; seg->name; ++seg) {
-		romdataInitSegment(seg, true);
-	}
+	if (g_GexFile) {
+		// set segments to point to the rom or load them externally
+		for (struct romfile *seg = gexSegs; seg->name; ++seg) {
+			romdataInitSegment(seg, true);
+		}
 
-	char path[FS_MAXPATH + 1];
-	for (int i = 0; i < ARRAYCOUNT(texturesToExtract); i++) {
-		struct textureextractiondata ted = texturesToExtract[i];
-		snprintf(path, sizeof(path), "data/textures/%04x.bin", ted.texturenum + 0xdaf);
-		FILE *fp = fopen(path, "wb");
-		fwrite(g_GexFile + ted.ofs, sizeof(char), ted.size, fp);
-		fclose(fp);
+		char path[FS_MAXPATH + 1];
+		for (int i = 0; i < ARRAYCOUNT(texturesToExtract); i++) {
+			struct textureextractiondata ted = texturesToExtract[i];
+			snprintf(path, sizeof(path), "data/textures/%04x.bin", ted.texturenum + NUM_ORIG_TEXTURES);
+			FILE *fp = fopen(path, "wb");
+			fwrite(g_GexFile + ted.ofs, sizeof(char), ted.size, fp);
+			fclose(fp);
+		}
 	}
 
 	// load file table from the files segment

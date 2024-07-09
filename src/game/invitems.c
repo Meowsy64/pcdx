@@ -2653,8 +2653,8 @@ struct modelpartvisibility invpartvisibility_classic[] = {
 };
 
 struct weapon invitem_autoshotgun = {
-	FILE_GEX_GRCP120, // hi model
-	FILE_GEX_GRCP120LOD, // lo model
+	FILE_GSHOTGUN, // hi model
+	FILE_GSHOTGUNLOD, // lo model
 	invanim_shotgun_singleshot, // equip animation
 	NULL, // unequip animation
 	NULL, // pritosec animation

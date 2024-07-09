@@ -14788,7 +14788,7 @@ void objCheckDestroyed(struct defaultobj *obj, struct coord *pos, s32 playernum)
 	if (obj->damage > obj->maxdamage || objGetDestroyedLevel(obj)) {
 		struct prop *prop = obj->prop;
 		struct prop *rootprop = prop;
-		s16 exptype = g_PropExplosionTypes[8 + obj->modelnum];
+		s16 exptype = g_ModelStates[obj->modelnum].explosiontype;
 		RoomNum rooms[8];
 
 		// If in Deep Sea outro

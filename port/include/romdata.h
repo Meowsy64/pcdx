@@ -4,6 +4,7 @@
 #include <PR/ultratypes.h>
 
 extern u8 *g_RomFile;
+extern u8* g_GexFile;
 extern u32 g_RomFileSize;
 
 s32 romdataInit(void);

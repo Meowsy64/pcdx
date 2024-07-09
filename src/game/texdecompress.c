@@ -13,6 +13,8 @@
 #ifndef PLATFORM_N64
 #include "mod.h"
 #endif
+#include "system.h"
+#include "romdata.h"
 
 struct texture *g_Textures;
 u32 var800aabc4;
@@ -2247,6 +2249,9 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 			bool gex = false;
 			if (g_TexNumToLoad >= NUM_ORIG_TEXTURES) {
 				gex = true;
+				if (!g_GexFile) {
+					return;
+				}
 			}
 
 			alignedcompbuffer = (u8 *) (((uintptr_t)compbuffer + 0xf) >> 4 << 4);
@@ -2261,6 +2266,10 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 			} else
 #endif
 			{
+				if (gex) {
+					sysLogPrintf(LOG_WARNING, "Missing extracted GEX texture %04x (%04x)", g_TexNumToLoad - NUM_ORIG_TEXTURES, g_TexNumToLoad);
+				}
+
 				thisoffset = g_Textures[g_TexNumToLoad].dataoffset;
 				nextoffset = g_Textures[g_TexNumToLoad + 1].dataoffset;
 

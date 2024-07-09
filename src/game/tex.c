@@ -483,7 +483,7 @@ Gfx *texWriteTextureCmd(Gfx *gdl, Gfx *texcmd, struct tex *tex, bool append)
 		} else {
 			gSPTexture(gdl++, 0xffff, 0xffff, lod, G_TX_RENDERTILE, G_ON);
 		}
-	} else {
+	} else if (texcmd != NULL) {
 		texcmd->words.w0 &= ~0x3800;
 		texcmd->words.w0 |= lod << 11;
 	}

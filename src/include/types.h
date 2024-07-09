@@ -4608,6 +4608,7 @@ struct modelstate {
 	struct modeldef *modeldef;
 	u16 fileid;
 	u16 scale;
+	s8 explosiontype;
 };
 
 struct botdifficulty {
