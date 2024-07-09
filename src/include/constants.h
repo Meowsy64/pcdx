@@ -37,7 +37,8 @@
 #define NUM_HOLOTESTS         7
 #define NUM_MPWEAPONSLOTS     6
 #define NUM_SOLOSTAGES        21
-#define NUM_TEXTURES          (VERSION == VERSION_JPN_FINAL ? 3511 : 3503)
+#define NUM_ORIG_TEXTURES     (VERSION == VERSION_JPN_FINAL ? 3511 : 3502)
+#define NUM_TEXTURES          (NUM_ORIG_TEXTURES * 2)
 
 #define osSyncPrintf
 

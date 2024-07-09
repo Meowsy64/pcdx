@@ -168,7 +168,7 @@ static struct romfile romSegs[] = {
 
 /* the game sets g_LoadType to the type of file it expects,              */
 /* so we can hijack that in fileLoad and automatically byteswap the file */
-static preprocessfunc filePreprocFuncs[] = {
+static preprocessfilefunc filePreprocFuncs[] = {
 	/* LOADTYPE_NONE  */ NULL,
 	/* LOADTYPE_BG    */ NULL, // loaded in parts
 	/* LOADTYPE_TILES */ preprocessTilesFile,
@@ -532,7 +532,7 @@ void romdataFilePreprocess(s32 fileNum, s32 loadType, u8 *data, u32 size)
 			if (loadType == LOADTYPE_SETUP) {
 				setupLoadMappings(fileNum);
 			}
-			filePreprocFuncs[loadType](data, size);
+			filePreprocFuncs[loadType](data, size, fileNum);
 			// fileSlots[fileNum].preprocessed = 1;
 		}
 	}

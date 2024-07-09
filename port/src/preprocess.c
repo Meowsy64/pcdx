@@ -1188,7 +1188,7 @@ void preprocessTextureRGBA32Embedded(u32* dest, u32 size_bytes)
 	}
 }
 
-void preprocessModel(u8 *base, u32 ofs)
+void preprocessModel(u8 *base, u32 ofs, s32 filenum)
 {
 	struct modeldef *mdl = (struct modeldef *)base;
 
@@ -1249,7 +1249,7 @@ void preprocessModel(u8 *base, u32 ofs)
 	}
 }
 
-void preprocessLangFile(u8 *data, u32 size)
+void preprocessLangFile(u8 *data, u32 size, s32 filenum)
 {
 	// lang banks are just an offset table + text data right after
 	// offsets are from the beginning of the bank
@@ -1257,7 +1257,7 @@ void preprocessLangFile(u8 *data, u32 size)
 	// offset table is unknown, so that's done in lang.c on demand instead
 }
 
-void preprocessPadsFile(u8 *data, u32 size)
+void preprocessPadsFile(u8 *data, u32 size, s32 filenum)
 {
 	struct padsfileheader *hdr = (void *)data;
 
@@ -1330,7 +1330,7 @@ void preprocessPadsFile(u8 *data, u32 size)
 	}
 }
 
-void preprocessTilesFile(u8 *data, u32 size)
+void preprocessTilesFile(u8 *data, u32 size, s32 filenum)
 {
 	u32 *roomTable = (u32 *)data;
 	PD_SWAP_VAL(roomTable[0]);
@@ -1401,7 +1401,7 @@ void preprocessTilesFile(u8 *data, u32 size)
 	}
 }
 
-void preprocessSetupFile(u8 *data, u32 size)
+void preprocessSetupFile(u8 *data, u32 size, s32 filenum)
 {
 	struct stagesetup *set = (void *)data;
 
@@ -1455,14 +1455,14 @@ void preprocessSetupFile(u8 *data, u32 size)
 	// the rest of the pointers are set after loading
 }
 
-void preprocessModelFile(u8 *data, u32 size)
+void preprocessModelFile(u8 *data, u32 size, s32 filenum)
 {
-	preprocessModel(data, 0x5000000);
+	preprocessModel(data, 0x5000000, filenum);
 }
 
-void preprocessGunFile(u8 *data, u32 size)
+void preprocessGunFile(u8 *data, u32 size, s32 filenum)
 {
-	preprocessModel(data, 0x5000000);
+	preprocessModel(data, 0x5000000, filenum);
 }
 
 void preprocessBgSection1Header(u8 *data, u32 size)

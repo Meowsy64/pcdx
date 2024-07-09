@@ -4,6 +4,7 @@
 #include <PR/ultratypes.h>
 
 typedef void (*preprocessfunc)(u8 *data, u32 size);
+typedef void (*preprocessfilefunc)(u8 *data, u32 size, s32 filenum);
 
 void preprocessAnimations(u8 *data, u32 size);
 void preprocessMpConfigs(u8 *data, u32 size);
@@ -24,11 +25,11 @@ void preprocessBgSection3(u8 *data, u32 size);
 void preprocessBgRoom(u8 *data, u32 ofs);
 void preprocessBgLights(u8 *data, u32 ofs);
 
-void preprocessLangFile(u8 *data, u32 size);
-void preprocessPadsFile(u8 *data, u32 size);
-void preprocessTilesFile(u8 *data, u32 size);
-void preprocessSetupFile(u8 *data, u32 size);
-void preprocessModelFile(u8 *data, u32 size);
-void preprocessGunFile(u8 *data, u32 size);
+void preprocessLangFile(u8 *data, u32 size, s32 filenum);
+void preprocessPadsFile(u8 *data, u32 size, s32 filenum);
+void preprocessTilesFile(u8 *data, u32 size, s32 filenum);
+void preprocessSetupFile(u8 *data, u32 size, s32 filenum);
+void preprocessModelFile(u8 *data, u32 size, s32 filenum);
+void preprocessGunFile(u8 *data, u32 size, s32 filenum);
 
 #endif
