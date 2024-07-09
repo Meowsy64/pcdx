@@ -421,7 +421,7 @@ u8 *romdataFileLoad(s32 fileNum, u32 *outSize)
 	if (fileSlots[fileNum].source == SRC_UNLOADED) {
 		char tmp[FS_MAXPATH] = { 0 };
 		const char* filename = fileSlots[fileNum].name;
-		switch (fileNum ) {
+		switch (fileNum) {
 			case FILE_PCARDBOARDBOX: filename = "PcardboardboxZ"; break;
 		}
 		snprintf(tmp, sizeof(tmp), ROMDATA_FILEDIR "/%s", filename);

@@ -2271,16 +2271,16 @@ enum firingRangeDifficulties
 #define MODEL_AF1RUBBLE             0x01b5
 #define MODEL_DD_DR_NONREF          0x01b6
 #define MODEL_CETANDOORSIDE         0x01b7
-#define MODEL_BUDDYBRIDGE           0x01b8
 
+enum modelnum {
+	MODEL_BUDDYBRIDGE = 0x01b8,
 #if VERSION >= VERSION_JPN_FINAL
-#define MODEL_JPNLOGO               0x01b9
-#define MODEL_JPNPD                 0x01ba
-#define NUM_MODELS                  (MODEL_JPNPD + 1)
-#else
-#define MODEL_CARDBOARDBOX          0x01b9
-#define NUM_MODELS                  (MODEL_CARDBOARDBOX + 1)
+	MODEL_JPNLOGO,
+	MODEL_JPNPD,
 #endif
+	MODEL_CARDBOARDBOX,
+	NUM_MODELS
+};
 
 #define MODELNODETYPE_CHRINFO      0x01
 #define MODELNODETYPE_POSITION     0x02
