@@ -2257,7 +2257,13 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 			osWritebackDCacheAll();
 			osInvalDCache(alignedcompbuffer, DCACHE_SIZE);
 
-			if (g_TexNumToLoad < NUM_TEXTURES) {
+#ifndef PLATFORM_N64
+			// try to load external replacement if present
+			if (modTextureLoad(g_TexNumToLoad, alignedcompbuffer, 4096) > 0) {
+				compptr = alignedcompbuffer;
+			} else
+#endif
+			{
 				if (gex) {
 					thisoffset = g_GexTextures[effectiveTexnum].dataoffset;
 					nextoffset = g_GexTextures[effectiveTexnum + 1].dataoffset;
@@ -2270,15 +2276,7 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 					// The texture has no data
 					return;
 				}
-			}
 
-#ifndef PLATFORM_N64
-			// try to load external replacement if present
-			if (modTextureLoad(g_TexNumToLoad, alignedcompbuffer, 4096) > 0) {
-				compptr = alignedcompbuffer;
-			} else
-#endif
-			{
 				// Copy the compressed texture to RAM
 				if (gex) {
 					dmaExec(alignedcompbuffer,

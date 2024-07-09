@@ -1246,6 +1246,7 @@ void preprocessModel(u8 *base, u32 ofs, s32 filenum)
 				}
 			} else if (filenum >= FILE_GEX_BG_SEV_SEG) {
 				texconfigs[i].texturenum += NUM_ORIG_TEXTURES;
+				sysLogPrintf(LOG_NOTE, "forcing texture %04x", texconfigs[i].texturenum);
 			}
 		}
 	}

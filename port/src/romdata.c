@@ -170,8 +170,8 @@ static struct romfile romSegs[] = {
 };
 
 static struct romfile gexSegs[] = {
-	{ &_gextexturesdataSegmentRomStart, &_gextexturesdataSegmentRomEnd, "texturesdata", (u8 *)0x1d65f40, 0x0, ((void *)0) },
-	{ &_gextextureslistSegmentRomStart, &_gextextureslistSegmentRomEnd, "textureslist", (u8 *)0x1ff7ca0, 0x0, preprocessTexturesList },
+	{ &_gextexturesdataSegmentRomStart, &_gextexturesdataSegmentRomEnd, "texturesdata", (u8 *)0x1b330ae, 0x0, ((void *)0) },
+	{ &_gextextureslistSegmentRomStart, &_gextextureslistSegmentRomEnd, "textureslist", (u8 *)0x1ff7ca0, 0x0, preprocessTexturesList }, // This offset is wrong.
 	{ NULL, NULL, NULL, NULL, 0, NULL },
 };
 
@@ -439,6 +439,31 @@ static inline struct romfile *romdataGetSeg(const char *name)
 	return seg;
 }
 
+struct textureextractiondata
+{
+	u32 ofs;
+	// Original GEX texture number
+	s32 texturenum;
+	u32 size;
+};
+
+static struct textureextractiondata texturesToExtract[] = {
+	{ 0x1b330ae, 0x000,  408 },
+	{ 0x1B33246, 0x001,   15 },
+	{ 0x1B6AB78, 0x106,  984 },
+	{ 0x1B6AF50, 0x107, 1033 },
+	{ 0x1B6B359, 0x108, 1010 },
+	{ 0x1B6B74B, 0x109, 1033 },
+	{ 0x1B6BB54, 0x10a, 1090 },
+	{ 0x1B6BF96, 0x10b, 1085 },
+	{ 0x1B6C3D3, 0x10c, 1014 },
+	{ 0x1B6C7C9, 0x10d,  270 },
+	{ 0x1B6C8D7, 0x10e, 1734 },
+	{ 0x1B6CF9D, 0x10f,  551 },
+	{ 0x1D6045D, 0x954,  690 },
+	{ 0x1D6070F, 0x955,  225 },
+};
+
 s32 romdataInit(void)
 {
 	const char *altRomName = sysArgGetString("--rom-file");
@@ -456,6 +481,15 @@ s32 romdataInit(void)
 	// set segments to point to the rom or load them externally
 	for (struct romfile *seg = gexSegs; seg->name; ++seg) {
 		romdataInitSegment(seg, true);
+	}
+
+	char path[FS_MAXPATH + 1];
+	for (int i = 0; i < ARRAYCOUNT(texturesToExtract); i++) {
+		struct textureextractiondata ted = texturesToExtract[i];
+		snprintf(path, sizeof(path), "data/textures/%04x.bin", ted.texturenum + 0xdaf);
+		FILE *fp = fopen(path, "wb");
+		fwrite(g_GexFile + ted.ofs, sizeof(char), ted.size, fp);
+		fclose(fp);
 	}
 
 	// load file table from the files segment
