@@ -15,7 +15,6 @@
 #endif
 
 struct texture *g_Textures;
-struct texture *g_GexTextures;
 u32 var800aabc4;
 struct texpool g_TexSharedPool;
 struct texcacheitem g_TexCacheItems[150];
@@ -2246,9 +2245,7 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 			}
 
 			bool gex = false;
-			s32 effectiveTexnum = g_TexNumToLoad;
-			if (effectiveTexnum >= NUM_ORIG_TEXTURES) {
-				effectiveTexnum -= NUM_ORIG_TEXTURES;
+			if (g_TexNumToLoad >= NUM_ORIG_TEXTURES) {
 				gex = true;
 			}
 
@@ -2264,13 +2261,8 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 			} else
 #endif
 			{
-				if (gex) {
-					thisoffset = g_GexTextures[effectiveTexnum].dataoffset;
-					nextoffset = g_GexTextures[effectiveTexnum + 1].dataoffset;
-				} else {
-					thisoffset = g_Textures[effectiveTexnum].dataoffset;
-					nextoffset = g_Textures[effectiveTexnum + 1].dataoffset;
-				}
+				thisoffset = g_Textures[g_TexNumToLoad].dataoffset;
+				nextoffset = g_Textures[g_TexNumToLoad + 1].dataoffset;
 
 				if (thisoffset == nextoffset) {
 					// The texture has no data

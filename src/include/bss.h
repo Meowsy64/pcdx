@@ -250,7 +250,6 @@ extern u32 *g_LangBanks[69];
 extern struct jpncharpixels *g_JpnCharCachePixels;
 extern struct jpncacheitem *g_JpnCacheCacheItems;
 extern struct texture *g_Textures;
-extern struct texture *g_GexTextures;
 extern struct texpool g_TexSharedPool;
 extern struct texcacheitem g_TexCacheItems[150];
 extern s32 g_TexCacheCount;

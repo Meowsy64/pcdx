@@ -26,7 +26,7 @@ s32 texGetHeightAtLod(struct tex *tex, s32 lod);
 s32 texGetLineSizeInBytes(struct tex *tex, s32 lod);
 s32 texGetSizeInBytes(struct tex *tex, s32 lod);
 void texGetDepthAndSize(struct tex *tex, s32 *arg1, s32 *arg2);
-s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpool *pool, u8 *vtxstart);
+s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpool *pool, u8 *vtxstart, s32 filenum);
 void texCopyGdls(Gfx *src, Gfx *dst, s32 numbytes);
 
 #endif

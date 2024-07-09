@@ -824,7 +824,7 @@ Gfx *texHandleType3(Gfx *gdl, struct tex *tex, s32 smode, s32 tmode, s32 offset)
  * The code that expands the C0 commands keeps track of RSP state and avoids
  * emitting duplicate or redundant commands.
  */
-s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpool *pool, u8 *vtxstart)
+s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpool *pool, u8 *vtxstart, s32 filenum)
 {
 	struct tex *tex1;
 	struct tex *tex2;
@@ -888,6 +888,9 @@ s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpo
 			}
 
 			texturenum = ingdl->words.w1 & 0xfff;
+			if (filenum >= FILE_GEX_BG_SEV_SEG) {
+				texturenum += NUM_ORIG_TEXTURES;
+			}
 			flag = ingdl->words.w0 & 0x200;
 
 			texLoadFromTextureNum(texturenum, pool);
@@ -918,6 +921,9 @@ s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpo
 					break;
 				case 1:
 					texturenum2 = (ingdl->words.w1 >> 12) & 0xfff;
+					if (filenum >= FILE_GEX_BG_SEV_SEG) {
+						texturenum2 += NUM_ORIG_TEXTURES;
+					}
 					texLoadFromTextureNum(texturenum2, pool);
 					tex2 = texFindInPool(texturenum2, pool);
 
