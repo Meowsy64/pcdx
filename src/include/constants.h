@@ -38,7 +38,8 @@
 #define NUM_MPWEAPONSLOTS     6
 #define NUM_SOLOSTAGES        21
 #define NUM_ORIG_TEXTURES     (VERSION == VERSION_JPN_FINAL ? 3511 : 3503)
-#define NUM_TEXTURES          (NUM_ORIG_TEXTURES * 2)
+#define NUM_GEX_TEXTURES      (3503)
+#define NUM_TEXTURES          (NUM_ORIG_TEXTURES + NUM_GEX_TEXTURES)
 
 #define osSyncPrintf
 
