@@ -15501,9 +15501,9 @@ void objDamage(struct defaultobj *obj, f32 damage, struct coord *pos, s32 weapon
 
 		if (cheatIsActive(CHEAT_CLASSICMODE)) {
 			if (objGetDestroyedLevel(obj) == 1 && !(obj->flags & OBJFLAG_WEAPON_NOAMMO)) {
-				if (obj->modelnum == MODEL_A51_CRATE1 || obj->modelnum == MODEL_A51_CRATE2 || obj->modelnum == MODEL_A51_CRATE3) {
+				if (obj->modelnum == MODEL_CARDBOARDBOX || obj->modelnum == MODEL_GEX_CRATE) {
 					obj->flags |= OBJFLAG_WEAPON_NOAMMO;
-					int randnum = obj->pad % 36;
+					int randnum = obj->pad % 24;
 					s32 weaponnum;
 					if (randnum == 0) {
 						weaponnum = WEAPON_RCP45;
