@@ -10,10 +10,18 @@ void texInit(void)
 {
 	extern u8 EXT_SEG _textureslistSegmentRomStart;
 	extern u8 EXT_SEG _textureslistSegmentRomEnd;
+	extern u8 EXT_SEG _gextextureslistSegmentRomStart;
+	extern u8 EXT_SEG _gextextureslistSegmentRomEnd;
 
 	u32 len = ((REF_SEG _textureslistSegmentRomEnd - REF_SEG _textureslistSegmentRomStart) + 15) & -16;
 
 	g_Textures = mempAlloc(len, MEMPOOL_PERMANENT);
 
 	dmaExec(g_Textures, (romptr_t) REF_SEG _textureslistSegmentRomStart, len);
+
+	len = ((REF_SEG _gextextureslistSegmentRomEnd - REF_SEG _gextextureslistSegmentRomStart) + 15) & -16;
+
+	g_GexTextures = mempAlloc(len, MEMPOOL_PERMANENT);
+
+	dmaExec(g_GexTextures, (romptr_t) REF_SEG _gextextureslistSegmentRomStart, len);
 }

@@ -15,6 +15,7 @@
 #endif
 
 struct texture *g_Textures;
+struct texture *g_GexTextures;
 u32 var800aabc4;
 struct texpool g_TexSharedPool;
 struct texcacheitem g_TexCacheItems[150];
@@ -2167,6 +2168,7 @@ void texLoadFromDisplayList(Gfx *gdl, struct texpool *pool, s32 arg2)
 }
 
 extern u8 EXT_SEG _texturesdataSegmentRomStart;
+extern u8 EXT_SEG _gextexturesdataSegmentRomStart;
 
 /**
  * Load and decompress a texture from ROM.
@@ -2243,14 +2245,26 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 				return;
 			}
 
+			bool gex = false;
+			s32 effectiveTexnum = g_TexNumToLoad;
+			if (effectiveTexnum >= NUM_ORIG_TEXTURES) {
+				effectiveTexnum -= NUM_ORIG_TEXTURES;
+				gex = true;
+			}
+
 			alignedcompbuffer = (u8 *) (((uintptr_t)compbuffer + 0xf) >> 4 << 4);
 
 			osWritebackDCacheAll();
 			osInvalDCache(alignedcompbuffer, DCACHE_SIZE);
 
 			if (g_TexNumToLoad < NUM_TEXTURES) {
-				thisoffset = g_Textures[g_TexNumToLoad].dataoffset;
-				nextoffset = g_Textures[g_TexNumToLoad + 1].dataoffset;
+				if (gex) {
+					thisoffset = g_GexTextures[effectiveTexnum].dataoffset;
+					nextoffset = g_GexTextures[effectiveTexnum + 1].dataoffset;
+				} else {
+					thisoffset = g_Textures[effectiveTexnum].dataoffset;
+					nextoffset = g_Textures[effectiveTexnum + 1].dataoffset;
+				}
 
 				if (thisoffset == nextoffset) {
 					// The texture has no data
@@ -2266,9 +2280,15 @@ void texLoad(texnum_t *updateword, struct texpool *pool, bool unusedarg)
 #endif
 			{
 				// Copy the compressed texture to RAM
-				dmaExec(alignedcompbuffer,
-						(romptr_t) REF_SEG _texturesdataSegmentRomStart + (thisoffset & 0xfffffff8),
-						((u32) (nextoffset - thisoffset) + 0x1f) >> 4 << 4);
+				if (gex) {
+					dmaExec(alignedcompbuffer,
+							(romptr_t) REF_SEG _gextexturesdataSegmentRomStart + (thisoffset & 0xfffffff8),
+							((u32) (nextoffset - thisoffset) + 0x1f) >> 4 << 4);
+				} else {
+					dmaExec(alignedcompbuffer,
+							(romptr_t) REF_SEG _texturesdataSegmentRomStart + (thisoffset & 0xfffffff8),
+							((u32) (nextoffset - thisoffset) + 0x1f) >> 4 << 4);
+				}
 				compptr = (u8 *) alignedcompbuffer + (thisoffset & 7);
 			}
 			thisoffset = 0;

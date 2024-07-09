@@ -1244,6 +1244,8 @@ void preprocessModel(u8 *base, u32 ofs, s32 filenum)
 					u32 size_bytes = texconfigs[i].width * texconfigs[i].height * 4;
 					preprocessTextureRGBA32Embedded((u32*)texdata, size_bytes);
 				}
+			} else if (filenum >= FILE_GEX_BG_SEV_SEG) {
+				texconfigs[i].texturenum += NUM_ORIG_TEXTURES;
 			}
 		}
 	}

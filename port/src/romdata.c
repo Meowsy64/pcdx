@@ -144,6 +144,9 @@ static struct romfile fileSlots[ROMDATA_MAX_FILES] = {
 #define ROMSEG_DECL_SEG(name, ofs_ntsc, ofs_pal, ofs_jpn, size, preproc) u8 *ROMSEG_START(name), *ROMSEG_END(name);
 ROMSEG_LIST()
 
+u8 *_gextexturesdataSegmentRomStart, *_gextexturesdataSegmentRomEnd;
+u8 *_gextextureslistSegmentRomStart, *_gextextureslistSegmentRomEnd;
+
 // this is part of the animations seg and as such does not follow the naming convention
 // these are set in preprocessAnimations
 u8 *_animationsTableRomStart;
@@ -163,6 +166,12 @@ u8 *_animationsTableRomEnd;
 
 static struct romfile romSegs[] = {
 	ROMSEG_LIST()
+	{ NULL, NULL, NULL, NULL, 0, NULL },
+};
+
+static struct romfile gexSegs[] = {
+	{ &_gextexturesdataSegmentRomStart, &_gextexturesdataSegmentRomEnd, "texturesdata", (u8 *)0x1d65f40, 0x0, ((void *)0) },
+	{ &_gextextureslistSegmentRomStart, &_gextextureslistSegmentRomEnd, "textureslist", (u8 *)0x1ff7ca0, 0x0, preprocessTexturesList },
 	{ NULL, NULL, NULL, NULL, 0, NULL },
 };
 
@@ -274,7 +283,7 @@ static inline void romdataLoadRom(void)
 	gexDataSegSize = dataSegLen;
 }
 
-static inline void romdataInitSegment(struct romfile *seg)
+static inline void romdataInitSegment(struct romfile *seg, bool gex)
 {
 	if (!seg->data) {
 		// unused in this ROM, skip it
@@ -297,17 +306,23 @@ static inline void romdataInitSegment(struct romfile *seg)
 	char tmp[FS_MAXPATH];
 	snprintf(tmp, sizeof(tmp), ROMDATA_SEGDIR "/%s", seg->name);
 	u8 *newData = NULL;
-	const s32 extFileSize = fsFileSize(tmp);
-	if (extFileSize > 0) {
-		newData = fsFileLoad(tmp, &seg->size);
+	if (!gex) {
+		const s32 extFileSize = fsFileSize(tmp);
+		if (extFileSize > 0) {
+			newData = fsFileLoad(tmp, &seg->size);
+		}
 	}
 
 	if (!newData) {
 		// no external data, just make it point to the rom
-		if (g_RomFile) {
+		if (!gex && g_RomFile) {
 			newData = g_RomFile + (uintptr_t)seg->data;
 			seg->source = SRC_ROM;
-			sysLogPrintf(LOG_NOTE, "loading segment %s from ROM (offset %08x pointer %p)", seg->name, (u32)seg->data, newData);
+			sysLogPrintf(LOG_NOTE, "loading segment %s from Perfect Dark ROM (offset %08x pointer %p)", seg->name, (u32)seg->data, newData);
+		} else if (gex && g_GexFile) {
+			newData = g_GexFile + (uintptr_t)seg->data;
+			seg->source = SRC_ROM;
+			sysLogPrintf(LOG_NOTE, "loading segment %s from GoldenEye X ROM (offset %08x pointer %p)", seg->name, (u32)seg->data, newData);
 		} else {
 			sysFatalError("No ROM or external file for segment:\n%s", seg->name);
 		}
@@ -435,7 +450,12 @@ s32 romdataInit(void)
 
 	// set segments to point to the rom or load them externally
 	for (struct romfile *seg = romSegs; seg->name; ++seg) {
-		romdataInitSegment(seg);
+		romdataInitSegment(seg, false);
+	}
+
+	// set segments to point to the rom or load them externally
+	for (struct romfile *seg = gexSegs; seg->name; ++seg) {
+		romdataInitSegment(seg, true);
 	}
 
 	// load file table from the files segment
