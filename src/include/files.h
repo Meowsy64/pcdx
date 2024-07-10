@@ -4035,3 +4035,5 @@ enum filenum {
 
     NUM_FILES
 };
+
+#define isFileFromGEX(filenum) (filenum >= FILE_GEX_BG_SEV_SEG && filenum <= FILE_GEX_ACARRBYE02M)
