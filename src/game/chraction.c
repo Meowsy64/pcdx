@@ -6710,7 +6710,7 @@ bool chrIsStopped(struct chrdata *chr)
 
 bool chrCheckCanSeeTarget(struct chrdata *chr)
 {
-	if (cheatIsActive(CHEAT_ULTRAVISIBLE)) {
+	if (cheatIsActive(CHEAT_ULTRAVISIBLE) || chr == g_Vars.chicagoghostchr) {
 		return true;
 	}
 

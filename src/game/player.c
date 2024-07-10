@@ -3298,7 +3298,9 @@ s32 playerDuplicateChrExt(s32 chrnum, u32 spawnflags, s32 ailistid, s32 bodynum,
 				cloneweapon0prop = chrGiveWeaponWithAutoModel(clone, weaponnum, 0);
 				if (weaponnum2 != -2) {
 					cloneweapon1prop = chrGiveWeaponWithAutoModel(clone, weaponnum2, 0);
-					propweaponSetDual(cloneweapon1prop->weapon, cloneweapon0prop->weapon);
+					if (cloneweapon0prop && cloneweapon1prop) {
+						propweaponSetDual(cloneweapon1prop->weapon, cloneweapon0prop->weapon);
+					}
 				}
 			}
 
@@ -3359,10 +3361,12 @@ s32 playerCreateChicagoGhost(s32 chrnum)
 	g_Vars.chicagoghostchrnum = playerDuplicateChrExt(chrnum, SPAWNFLAG_RTRACKED, GAILIST_SEARCH_FOR_PLAYER, BODY_DJBOND, HEAD_RANDOM, WEAPON_CROSSBOW, WEAPON_RCP45);
 
 	if (g_Vars.chicagoghostchrnum < 0) {
+		g_Vars.chicagoghostchr = NULL;
 		return g_Vars.chicagoghostchrnum;
 	}
 
 	struct chrdata *chr = chrFindByLiteralId(g_Vars.chicagoghostchrnum);
+	g_Vars.chicagoghostchr = chr;
 
 	chr->flags = CHRFLAG0_CANT_ALERT_GROUP | CHRFLAG0_AIVSAI;
 	chr->flags2 = CHRFLAG1_AIVSAI_ADVANTAGED | CHRFLAG1_IGNORECOVER | CHRFLAG1_PUNCHHARDER;

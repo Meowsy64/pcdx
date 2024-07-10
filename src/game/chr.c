@@ -2235,6 +2235,9 @@ void chrUpdateCloak(struct chrdata *chr)
 
 s32 chrGetCloakAlpha(struct chrdata *chr)
 {
+	if (chr == g_Vars.chicagoghostchr) {
+		return 127;
+	}
 	s32 alpha = 255;
 
 	if (chr->cloakfadefrac > 0 || chr->cloakfadefinished == true) {

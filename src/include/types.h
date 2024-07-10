@@ -290,6 +290,7 @@ struct g_vars {
 	          bool aibuddyspawned[MAX_BUDDIES_IN_MISSION];
               s32 aibuddytype[MAX_BUDDIES_IN_MISSION];
 			  bool chicagoghostchrnum;
+			  struct chrdata* chicagoghostchr;
 };
 
 struct weaponobj;

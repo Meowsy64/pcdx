@@ -289,6 +289,7 @@ void lvReset(s32 stagenum)
 	g_Vars.aibuddiesspawned = false;
 
 	g_Vars.chicagoghostchrnum = -1;
+	g_Vars.chicagoghostchr = NULL;
 	for (i = 0; i < ARRAYCOUNT(g_Vars.aibuddyspawned); i++) {
 		g_Vars.aibuddyspawned[i] = false;
 	}
