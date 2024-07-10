@@ -2953,7 +2953,7 @@ void bgLoadRoom(s32 roomnum)
 		for (i = 0; i < numgdls; i++) {
 			s32 byteswritten;
 			len = gfxblocks[i + 1] - gfxblocks[i];
-			byteswritten = texLoadFromGdl((void *) gdlpointers[i], len, (void *) itergdl2, NULL, vtxblocks[i], FILE_BG_SEV_SEG); // TODO: Determine and pass the correct filenum
+			byteswritten = texLoadFromGdl((void *) gdlpointers[i], len, (void *) itergdl2, NULL, vtxblocks[i], g_Stages[g_StageIndex].bgfileid);
 			gdlpointers[i] = itergdl2;
 
 			if (len);
