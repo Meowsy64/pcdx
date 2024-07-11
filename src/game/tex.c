@@ -888,7 +888,7 @@ s32 texLoadFromGdl(Gfx *instart, s32 gdlsizeinbytes, Gfx *outstart, struct texpo
 			}
 
 			texturenum = ingdl->words.w1 & 0xfff;
-			if (isFileFromGEX(filenum)) {
+			if (isFileFromGEX(filenum) && filenum != FILE_GEX_GWPPK) {
 				texturenum += NUM_ORIG_TEXTURES;
 			}
 			flag = ingdl->words.w0 & 0x200;

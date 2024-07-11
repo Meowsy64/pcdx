@@ -583,6 +583,53 @@ s32 romdataInit(void)
 
 	sysLogPrintf(LOG_NOTE, "romdataInit: loaded rom, size = %u", g_RomFileSize);
 
+	if (g_GexFile) {
+		extern struct weaponfunc_melee* invfunc_falcon2_pistolwhip;
+		extern struct guncmd invanim_falcon2_equip[];
+		extern struct guncmd invanim_falcon2_unequip[];
+		extern struct gunviscmd gunviscmds_falcon2[];
+		extern struct gunviscmd gunviscmds_falcon2silencer[];
+		extern struct modelpartvisibility invpartvisibility_falcon2[];
+		extern struct modelpartvisibility invpartvisibility_falcon2silencer[];
+		extern struct weaponfunc_shootsingle invfunc_pp9i_shoot;
+		extern struct weaponfunc_shootsingle invfunc_pp9i_shoot_silenced;
+		extern struct guncmd invanim_falcon2_shoot[];	
+
+		// patch in GEX goodies:
+
+		/* // Muzzle flash is not working correctly.
+		// PP7 model
+		g_Weapons[WEAPON_PP9I]->hi_model =  FILE_GEX_GWPPK;
+		g_Weapons[WEAPON_PP9I]->lo_model = FILE_GEX_GWPPK;
+		//g_Weapons[WEAPON_PP9I]->functions[1] = 	&invfunc_falcon2_pistolwhip; // Bugged
+		g_Weapons[WEAPON_PP9I]->equip_animation = invanim_falcon2_equip;
+		g_Weapons[WEAPON_PP9I]->unequip_animation = invanim_falcon2_unequip;
+		g_Weapons[WEAPON_PP9I]->gunviscmds = gunviscmds_falcon2;
+		g_Weapons[WEAPON_PP9I]->partvisibility = invpartvisibility_falcon2;
+		g_Weapons[WEAPON_PP9I]->muzzlez = 2;
+		g_Weapons[WEAPON_PP9I]->posx = 9;
+		g_Weapons[WEAPON_PP9I]->posy = -15.7;
+		g_Weapons[WEAPON_PP9I]->posz = -23.8;
+		g_Weapons[WEAPON_PP9I]->flags = WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_GANGSTA;
+		invfunc_pp9i_shoot.base.base.fire_animation = invanim_falcon2_shoot;
+		*/
+
+		// Silenced PP7 model
+		g_Weapons[WEAPON_PP9I_SILENCER]->hi_model = FILE_GEX_GWPPK;
+		g_Weapons[WEAPON_PP9I_SILENCER]->lo_model = FILE_GEX_GWPPK;
+		//g_Weapons[WEAPON_PP9I_SILENCER]->functions[1] = &invfunc_falcon2_pistolwhip; // Bugged
+		g_Weapons[WEAPON_PP9I_SILENCER]->equip_animation = invanim_falcon2_equip;
+		g_Weapons[WEAPON_PP9I_SILENCER]->unequip_animation = invanim_falcon2_unequip;
+		g_Weapons[WEAPON_PP9I_SILENCER]->gunviscmds = gunviscmds_falcon2silencer;
+		g_Weapons[WEAPON_PP9I_SILENCER]->partvisibility = invpartvisibility_falcon2silencer;
+		g_Weapons[WEAPON_PP9I_SILENCER]->muzzlez = 2;
+		g_Weapons[WEAPON_PP9I_SILENCER]->posx = 9;
+		g_Weapons[WEAPON_PP9I_SILENCER]->posy = -15.7;
+		g_Weapons[WEAPON_PP9I_SILENCER]->posz = -23.8;
+		g_Weapons[WEAPON_PP9I_SILENCER]->flags = WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_GANGSTA;
+		invfunc_pp9i_shoot_silenced.base.base.fire_animation = invanim_falcon2_shoot;
+	}
+
 	return 0;
 }
 
