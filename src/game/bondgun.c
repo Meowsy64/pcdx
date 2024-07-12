@@ -7406,7 +7406,7 @@ void bgun0f0a4e44(struct hand *hand, struct weapon *weapondef, struct modeldef *
 		struct modelnode *node = modelGetPart(modeldef, partnum);
 		struct coord sp60;
 
-		if (node && weaponnum != WEAPON_REAPER && weaponnum != WEAPON_SHOTGUN) {
+		if (node && weaponnum != WEAPON_REAPER && weaponnum != WEAPON_SHOTGUN && weaponnum != WEAPON_AUTOSHOTGUN) {
 			struct modelrodata_position *rodata = &node->rodata->position;
 			s32 mtxindex = modelFindNodeMtxIndex(node, 0);
 
@@ -8037,7 +8037,7 @@ void bgun0f0a5550(s32 handnum)
 
 				hand->muzzlez = -((Mtxf *)((uintptr_t)mtxallocation + sp6c * sizeof(Mtxf)))->m[3][2];
 
-				if (hand->flashon && sp1e0 > 0 && weaponnum != WEAPON_SHOTGUN && g_Vars.lvupdate240 != 0) {
+				if (hand->flashon && sp1e0 > 0 && weaponnum != WEAPON_SHOTGUN && weaponnum != WEAPON_AUTOSHOTGUN && g_Vars.lvupdate240 != 0) {
 					bgun0f0a4e44(hand, weapondef, modeldef, funcdef, sp1e0, mtxallocation, weaponnum, sp1e4, sp6c, &sp234, &sp1f4);
 				}
 			} else if (weaponnum == WEAPON_GRENADE
