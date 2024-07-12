@@ -504,6 +504,7 @@ void botinvScoreWeapon(struct chrdata *chr, s32 weaponnum, s32 funcnum, s32 arg3
 		}
 		break;
 	case WEAPON_DRAGON:
+	case WEAPON_P9P:
 		if (funcnum != FUNC_PRIMARY) {
 			score1 = 0;
 			score2 = 0;

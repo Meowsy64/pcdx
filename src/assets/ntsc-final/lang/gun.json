@@ -2456,5 +2456,6 @@
 	{ "id": "L_GUN_FALCON2_SILSCO_DESC", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
 	{ "id": "L_GUN_DMCSIL_SHORT", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
 	{ "id": "L_GUN_DMCSIL_LONG", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
-	{ "id": "L_GUN_AUTOSHOTGUN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
+	{ "id": "L_GUN_AUTOSHOTGUN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+	{ "id": "L_GUN_P9P", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
 ]

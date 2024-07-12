@@ -455,6 +455,7 @@ char *langGet(s32 textid)
 		case L_GUN_DMCSIL_SHORT:              return "DMC (s)\n";
 		case L_GUN_DMCSIL_LONG:               return "DMC (silenced)\n";
 		case L_GUN_AUTOSHOTGUN:               return "Auto-Shotgun\n";
+		case L_GUN_P9P:               		  return "P9P\n";
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif

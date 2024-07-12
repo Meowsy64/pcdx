@@ -866,6 +866,7 @@ Gfx *sightDrawDefault(Gfx *gdl, bool sighton)
 							textid = L_GUN_214; // "REMOTE"
 							break;
 						case WEAPON_DRAGON:
+						case WEAPON_P9P:
 							if (weapon->gunfunc == FUNC_SECONDARY) {
 								textid = L_GUN_212; // "PROXY"
 							}

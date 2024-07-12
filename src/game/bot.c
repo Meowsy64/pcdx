@@ -676,7 +676,8 @@ s32 botIsObjCollectable(struct defaultobj *obj)
 				|| weapon->weaponnum == WEAPON_REMOTEMINE
 				|| weapon->weaponnum == WEAPON_TIMEDMINE
 				|| weapon->weaponnum == WEAPON_SKROCKET
-				|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)) {
+				|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)
+				|| (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY)) {
 			return false;
 		}
 
@@ -3515,7 +3516,8 @@ void botTickUnpaused(struct chrdata *chr)
 							if (chr->aibot->throwtimer60 <= 0) {
 								if (botactGetAmmoQuantityByWeapon(aibot, aibot->weaponnum, aibot->gunfunc, false) > 0
 										|| aibot->weaponnum == WEAPON_LAPTOPGUN
-										|| aibot->weaponnum == WEAPON_DRAGON) {
+										|| aibot->weaponnum == WEAPON_DRAGON
+										|| aibot->weaponnum == WEAPON_P9P) {
 									bool throw = false;
 
 									if (chr->target != -1

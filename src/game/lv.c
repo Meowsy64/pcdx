@@ -778,6 +778,7 @@ void lvFindThreatsForProp(struct prop *prop, bool inchild, struct coord *playerp
 				pass = true;
 				break;
 			case WEAPON_DRAGON:
+			case WEAPON_P9P:
 				if (weapon->gunfunc == (u32)FUNC_SECONDARY) {
 					pass = true;
 				}

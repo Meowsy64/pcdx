@@ -6074,6 +6074,7 @@ bool aiIfSafety2LessThan(void)
 	case WEAPON_RCP120:
 	case WEAPON_LAPTOPGUN:
 	case WEAPON_DRAGON:
+	case WEAPON_P9P:
 	case WEAPON_K7AVENGER:
 	case WEAPON_AR34:
 	case WEAPON_SUPERDRAGON:

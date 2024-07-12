@@ -2423,6 +2423,10 @@ void objFree(struct defaultobj *obj, bool freeprop, bool canregen)
 			weaponUnregisterProxy(weapon);
 		}
 
+		if (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY) {
+			weaponUnregisterProxy(weapon);
+		}
+
 		if (weapon->weaponnum == WEAPON_NBOMB && weapon->gunfunc == FUNC_SECONDARY) {
 			weaponUnregisterProxy(weapon);
 		}
@@ -4504,6 +4508,7 @@ void weaponTick(struct prop *prop)
 		}
 	} else if (weapon->weaponnum == WEAPON_PROXIMITYMINE
 			|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)
+			|| (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY)
 			|| (weapon->weaponnum == WEAPON_GRENADE && weapon->gunfunc == FUNC_SECONDARY)
 			|| (weapon->weaponnum == WEAPON_NBOMB && weapon->gunfunc == FUNC_SECONDARY)) {
 		// Handle proximity items
@@ -4573,7 +4578,7 @@ void weaponTick(struct prop *prop)
 					exptype = EXPLOSIONTYPE_ROCKET;
 				}
 
-				if (weapon->weaponnum == WEAPON_DRAGON) {
+				if (weapon->weaponnum == WEAPON_DRAGON || weapon->weaponnum == WEAPON_P9P) {
 					exptype = EXPLOSIONTYPE_DRAGONBOMBSPY;
 				}
 
@@ -15420,7 +15425,8 @@ void objDamage(struct defaultobj *obj, f32 damage, struct coord *pos, s32 weapon
 					|| weapon->weaponnum == WEAPON_ROCKET
 					|| weapon->weaponnum == WEAPON_HOMINGROCKET
 					|| weapon->weaponnum == WEAPON_GRENADEROUND
-					|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)) {
+					|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)
+					|| (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY)) {
 				// Homing rockets are immune to remote mines? Or maybe they just
 				// don't explode because the mine is exploding anyway
 				if (weapon->weaponnum != WEAPON_HOMINGROCKET || weaponnum != WEAPON_REMOTEMINE) {
@@ -17584,6 +17590,7 @@ s32 objTestForPickup(struct prop *prop)
 				|| weapon->weaponnum == WEAPON_PROXIMITYMINE
 				|| weapon->weaponnum == WEAPON_TIMEDMINE
 				|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)
+				|| (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY)
 				|| weapon->weaponnum == WEAPON_TRACERBUG
 				|| weapon->weaponnum == WEAPON_TARGETAMPLIFIER
 				|| weapon->weaponnum == WEAPON_COMMSRIDER
@@ -18324,7 +18331,7 @@ void coordTriggerProxies(struct coord *pos, bool arg1)
 			f32 zdiff;
 			f32 range = 250 * 250;
 
-			if (weapon->weaponnum == WEAPON_DRAGON) {
+			if (weapon->weaponnum == WEAPON_DRAGON || weapon->weaponnum == WEAPON_P9P) {
 				range += range;
 			}
 
@@ -21577,7 +21584,7 @@ void projectileCreate(struct prop *fromprop, struct fireslotthing *arg1, struct 
 						if (obj->type == OBJTYPE_WEAPON) {
 							struct weaponobj *weapon = (struct weaponobj *)obj;
 
-							if (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY) {
+							if ((weapon->weaponnum == WEAPON_DRAGON || weapon->weaponnum == WEAPON_P9P) && weapon->gunfunc == FUNC_SECONDARY) {
 								weapon->timer240 = 0;
 							}
 						}

@@ -290,6 +290,7 @@ bool botactIsWeaponThrowable(s32 weaponnum, bool is_secondary)
 	switch (weaponnum) {
 	case WEAPON_LAPTOPGUN:
 	case WEAPON_DRAGON:
+	case WEAPON_P9P:
 	case WEAPON_COMBATKNIFE:
 		return is_secondary;
 	case WEAPON_GRENADE:

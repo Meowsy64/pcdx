@@ -4389,6 +4389,53 @@ struct weapon invitem_pp9isil = {
 	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00004000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_GANGSTA,
 };
 
+struct weaponfunc_throw invfunc_p9p_selfdestruct = {
+	INVENTORYFUNCTYPE_THROW,
+	L_GUN_118, // name
+	0, // unused
+	-1, // ammoindex
+	&invnoisesettings_silent,
+	NULL, // fire animation
+	FUNCFLAG_NOAUTOAIM | FUNCFLAG_NOMUZZLEFLASH | FUNCFLAG_DISCARDWEAPON,
+	MODEL_CHRWPPK, // projectilemodelnum
+	240, // activatetime60
+	60, // recoverytime60
+	0, // damage
+};
+
+struct inventory_ammo invammo_p9p = {
+	AMMOTYPE_PISTOL,
+	CASING_STANDARD,
+	9, // clip size
+	NULL, // reload animation
+	0, // flags
+};
+
+struct weapon invitem_p9p = {
+	FILE_GWPPK, // hi model
+	FILE_GWPPK, // lo model
+	invanim_pp9i_shoot, // equip animation
+	NULL, // unequip animation
+	NULL, // pritosec animation
+	NULL, // sectopri animation
+	{ &invfunc_pp9i_shoot, &invfunc_p9p_selfdestruct }, // functions
+	&invammo_p9p, // pri ammo
+	NULL, // sec ammo
+	&invaimsettings_default,
+	1, // muzzlez
+	10, // posx
+	-14.8, // posy
+	-19, // posz
+	1, // sway
+	gunviscmds_classicpistol, // gunviscmds
+	invpartvisibility_classic, // part visibility
+	L_GUN_P9P, // short name
+	L_GUN_P9P, // name
+	L_GUN_000, // manufacturer
+	L_GUN_000, // description
+	WEAPONFLAG_00000004 | WEAPONFLAG_ONEHANDED | WEAPONFLAG_AICANUSE | WEAPONFLAG_DUALFLIP | WEAPONFLAG_00000040 | WEAPONFLAG_TRACKTIMEUSED | WEAPONFLAG_00000400 | WEAPONFLAG_DUALWIELD | WEAPONFLAG_00002000 | WEAPONFLAG_00004000 | WEAPONFLAG_00008000 | WEAPONFLAG_HASHANDS | WEAPONFLAG_GANGSTA,
+};
+
 struct guncmd invanim_cc13_shoot[] = {
 	gunscript_playanimation(ANIM_GUN_CC13_SHOOT, 0, 10000)
 	gunscript_waittime(10, 5)
@@ -6414,6 +6461,7 @@ struct weapon *g_Weapons[] = {
 	&invitem_falcon2silencer,
 	&invitem_falcon2scope,
 	&invitem_falcon2silencerscope,
+	&invitem_p9p,
 	&invitem_magsec,
 	&invitem_mauler,
 	&invitem_phoenix,
@@ -6849,6 +6897,15 @@ struct pcdx_weapon extweap_combatboost = {
 	{ 0.20000000298023f,  -1.5f,              1.0f,               43.288791656494f, 6.6717000007629f  },
 	MODEL_CHRSPEEDPILL,
 	WEAPON_NONE,
+	WEAPONFLAG2_CHEATCANREPLACE,
+	256,
+};
+
+struct pcdx_weapon extweap_p9p = {
+	{ 56,  60,  84,  88,  1, 0, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
+	{ -68.400001525879f,  14.699999809265f,   -92.5f,             44.255790710449f, 0.59876000881195f },
+	MODEL_CHRWPPK,
+	WEAPON_PP9I,
 	WEAPONFLAG2_CHEATCANREPLACE,
 	256,
 };
@@ -7340,6 +7397,7 @@ struct pcdx_weapon *g_WeaponsExtended[] = {
 	&extweap_falcon2silencer,
 	&extweap_falcon2scope,
 	&extweap_falcon2silencerscope,
+	&extweap_p9p,
 	&extweap_magsec,
 	&extweap_mauler,
 	&extweap_phoenix,

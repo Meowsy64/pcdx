@@ -1358,6 +1358,7 @@ void frEndSession(bool hidetargets)
 								|| weapon->weaponnum == WEAPON_TIMEDMINE
 								|| weapon->weaponnum == WEAPON_SKROCKET
 								|| (weapon->weaponnum == WEAPON_DRAGON && weapon->gunfunc == FUNC_SECONDARY)
+								|| (weapon->weaponnum == WEAPON_P9P && weapon->gunfunc == FUNC_SECONDARY)
 								|| (weapon->weaponnum == WEAPON_LAPTOPGUN && weapon->gunfunc == FUNC_SECONDARY)) {
 							objFreePermanently(obj, true);
 						}
