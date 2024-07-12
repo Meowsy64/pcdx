@@ -3082,7 +3082,25 @@ struct weapon {
 	/*0x4c*/ u32 flags;
 };
 
+struct aibotweaponpreference {
+	u8 unk00;
+	u8 unk01;
+	u8 unk02;
+	u8 unk03;
+	u16 haspriammogoal : 1;
+	u16 hassecammogoal : 1;
+	u16 pridistconfig : 4;
+	u16 secdistconfig : 4;
+	u16 targetammopri;
+	u16 targetammosec;
+	u16 criticalammopri;
+	u16 criticalammosec;
+	u16 reloaddelay : 3; // in seconds
+	u16 allowpartialreloaddelay : 1;
+};
+
 struct pcdx_weapon {
+	struct aibotweaponpreference AibotWeaponPreferences;
 	s16 chr_model;
 	s32 classicweapon;
 	u64 flags;
@@ -5673,23 +5691,6 @@ struct animationdefinition {
 struct portalvertices {
 	u8 count;
 	struct coord vertices[1];
-};
-
-struct aibotweaponpreference {
-	u8 unk00;
-	u8 unk01;
-	u8 unk02;
-	u8 unk03;
-	u16 haspriammogoal : 1;
-	u16 hassecammogoal : 1;
-	u16 pridistconfig : 4;
-	u16 secdistconfig : 4;
-	u16 targetammopri;
-	u16 targetammosec;
-	u16 criticalammopri;
-	u16 criticalammosec;
-	u16 reloaddelay : 3; // in seconds
-	u16 allowpartialreloaddelay : 1;
 };
 
 struct handweaponinfo {

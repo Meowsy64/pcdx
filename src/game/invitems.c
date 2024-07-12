@@ -6510,6 +6510,7 @@ struct weapon *g_Weapons[] = {
 };
 
 struct pcdx_weapon extweap_nothing = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  0, 0 },
 	MODEL_NONE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6517,6 +6518,7 @@ struct pcdx_weapon extweap_nothing = {
 };
 
 struct pcdx_weapon extweap_unarmed = {
+	{ 13,  13,  13,  13,  1, 1, BOTDISTCFG_CLOSE,          BOTDISTCFG_CLOSE,          0,             0,   0,  0,  0, 0 },
 	MODEL_NONE,
 	WEAPON_UNARMED,
 	WEAPONFLAG2_NONE,
@@ -6524,6 +6526,7 @@ struct pcdx_weapon extweap_unarmed = {
 };
 
 struct pcdx_weapon extweap_falcon2 = {
+	{ 56,  60,  84,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRFALCON2,
 	WEAPON_PP9I,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6531,6 +6534,7 @@ struct pcdx_weapon extweap_falcon2 = {
 };
 
 struct pcdx_weapon extweap_falcon2silencer = {
+	{ 52,  60,  80,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRFALCON2SIL,
 	WEAPON_PP9I_SILENCER,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6538,6 +6542,7 @@ struct pcdx_weapon extweap_falcon2silencer = {
 };
 
 struct pcdx_weapon extweap_falcon2scope = {
+	{ 60,  60,  88,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRFALCON2SCOPE,
 	WEAPON_PP9I,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6545,6 +6550,7 @@ struct pcdx_weapon extweap_falcon2scope = {
 };
 
 struct pcdx_weapon extweap_falcon2silencerscope = {
+	{ 60,  60,  88,  88,  1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRFALCON2SIL,
 	WEAPON_PP9I_SILENCER,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6552,6 +6558,7 @@ struct pcdx_weapon extweap_falcon2silencerscope = {
 };
 
 struct pcdx_weapon extweap_magsec = {
+	{ 76,  88,  104, 120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 1, 0 },
 	MODEL_CHRLEEGUN1,
 	WEAPON_CC13,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6559,6 +6566,7 @@ struct pcdx_weapon extweap_magsec = {
 };
 
 struct pcdx_weapon extweap_mauler = {
+	{ 64,  88,  92,  120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 1, 0 }, // WEAPON_MAULER
 	MODEL_CHRMAULER,
 	WEAPON_KL01313,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6566,6 +6574,7 @@ struct pcdx_weapon extweap_mauler = {
 };
 
 struct pcdx_weapon extweap_phoenix = {
+	{ 72,  76,  100, 120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 2, 0 },
 	MODEL_CHRMAIANPISTOL,
 	WEAPON_PP9I,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6573,6 +6582,7 @@ struct pcdx_weapon extweap_phoenix = {
 };
 
 struct pcdx_weapon extweap_dy357 = {
+	{ 68,  76,  96,  120, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   8,  0,  3, 0 },
 	MODEL_CHRDY357,
 	WEAPON_NONE, // WEAPON_COUGARMAGNUM
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6580,6 +6590,7 @@ struct pcdx_weapon extweap_dy357 = {
 };
 
 struct pcdx_weapon extweap_dy357lx = {
+	{ 180, 188, 184, 188, 1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          20,            0,   6,  0,  3, 0 },
 	MODEL_CHRDY357TRENT,
 	WEAPON_NONE, // WEAPON_GOLDENGUN
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6587,6 +6598,7 @@ struct pcdx_weapon extweap_dy357lx = {
 };
 
 struct pcdx_weapon extweap_cmp150 = {
+	{ 116, 128, 136, 152, 1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        100,           100, 30, 30, 2, 0 },
 	MODEL_CHRCMP150,
 	WEAPON_ZZT,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6594,6 +6606,7 @@ struct pcdx_weapon extweap_cmp150 = {
 };
 
 struct pcdx_weapon extweap_cyclone = {
+	{ 120, 128, 132, 140, 1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        150,           150, 50, 50, 2, 0 },
 	MODEL_CHRCYCLONE,
 	WEAPON_AR53,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6601,6 +6614,7 @@ struct pcdx_weapon extweap_cyclone = {
 };
 
 struct pcdx_weapon extweap_callisto = {
+	{ 152, 176, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        100,           70,  25, 15, 2, 0 },
 	MODEL_CHRMAIANSMG,
 	WEAPON_DMC,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6608,6 +6622,7 @@ struct pcdx_weapon extweap_callisto = {
 };
 
 struct pcdx_weapon extweap_rcp120 = {
+	{ 172, 188, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        300,           0,   40, 0,  2, 0 },
 	MODEL_CHRRCP120,
 	WEAPON_RCP45,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6615,6 +6630,7 @@ struct pcdx_weapon extweap_rcp120 = {
 };
 
 struct pcdx_weapon extweap_laptopgun = {
+	{ 128, 140, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        100,           0,   30, 0,  3, 0 },
 	MODEL_CHRPCGUN,
 	WEAPON_AR53,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6622,6 +6638,7 @@ struct pcdx_weapon extweap_laptopgun = {
 };
 
 struct pcdx_weapon extweap_dragon = {
+	{ 124, 148, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 },
 	MODEL_CHRDRAGON,
 	WEAPON_KF7SPECIAL,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6629,6 +6646,7 @@ struct pcdx_weapon extweap_dragon = {
 };
 
 struct pcdx_weapon extweap_k7avenger = {
+	{ 156, 180, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        150,           0,   40, 0,  2, 0 },
 	MODEL_CHRAVENGER,
 	WEAPON_KF7SPECIAL,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6636,6 +6654,7 @@ struct pcdx_weapon extweap_k7avenger = {
 };
 
 struct pcdx_weapon extweap_ar34 = {
+	{ 148, 176, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        120,           0,   40, 0,  2, 0 },
 	MODEL_CHRAR34,
 	WEAPON_AR53,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6643,6 +6662,7 @@ struct pcdx_weapon extweap_ar34 = {
 };
 
 struct pcdx_weapon extweap_superdragon = {
+	{ 164, 188, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_SHOOTEXPLOSIVE, 120,           20,  30, 6,  1, 0 },
 	MODEL_CHRSUPERDRAGON,
 	WEAPON_DEVASTATOR, // WEAPON_GRENADELAUNCHER
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6650,6 +6670,7 @@ struct pcdx_weapon extweap_superdragon = {
 };
 
 struct pcdx_weapon extweap_shotgun = {
+	{ 140, 156, 0,   0,   1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_PISTOL,         18,            18,  8,  8,  6, 1 },
 	MODEL_CHRSHOTGUN,
 	WEAPON_AUTOSHOTGUN,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6657,6 +6678,7 @@ struct pcdx_weapon extweap_shotgun = {
 };
 
 struct pcdx_weapon extweap_autoshotgun = {
+	{ 140, 156, 0,   0,   1, 1, BOTDISTCFG_PISTOL,         BOTDISTCFG_PISTOL,         18,            18,  8,  8,  6, 1 },
 	MODEL_CHRSHOTGUN,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6664,6 +6686,7 @@ struct pcdx_weapon extweap_autoshotgun = {
 };
 
 struct pcdx_weapon extweap_reaper = {
+	{ 144, 176, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_CLOSE,          400,           0,   80, 0,  3, 0 },
 	MODEL_CHRSKMINIGUN,
 	WEAPON_RCP45,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6671,6 +6694,7 @@ struct pcdx_weapon extweap_reaper = {
 };
 
 struct pcdx_weapon extweap_sniperrifle = {
+	{ 28,  40,  0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        30,            30,  10, 10, 2, 0 },
 	MODEL_CHRSNIPERRIFLE,
 	WEAPON_NONE, // WEAPON_GESNIPERRIFLE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6678,6 +6702,7 @@ struct pcdx_weapon extweap_sniperrifle = {
 };
 
 struct pcdx_weapon extweap_farsight = {
+	{ 188, 188, 0,   0,   1, 0, BOTDISTCFG_SHOOTEXPLOSIVE, BOTDISTCFG_FARSIGHT,       16,            0,   4,  0,  2, 0 },
 	MODEL_CHRZ2020,
 	WEAPON_SNIPERRIFLE, // WEAPON_GESNIPERRIFLE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6685,6 +6710,7 @@ struct pcdx_weapon extweap_farsight = {
 };
 
 struct pcdx_weapon extweap_devastator = {
+	{ 176, 188, 0,   0,   1, 1, BOTDISTCFG_SHOOTEXPLOSIVE, BOTDISTCFG_SHOOTEXPLOSIVE, 20,            20,  4,  4,  2, 0 },
 	MODEL_CHRDEVASTATOR,
 	WEAPON_NONE, // WEAPON_GRENADELAUNCHER
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6692,6 +6718,7 @@ struct pcdx_weapon extweap_devastator = {
 };
 
 struct pcdx_weapon extweap_rocketlauncher = {
+	{ 160, 188, 0,   0,   1, 1, BOTDISTCFG_SHOOTEXPLOSIVE, BOTDISTCFG_SHOOTEXPLOSIVE, 2,             2,   1,  1,  2, 0 },
 	MODEL_CHRDYROCKET,
 	WEAPON_NONE, // WEAPON_GEROCKETLAUNCHER
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6699,6 +6726,7 @@ struct pcdx_weapon extweap_rocketlauncher = {
 };
 
 struct pcdx_weapon extweap_slayer = {
+	{ 168, 188, 0,   0,   1, 1, BOTDISTCFG_SHOOTEXPLOSIVE, BOTDISTCFG_SHOOTEXPLOSIVE, 2,             2,   1,  1,  3, 0 },
 	MODEL_CHRSKROCKET,
 	WEAPON_ROCKETLAUNCHER, // WEAPON_GEROCKETLAUNCHER
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6706,6 +6734,7 @@ struct pcdx_weapon extweap_slayer = {
 };
 
 struct pcdx_weapon extweap_combatknife = {
+	{ 20,  40,  24,  40,  1, 1, BOTDISTCFG_CLOSE,          BOTDISTCFG_DEFAULT,        0,             5,   0,  1,  1, 0 },
 	MODEL_CHRKNIFE,
 	WEAPON_NONE, // WEAPON_THROWINGKNIFE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6713,6 +6742,7 @@ struct pcdx_weapon extweap_combatknife = {
 };
 
 struct pcdx_weapon extweap_crossbow = {
+	{ 108, 176, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        15,            15,  5,  5,  4, 1 },
 	MODEL_CHRCROSSBOW,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6720,6 +6750,7 @@ struct pcdx_weapon extweap_crossbow = {
 };
 
 struct pcdx_weapon extweap_tranquilizer = {
+	{ 48,  188, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_CLOSE,          20,            24,  6,  8,  1, 0 },
 	MODEL_CHRDRUGGUN,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6727,6 +6758,7 @@ struct pcdx_weapon extweap_tranquilizer = {
 };
 
 struct pcdx_weapon extweap_laser = {
+	{ 112, 112, 0,   0,   1, 1, BOTDISTCFG_DEFAULT,        BOTDISTCFG_CLOSE,          0,             0,   0,  0,  1, 0 },
 	MODEL_CHRLASER,
 	WEAPON_NONE, // WEAPON_WATCHLASER
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6734,6 +6766,7 @@ struct pcdx_weapon extweap_laser = {
 };
 
 struct pcdx_weapon extweap_grenade = {
+	{ 36,  172, 0,   0,   1, 1, BOTDISTCFG_THROWEXPLOSIVE, BOTDISTCFG_THROWEXPLOSIVE, 6,             6,   2,  2,  1, 0 },
 	MODEL_CHRGRENADE,
 	WEAPON_NONE, // WEAPON_GEGRENADE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6741,6 +6774,7 @@ struct pcdx_weapon extweap_grenade = {
 };
 
 struct pcdx_weapon extweap_nbomb = {
+	{ 32,  188, 0,   0,   1, 1, BOTDISTCFG_THROWEXPLOSIVE, BOTDISTCFG_THROWEXPLOSIVE, 3,             3,   1,  1,  1, 0 },
 	MODEL_CHRNBOMB,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6748,6 +6782,7 @@ struct pcdx_weapon extweap_nbomb = {
 };
 
 struct pcdx_weapon extweap_timedmine = {
+	{ 12,  12,  0,   0,   0, 0, BOTDISTCFG_THROWEXPLOSIVE, BOTDISTCFG_DEFAULT,        5,             5,   1,  1,  1, 0 },
 	MODEL_CHRTIMEDMINE,
 	WEAPON_NONE, // WEAPON_GETIMEDMINE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6755,6 +6790,7 @@ struct pcdx_weapon extweap_timedmine = {
 };
 
 struct pcdx_weapon extweap_proximitymine = {
+	{ 40,  176, 0,   0,   0, 0, BOTDISTCFG_THROWEXPLOSIVE, BOTDISTCFG_DEFAULT,        5,             5,   1,  1,  1, 0 },
 	MODEL_CHRPROXIMITYMINE,
 	WEAPON_NONE, // WEAPON_GEPROXIMITYMINE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6762,6 +6798,7 @@ struct pcdx_weapon extweap_proximitymine = {
 };
 
 struct pcdx_weapon extweap_remotemine = {
+	{ 44,  156, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        5,             5,   2,  2,  1, 0 },
 	MODEL_CHRREMOTEMINE,
 	WEAPON_NONE, // WEAPON_GEREMOTEMINE
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6769,6 +6806,7 @@ struct pcdx_weapon extweap_remotemine = {
 };
 
 struct pcdx_weapon extweap_combatboost = {
+	{ 8,   8,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRSPEEDPILL,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6776,6 +6814,7 @@ struct pcdx_weapon extweap_combatboost = {
 };
 
 struct pcdx_weapon extweap_pp9i = {
+	{ 56,  60,  84,  88,  1, 0, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6783,6 +6822,7 @@ struct pcdx_weapon extweap_pp9i = {
 };
 
 struct pcdx_weapon extweap_pp9isil = {
+	{ 56,  60,  84,  88,  1, 0, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6790,6 +6830,7 @@ struct pcdx_weapon extweap_pp9isil = {
 };
 
 struct pcdx_weapon extweap_cc13 = {
+	{ 56,  60,  84,  88,  1, 0, BOTDISTCFG_PISTOL,         BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRTT33,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6797,6 +6838,7 @@ struct pcdx_weapon extweap_cc13 = {
 };
 
 struct pcdx_weapon extweap_kl01313 = {
+	{ 56,  60,  84,  88,  1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_CLOSE,          30,            0,   10, 0,  1, 0 },
 	MODEL_CHRSKORPION,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6804,6 +6846,7 @@ struct pcdx_weapon extweap_kl01313 = {
 };
 
 struct pcdx_weapon extweap_kf7special = {
+	{ 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 },
 	MODEL_CHRKALASH,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6811,6 +6854,7 @@ struct pcdx_weapon extweap_kf7special = {
 };
 
 struct pcdx_weapon extweap_zzt9mm = {
+	{ 116, 128, 136, 152, 1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        100,           0,   30, 0,  1, 0 },
 	MODEL_CHRUZI,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6818,6 +6862,7 @@ struct pcdx_weapon extweap_zzt9mm = {
 };
 
 struct pcdx_weapon extweap_dmc = {
+	{ 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 },
 	MODEL_CHRMP5K,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6825,6 +6870,7 @@ struct pcdx_weapon extweap_dmc = {
 };
 
 struct pcdx_weapon extweap_dmcsil = {
+	{ 124, 148, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        90,            0,   30, 0,  1, 0 },
 	MODEL_CHRMP5K,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6832,6 +6878,7 @@ struct pcdx_weapon extweap_dmcsil = {
 };
 
 struct pcdx_weapon extweap_ar53 = {
+	{ 156, 180, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        150,           0,   30, 0,  1, 0 },
 	MODEL_CHRM16,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6839,6 +6886,7 @@ struct pcdx_weapon extweap_ar53 = {
 };
 
 struct pcdx_weapon extweap_rcp45 = {
+	{ 164, 188, 0,   0,   1, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        200,           0,   40, 0,  1, 0 },
 	MODEL_CHRFNP90,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6846,6 +6894,7 @@ struct pcdx_weapon extweap_rcp45 = {
 };
 
 struct pcdx_weapon extweap_psychosisgun = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRDRUGGUN,
 	WEAPON_NONE,
 	WEAPONFLAG2_CHEATCANREPLACE,
@@ -6853,6 +6902,7 @@ struct pcdx_weapon extweap_psychosisgun = {
 };
 
 struct pcdx_weapon extweap_nightvision = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRNIGHTSIGHT,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6860,6 +6910,7 @@ struct pcdx_weapon extweap_nightvision = {
 };
 
 struct pcdx_weapon extweap_camspy = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHREYESPY,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6867,6 +6918,7 @@ struct pcdx_weapon extweap_camspy = {
 };
 
 struct pcdx_weapon extweap_xrayscanner = {
+	{ 4,   4,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRNIGHTSIGHT,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6874,6 +6926,7 @@ struct pcdx_weapon extweap_xrayscanner = {
 };
 
 struct pcdx_weapon extweap_irscanner = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_MISC_IRSPECS,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6881,6 +6934,7 @@ struct pcdx_weapon extweap_irscanner = {
 };
 
 struct pcdx_weapon extweap_cloakingdevice = {
+	{ 218, 218, 0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        TICKS(1200),   0,   0,  0,  1, 0 },
 	MODEL_CHRCLOAKER,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6888,6 +6942,7 @@ struct pcdx_weapon extweap_cloakingdevice = {
 };
 
 struct pcdx_weapon extweap_horizonscanner = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_BINOCULARS,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6895,6 +6950,7 @@ struct pcdx_weapon extweap_horizonscanner = {
 };
 
 struct pcdx_weapon extweap_tester = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRECMMINE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6902,6 +6958,7 @@ struct pcdx_weapon extweap_tester = {
 };
 
 struct pcdx_weapon extweap_rocketlauncher_34 = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6909,6 +6966,7 @@ struct pcdx_weapon extweap_rocketlauncher_34 = {
 };
 
 struct pcdx_weapon extweap_ecmmine = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRECMMINE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6916,6 +6974,7 @@ struct pcdx_weapon extweap_ecmmine = {
 };
 
 struct pcdx_weapon extweap_datauplink = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRDATATHIEF,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6923,6 +6982,7 @@ struct pcdx_weapon extweap_datauplink = {
 };
 
 struct pcdx_weapon extweap_camera = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6930,6 +6990,7 @@ struct pcdx_weapon extweap_camera = {
 };
 
 struct pcdx_weapon extweap_rtracker = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_RUSSDAR,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6937,6 +6998,7 @@ struct pcdx_weapon extweap_rtracker = {
 };
 
 struct pcdx_weapon extweap_presidentscanner = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_RUSSDAR,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6944,6 +7006,7 @@ struct pcdx_weapon extweap_presidentscanner = {
 };
 
 struct pcdx_weapon extweap_doordecoder = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRDOORDECODER,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6951,6 +7014,7 @@ struct pcdx_weapon extweap_doordecoder = {
 };
 
 struct pcdx_weapon extweap_autosurgeon = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6958,6 +7022,7 @@ struct pcdx_weapon extweap_autosurgeon = {
 };
 
 struct pcdx_weapon extweap_explosives = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6965,6 +7030,7 @@ struct pcdx_weapon extweap_explosives = {
 };
 
 struct pcdx_weapon extweap_skedarbomb = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6972,6 +7038,7 @@ struct pcdx_weapon extweap_skedarbomb = {
 };
 
 struct pcdx_weapon extweap_commsrider = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBUG,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6979,6 +7046,7 @@ struct pcdx_weapon extweap_commsrider = {
 };
 
 struct pcdx_weapon extweap_tracerbug = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBUG,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6986,6 +7054,7 @@ struct pcdx_weapon extweap_tracerbug = {
 };
 
 struct pcdx_weapon extweap_targetamplifier = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_TARGETAMP,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -6993,6 +7062,7 @@ struct pcdx_weapon extweap_targetamplifier = {
 };
 
 struct pcdx_weapon extweap_disguise40 = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_LABCOAT,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7000,6 +7070,7 @@ struct pcdx_weapon extweap_disguise40 = {
 };
 
 struct pcdx_weapon extweap_disguise41 = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_STEWARDESS_TROLLEY,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7007,6 +7078,7 @@ struct pcdx_weapon extweap_disguise41 = {
 };
 
 struct pcdx_weapon extweap_flightplans = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBRIEFCASE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7014,6 +7086,7 @@ struct pcdx_weapon extweap_flightplans = {
 };
 
 struct pcdx_weapon extweap_researchtape = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7021,6 +7094,7 @@ struct pcdx_weapon extweap_researchtape = {
 };
 
 struct pcdx_weapon extweap_backupdisk = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7028,6 +7102,7 @@ struct pcdx_weapon extweap_backupdisk = {
 };
 
 struct pcdx_weapon extweap_keycard = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7035,6 +7110,7 @@ struct pcdx_weapon extweap_keycard = {
 };
 
 struct pcdx_weapon extweap_suitcase = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBRIEFCASE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7042,6 +7118,7 @@ struct pcdx_weapon extweap_suitcase = {
 };
 
 struct pcdx_weapon extweap_briefcase = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBRIEFCASE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7049,6 +7126,7 @@ struct pcdx_weapon extweap_briefcase = {
 };
 
 struct pcdx_weapon extweap_shieldtechitem = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRSHIELD,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7056,6 +7134,7 @@ struct pcdx_weapon extweap_shieldtechitem = {
 };
 
 struct pcdx_weapon extweap_necklace = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRCHAIN,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7063,6 +7142,7 @@ struct pcdx_weapon extweap_necklace = {
 };
 
 struct pcdx_weapon extweap_hammer = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRLUMPHAMMER,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7070,6 +7150,7 @@ struct pcdx_weapon extweap_hammer = {
 };
 
 struct pcdx_weapon extweap_screwdriver = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRSONICSCREWER,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7077,6 +7158,7 @@ struct pcdx_weapon extweap_screwdriver = {
 };
 
 struct pcdx_weapon extweap_rocket = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7084,6 +7166,7 @@ struct pcdx_weapon extweap_rocket = {
 };
 
 struct pcdx_weapon extweap_homingrocket = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7091,6 +7174,7 @@ struct pcdx_weapon extweap_homingrocket = {
 };
 
 struct pcdx_weapon extweap_grenaderound = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7098,6 +7182,7 @@ struct pcdx_weapon extweap_grenaderound = {
 };
 
 struct pcdx_weapon extweap_bolt = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7105,6 +7190,7 @@ struct pcdx_weapon extweap_bolt = {
 };
 
 struct pcdx_weapon extweap_briefcase2 = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRBRIEFCASE,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7112,6 +7198,7 @@ struct pcdx_weapon extweap_briefcase2 = {
 };
 
 struct pcdx_weapon extweap_choppergun = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7119,6 +7206,7 @@ struct pcdx_weapon extweap_choppergun = {
 };
 
 struct pcdx_weapon extweap_watchlaser = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7126,6 +7214,7 @@ struct pcdx_weapon extweap_watchlaser = {
 };
 
 struct pcdx_weapon extweap_shield = {
+	{ 220, 220, 0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRSHIELD,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7133,6 +7222,7 @@ struct pcdx_weapon extweap_shield = {
 };
 
 struct pcdx_weapon extweap_bodyarmor = {
+	{ 220, 220, 0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_BODYARMOUR,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
@@ -7140,6 +7230,7 @@ struct pcdx_weapon extweap_bodyarmor = {
 };
 
 struct pcdx_weapon extweap_suicidepill = {
+	{ 0,   0,   0,   0,   0, 0, BOTDISTCFG_DEFAULT,        BOTDISTCFG_DEFAULT,        0,             0,   0,  0,  1, 0 },
 	MODEL_CHRWPPK,
 	WEAPON_NONE,
 	WEAPONFLAG2_NONE,
