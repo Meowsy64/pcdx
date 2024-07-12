@@ -917,7 +917,7 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 			struct weapon *weapondef;
 
 			if (!(mainGetStageNum() == STAGE_INVESTIGATION && lvGetDifficulty() == DIFF_PA && weapon->weaponnum == WEAPON_K7AVENGER) &&
-					!(mainGetStageNum() == STAGE_MBR && g_Vars.chrdata->bodynum == BODY_CASSANDRA)) {
+					!(mainGetStageNum() == STAGE_MBR && g_Vars.chrdata && g_Vars.chrdata->bodynum == BODY_CASSANDRA)) {
 				weapon->weaponnum = weaponGetReplacement(weapon->weaponnum, false);
 
 				if (weapon->weaponnum == WEAPON_NONE) {
