@@ -3101,6 +3101,7 @@ struct aibotweaponpreference {
 
 struct pcdx_weapon {
 	struct aibotweaponpreference AibotWeaponPreferences;
+	f32 menuconfig[5];
 	s16 chr_model;
 	s32 classicweapon;
 	u64 flags;
