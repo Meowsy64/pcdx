@@ -205,6 +205,10 @@ static inline void romdataLoadRom(void)
 {
 	g_RomFile = fsFileLoad(romName, &g_RomFileSize);
 	g_GexFile = fsFileLoad(gexName, &g_GexFileSize);
+	if (!g_GexFile) {
+		gexName = "gex.5e-cloudless.z64";
+		g_GexFile = fsFileLoad(gexName, &g_GexFileSize);
+	}
 
 	if (!g_RomFile) {
 		sysFatalError("Could not open the Perfect Dark ROM file %s.\nEnsure that it is in the %s directory.", romName, fsFullPath(""));
@@ -213,7 +217,7 @@ static inline void romdataLoadRom(void)
 	}
 
 	if (!g_GexFile) {
-		sysLogPrintf(LOG_WARNING, "Could not open the GoldenEye X ROM file %s.\nEnsure that it is in the %s directory.", gexName, fsFullPath(""));
+		sysLogPrintf(LOG_WARNING, "Could not open the GoldenEye X 5e ROM file gex.5e-clouds.z64 or gex.5e-cloudless.z64.\nEnsure that it is in the %s directory.", fsFullPath(""));
 	} else {
 		sysLogPrintf(LOG_NOTE, "GoldenEye X ROM file: %s", gexName);
 	}
