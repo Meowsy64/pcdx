@@ -278,55 +278,17 @@ bool invHasSingleWeaponOrProp(s32 weaponnum)
 
 s32 invAddOneIfCantHaveSlayer(s32 index)
 {
-	if (mainGetStageNum());
-
-	if (mainGetStageNum() != STAGE_ATTACKSHIP
-			&& mainGetStageNum() != STAGE_SKEDARRUINS
-			&& index >= WEAPON_SLAYER) {
-		index++;
-	}
-
-#if (VERSION >= VERSION_JPN_FINAL) && defined(PLATFORM_N64)
-	if (index >= 26) {
-		index++;
-	}
-#endif
-
 	return index;
 }
 
 s32 currentStageForbidsSlayer(void)
 {
-	bool value = VERSION >= VERSION_JPN_FINAL ? 1 : 0;
-
-	if (mainGetStageNum() != STAGE_ATTACKSHIP && mainGetStageNum() != STAGE_SKEDARRUINS) {
-		value++;
-	}
-
-	return value;
+	return 0;
 }
 
 bool invCanHaveAllGunsWeapon(s32 weaponnum)
 {
-	bool canhave = true;
-
-#if (VERSION == VERSION_JPN_FINAL) && defined(PLATFORM_N64)
-	if (weaponnum == WEAPON_COMBATKNIFE) {
-		canhave = false;
-	}
-#endif
-
-	if (weaponnum == WEAPON_SLAYER) {
-		canhave = false;
-	}
-
-	// @bug: The stage conditions need an OR. This condition can never pass.
-	if ((mainGetStageNum() == STAGE_ATTACKSHIP && mainGetStageNum() == STAGE_SKEDARRUINS)
-			&& weaponnum == WEAPON_SLAYER) {
-		canhave = true;
-	}
-
-	return canhave;
+	return true;
 }
 
 bool invHasSingleWeaponIncAllGuns(s32 weaponnum)
