@@ -300,11 +300,6 @@ void func0f149e58(u8 *arg0, u32 size)
 	}
 }
 
-void func0f149f10(void)
-{
-	// empty
-}
-
 void func0f149f18(void)
 {
 	struct perfecthead *thing;
@@ -476,11 +471,6 @@ void func0f14a428(void)
 
 const char var7f1b64cc[] = "CAM : Cam_StartCamFileRead - Go\n";
 const char var7f1b64f0[] = "************ Cam_ActivateAndClearSlot ************ : Slot=%d\n";
-
-void func0f14a480(void)
-{
-	// empty
-}
 
 void func0f14a488(void)
 {
@@ -840,17 +830,7 @@ bool func0f14aea0(s32 device)
 	return var8007f8dc[device].unk0d4_03;
 }
 
-void func0f14aec8(void)
-{
-	// empty
-}
-
 void func0f14aed0(s32 device)
-{
-	// empty
-}
-
-void func0f14aed8(void)
 {
 	// empty
 }
@@ -1004,11 +984,6 @@ void initPerfectHead(struct perfecthead *arg0)
 	arg0->unk3f0 = 0;
 	arg0->fileguid.fileid = 0;
 	arg0->fileguid.deviceserial = 0;
-}
-
-void func0f14b358(void)
-{
-	// empty
 }
 
 void func0f14b360(s32 index)
@@ -1583,11 +1558,6 @@ void func0f14c7dc(struct textureconfig *tconfig)
 	tconfig->s = 0;
 	tconfig->t = 1;
 	tconfig->unk0b = 1;
-}
-
-void func0f14c80c(void)
-{
-	// empty
 }
 
 u32 func0f14c814(struct textureconfig *tconfig)
@@ -2669,72 +2639,6 @@ const char var7f1b70c0[] = "";
 const char var7f1b70c4[] = "Cam_DctInitialise_Read -> %x\n";
 const char var7f1b70e4[] = "Cam_DctUnCompressSlot -> %x\n";
 const char var7f1b7104[] = "Cam_LoadFromPakIntoSlot -> Pak=%d, fileGuid=%u, pakGuid=%u, Slot=%d, pS=%x, pE=%x\n";
-
-
-void func0f14f444(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
-{
-	// empty
-}
-
-void func0f14f458(void)
-{
-	// empty
-}
-
-void func0f14f460(void)
-{
-	// empty
-}
-
-void func0f14f468(void)
-{
-	// empty
-}
-
-void func0f14f470(void)
-{
-	// empty
-}
-
-void func0f14f478(void)
-{
-	// empty
-}
-
-void func0f14f480(void)
-{
-	// empty
-}
-
-void func0f14f488(void)
-{
-	// empty
-}
-
-void func0f14f490(void)
-{
-	// empty
-}
-
-void func0f14f498(void)
-{
-	// empty
-}
-
-u32 func0f14f4a0(u32 arg0)
-{
-	return arg0;
-}
-
-void func0f14f4a8(void)
-{
-	// empty
-}
-
-void func0f14f4b0(u32 arg0)
-{
-	// empty
-}
 
 void func0f14f4b8(struct perfecthead *arg0)
 {
