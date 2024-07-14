@@ -5835,8 +5835,8 @@ struct var800a45a0 {
 	/*0x064*/ u32 unk064;
 	/*0x068*/ u32 unk068;
 	/*0x06c*/ s32 unk06c[8][8];
-	/*0x16c*/ u32 unk16c;
-	/*0x170*/ u32 unk170;
+	/*0x16c*/ u32 editorheadslot;
+	/*0x170*/ u32 undoheadslot;
 	/*0x174*/ u32 unk174;
 	/*0x178*/ u32 unk178;
 	/*0x17c*/ f32 unk17c[8][8];
@@ -5918,7 +5918,7 @@ struct perfecthead {
 	/*0x010*/ struct textureconfig unk010;
 	/*0x01c*/ u8 *unk01c;
 	/*0x020*/ u8 *unk020;
-	/*0x024*/ u8 *unk024;
+	/*0x024*/ u8 *unk024; // 64x64 single-dimensional array
 	/*0x028*/ u32 unk028;
 	/*0x02c*/ u32 unk02c;
 	/*0x030*/ f32 unk030;
@@ -5959,12 +5959,12 @@ struct var8007f8dc {
 	/*0x008*/ f32 unk008;
 	/*0x00c*/ f32 unk00c;
 	/*0x010*/ f32 unk010;
-	/*0x014*/ f32 unk014;
+	/*0x014*/ f32 unk014; // Between -500 and 500.
 	/*0x018*/ f32 unk018;
 	/*0x01c*/ f32 unk01c;
 	/*0x020*/ f32 unk020;
 	/*0x024*/ f32 unk024;
-	/*0x028*/ f32 unk028;
+	/*0x028*/ f32 unk028; // Capped at 15.
 	/*0x02c*/ f32 unk02c;
 	/*0x030*/ f32 unk030;
 	/*0x034*/ f32 unk034;

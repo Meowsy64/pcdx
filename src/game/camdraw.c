@@ -282,9 +282,9 @@ void func0f14a00c(bool arg0)
 struct perfecthead *getPerfectHead(s32 index)
 {
 	switch (index) {
-		case -1: return &perfecthead[var800a45a0->unk16c]; // EDITOR
+		case -1: return &perfecthead[var800a45a0->editorheadslot]; // EDITOR
 		case -2: return &perfecthead[var800a45a0->unk014[var800a45a0->unk004]];
-		case -3: return &perfecthead[var800a45a0->unk170]; // UNDO
+		case -3: return &perfecthead[var800a45a0->undoheadslot]; // UNDO
 		case -4: return &perfecthead[var800a45a0->unk174];
 		case -5: return &perfecthead[var800a45a0->unk178];
 		default: return &perfecthead[var800a45a0->unk014[index]];
@@ -792,9 +792,9 @@ void func0f14aee0(void)
 		s32 totalsize;
 		u32 stack[2];
 
-		func0f14c7dc(&tconfig);
+		initTextureConfig(&tconfig);
 
-		texturesize = align32(func0f14c814(&tconfig));
+		texturesize = align32(getTextureConfigSize(&tconfig));
 
 		totalsize = align16(sizeof(struct textureconfig) * count);
 		totalsize += align16(texturesize * count);
@@ -805,7 +805,7 @@ void func0f14aee0(void)
 		ptr += sizeof(struct textureconfig) * count;
 
 		for (i = 0; i < count; i++) {
-			func0f14c7dc(&var800a45a0->unk484[i]);
+			initTextureConfig(&var800a45a0->unk484[i]);
 			var800a45a0->unk484[i].textureptr = ptr;
 			ptr += texturesize;
 		}
@@ -943,13 +943,13 @@ void initPerfectHeadWithRandomTexture(struct perfecthead *arg0)
 	s32 size;
 	s32 i;
 
-	size = align32(func0f14c814(&arg0->unk004));
+	size = align32(getTextureConfigSize(&arg0->unk004));
 
 	for (i = 0; i < size; i++) {
 		arg0->unk004.textureptr[i] = random() % 0xff;
 	}
 
-	size = align32(func0f14c814(&arg0->unk010));
+	size = align32(getTextureConfigSize(&arg0->unk010));
 
 	for (i = 0; i < size; i++) {
 		arg0->unk010.textureptr[i] = random() % 0xff;
@@ -1483,16 +1483,16 @@ void func0f14c50c(struct perfecthead *dst, struct perfecthead *src, u32 line, ch
 void func0f14c75c(struct textureconfig *arg0, struct textureconfig *arg1)
 {
 	s32 i;
-	u32 size = align32(func0f14c814(arg0));
+	u32 size = align32(getTextureConfigSize(arg0));
 
-	align32(func0f14c814(arg1));
+	align32(getTextureConfigSize(arg1));
 
 	for (i = 0; i < size; i++) {
 		arg0->textureptr[i] = arg1->textureptr[i];
 	}
 }
 
-void func0f14c7dc(struct textureconfig *tconfig)
+void initTextureConfig(struct textureconfig *tconfig)
 {
 	tconfig->width = 64;
 	tconfig->height = 64;
@@ -1504,7 +1504,7 @@ void func0f14c7dc(struct textureconfig *tconfig)
 	tconfig->unk0b = 1;
 }
 
-u32 func0f14c814(struct textureconfig *tconfig)
+u32 getTextureConfigSize(struct textureconfig *tconfig)
 {
 	u32 size = tconfig->width * tconfig->height;
 
