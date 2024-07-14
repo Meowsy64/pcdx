@@ -136,13 +136,13 @@ const char var7f1b63a0[] = "RWI : Cam Alloc : Guid=%d -> Total = %u (%d at %s)\n
 struct var8007f8dc *var8007f8dc = NULL;
 struct perfecthead *perfecthead = NULL;
 u32 var8007f8e4 = 0x00000000;
-u32 var8007f8e8 = 0x00000008;
-u32 var8007f8ec = 0x0000005a;
-u32 var8007f8f0 = 0x00000005;
-u32 var8007f8f4 = 0x000000c8;
-u32 var8007f8f8 = 0x00000000;
-u32 var8007f8fc = 0x00000001;
-u32 var8007f900 = 0x00000078;
+u32 phcvar_kg = 0x00000008;
+u32 phcvar_Kp = 0x0000005a;
+u32 phcvar_Ki = 0x00000005;
+u32 phcvar_Kd = 0x000000c8;
+u32 phcvar_tInt = 0x00000000;
+u32 phcvar_gocal = 0x00000001;
+u32 phcvar_aim = 0x00000078;
 
 u16 var8007f904[] = {
 	0x0200, 0x0233, 0x024e, 0x026b,
@@ -962,12 +962,12 @@ bool func0f14b484(s32 index)
 {
 	struct var8007f8dc *thing = &var8007f8dc[index];
 
-	thing->unk004 = var8007f8e8 * 0.01f;
-	thing->unk008 = var8007f8ec * 0.01f;
-	thing->unk00c = var8007f8f0 * 0.01f;
-	thing->unk010 = var8007f8f4 * 0.01f;
-	thing->unk000 = var8007f8fc;
-	thing->unk050 = var8007f900;
+	thing->unk004 = phcvar_kg * 0.01f;
+	thing->unk008 = phcvar_Kp * 0.01f;
+	thing->unk00c = phcvar_Ki * 0.01f;
+	thing->unk010 = phcvar_Kd * 0.01f;
+	thing->unk000 = phcvar_gocal;
+	thing->unk050 = phcvar_aim;
 	thing->unk020 = thing->unk024;
 	thing->unk038 = thing->unk03c;
 	thing->unk024 = osGetCount() * 0.0000001f;
@@ -1054,13 +1054,13 @@ void func0f14b8ac(s32 index)
 {
 	struct var8007f8dc *thing = &var8007f8dc[index];
 
-	mainOverrideVariable("kg", &var8007f8e8);
-	mainOverrideVariable("Kp", &var8007f8ec);
-	mainOverrideVariable("Ki", &var8007f8f0);
-	mainOverrideVariable("Kd", &var8007f8f4);
-	mainOverrideVariable("tInt", &var8007f8f8);
-	mainOverrideVariable("gocal", &var8007f8fc);
-	mainOverrideVariable("aim", &var8007f900);
+	mainOverrideVariable("kg", &phcvar_kg);
+	mainOverrideVariable("Kp", &phcvar_Kp);
+	mainOverrideVariable("Ki", &phcvar_Ki);
+	mainOverrideVariable("Kd", &phcvar_Kd);
+	mainOverrideVariable("tInt", &phcvar_tInt);
+	mainOverrideVariable("gocal", &phcvar_gocal);
+	mainOverrideVariable("aim", &phcvar_aim);
 
 	if (thing->unk0d4_00) {
 		func0f14cf6c();
