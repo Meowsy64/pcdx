@@ -2040,7 +2040,7 @@ MenuItemHandlerResult filemgrFileToCopyOrDeleteListMenuHandler(s32 operation, st
 			struct menuitemrenderdata *renderdata = data->type19.renderdata2;
 			struct filelistfile *file = &list->files[data->list.unk04];
 
-			if (g_Menus[g_MpPlayerNum].fm.filetypeplusone == 4) {
+			if (g_Menus[g_MpPlayerNum].fm.filetypeplusone == (FILETYPE_CAMERA + 1)) {
 				gdl = filemgrRenderPerfectHeadThumbnail(gdl, renderdata, file->fileid, file->deviceserial);
 			} else {
 				u32 colour = renderdata->colour;
