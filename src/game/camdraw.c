@@ -190,7 +190,7 @@ const u32 var7f1b639c[] = {0x0c1857ff};
 const char var7f1b63a0[] = "RWI : Cam Alloc : Guid=%d -> Total = %u (%d at %s)\n";
 
 struct var8007f8dc *var8007f8dc = NULL;
-struct var8007f8e0 *var8007f8e0 = NULL;
+struct perfecthead *perfecthead = NULL;
 u32 var8007f8e4 = 0x00000000;
 u32 var8007f8e8 = 0x00000008;
 u32 var8007f8ec = 0x0000005a;
@@ -307,12 +307,12 @@ void func0f149f10(void)
 
 void func0f149f18(void)
 {
-	struct var8007f8e0 *thing;
+	struct perfecthead *thing;
 	s32 i;
 
-	func0f14b394(func0f14a06c(-1));
+	func0f14b394(getPerfectHead(-1));
 
-	thing = func0f14a06c(-1);
+	thing = getPerfectHead(-1);
 	thing->unk3f4_00 = false;
 
 	if (var800a45a0->unk470) {
@@ -324,7 +324,7 @@ void func0f149f18(void)
 
 void func0f149fc8(s32 index)
 {
-	func0f14c50c(func0f14a06c(index), func0f14a06c(-1), 1040, "camdraw.c");
+	func0f14c50c(getPerfectHead(index), getPerfectHead(-1), 1040, "camdraw.c");
 }
 
 const char var7f1b63e0[] = "Cam -> Dumping head vertex colour information\n";
@@ -336,44 +336,25 @@ const char var7f1b64a8[] = "Slot %d -> Active = %d";
 
 void func0f14a00c(bool arg0)
 {
-	struct var8007f8e0 *thing;
-
-	thing = func0f14a06c(-1);
-	thing->unk3f4_04 = arg0;
-
-	thing = func0f14a06c(-2);
-	thing->unk3f4_04 = arg0;
+	getPerfectHead(-1)->unk3f4_04 = arg0;
+	getPerfectHead(-2)->unk3f4_04 = arg0;
 }
 
-struct var8007f8e0 *func0f14a06c(s32 index)
+struct perfecthead *getPerfectHead(s32 index)
 {
-	if (index == -1) {
-		return &var8007f8e0[var800a45a0->unk16c];
+	switch (index) {
+		case -1: return &perfecthead[var800a45a0->unk16c]; // EDITOR
+		case -2: return &perfecthead[var800a45a0->unk014[var800a45a0->unk004]];
+		case -3: return &perfecthead[var800a45a0->unk170]; // UNDO
+		case -4: return &perfecthead[var800a45a0->unk174];
+		case -5: return &perfecthead[var800a45a0->unk178];
+		default: return &perfecthead[var800a45a0->unk014[index]];
 	}
-
-	if (index == -4) {
-		return &var8007f8e0[var800a45a0->unk174];
-	}
-
-	if (index == -5) {
-		return &var8007f8e0[var800a45a0->unk178];
-	}
-
-	if (index == -2) {
-		return &var8007f8e0[var800a45a0->unk014[var800a45a0->unk004]];
-	}
-
-	if (index == -3) {
-		return &var8007f8e0[var800a45a0->unk170];
-	}
-
-	return &var8007f8e0[var800a45a0->unk014[index]];
 }
 
 void func0f14a16c(s32 arg0)
 {
-	struct var8007f8dc *thing = func0f14a20c();
-	thing->unk100 = arg0;
+	func0f14a20c()->unk100 = arg0;
 }
 
 bool func0f14a194(void)
@@ -440,7 +421,7 @@ void func0f14a240(void)
 
 bool func0f14a2fc(s32 index, u32 line, char *file)
 {
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 	return thing->unk3f4_00;
 }
 
@@ -549,7 +530,7 @@ void func0f14a5b4(s32 index)
 {
 	var800a45a0->unk004 = index;
 
-	func0f14b394(func0f14a06c(index));
+	func0f14b394(getPerfectHead(index));
 }
 
 void func0f14a5e4(void)
@@ -560,7 +541,7 @@ void func0f14a5e4(void)
 void func0f14a610(void)
 {
 	func0f14def0(-1, 1415, "camdraw.c");
-	func0f14c50c(func0f14a06c(-2), func0f14a06c(-1), 1416, "camdraw.c");
+	func0f14c50c(getPerfectHead(-2), getPerfectHead(-1), 1416, "camdraw.c");
 }
 
 s32 func0f14a668(void)
@@ -570,33 +551,29 @@ s32 func0f14a668(void)
 
 void func0f14a678(void)
 {
-	func0f14c50c(func0f14a06c(-2), func0f14a06c(-1), 1433, "camdraw.c");
+	func0f14c50c(getPerfectHead(-2), getPerfectHead(-1), 1433, "camdraw.c");
 }
 
 void func0f14a6bc(void)
 {
-	func0f14c50c(func0f14a06c(-4), func0f14a06c(-1), 1441, "camdraw.c");
-	func0f14c50c(func0f14a06c(-1), func0f14a06c(-3), 1442, "camdraw.c");
-	func0f14c50c(func0f14a06c(-3), func0f14a06c(-4), 1443, "camdraw.c");
+	func0f14c50c(getPerfectHead(-4), getPerfectHead(-1), 1441, "camdraw.c");
+	func0f14c50c(getPerfectHead(-1), getPerfectHead(-3), 1442, "camdraw.c");
+	func0f14c50c(getPerfectHead(-3), getPerfectHead(-4), 1443, "camdraw.c");
 }
 
-const char var7f1b6584[] = "Cam_CopyEditorToUndo\n";
-
-void func0f14a760(void)
+void Cam_CopyEditorToUndo(void)
 {
-	func0f14c50c(func0f14a06c(-3), func0f14a06c(-1), 1452, "camdraw.c");
+	func0f14c50c(getPerfectHead(-3), getPerfectHead(-1), 1452, "camdraw.c");
 }
 
-const char var7f1b65a8[] = "Cam_CopyUndoToEditor\n";
-
-void func0f14a7a4(void)
+void Cam_CopyUndoToEditor(void)
 {
-	func0f14c50c(func0f14a06c(-1), func0f14a06c(-3), 1461, "camdraw.c");
+	func0f14c50c(getPerfectHead(-1), getPerfectHead(-3), 1461, "camdraw.c");
 }
 
 void func0f14a7e8(s32 index)
 {
-	func0f14c50c(func0f14a06c(-1), func0f14a06c(index), 1470, "camdraw.c");
+	func0f14c50c(getPerfectHead(-1), getPerfectHead(index), 1470, "camdraw.c");
 }
 
 void func0f14a830(void)
@@ -616,7 +593,7 @@ void func0f14a830(void)
 
 struct textureconfig *func0f14a89c(s32 index)
 {
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 
 	return &thing->unk004;
 }
@@ -637,7 +614,7 @@ bool func0f14a8e8(void)
 
 void func0f14a91c(s32 arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3bc = arg0;
 
@@ -649,115 +626,106 @@ const char var7f1b661c[] = "Cam -> Setting current face colour to %s\n";
 
 void func0f14a95c(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3bc = 0x80;
 }
 
 s32 func0f14a984(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	return thing->unk3bc;
 }
 
 void func0f14a9a8(s32 arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3a4 = arg0;
 }
 
 void func0f14a9d4(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3a4 = 0;
 }
 
 s32 func0f14a9f8(s32 index)
 {
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 
 	return thing->unk3a4;
 }
 
 void func0f14aa1c(s32 arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3b8 = arg0;
 }
 
 void func0f14aa48(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->unk3b8 = 6;
 }
 
 s32 func0f14aa70(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	return thing->unk3b8;
 }
 
-void func0f14aa94(s32 colournum)
+void setPerfectHeadHairColour(s32 colournum)
 {
-	struct var8007f8e0 *thing;
-
-	phGetColourName(colournum);
-
-	thing = func0f14a06c(-1);
-	thing->colournum = colournum;
+	getPerfectHead(-1)->colournum = colournum;
 }
 
 void func0f14aac4(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
-
-	thing->colournum = 0;
+	getPerfectHead(-1)->colournum = 0;
 }
 
 s32 func0f14aae8(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
-
-	return thing->colournum;
+	return getPerfectHead(-1)->colournum;
 }
 
 void func0f14ab0c(s32 stylenum)
 {
-	struct var8007f8e0 *thing;
+	struct perfecthead *thing;
 
 	phGetStyleName(stylenum);
 
-	thing = func0f14a06c(-1);
+	thing = getPerfectHead(-1);
 	thing->stylenum = stylenum;
 }
 
 void func0f14ab3c(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	thing->stylenum = 0;
 }
 
 s32 func0f14ab60(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	return thing->stylenum;
 }
 
 void func0f14ab84(s32 arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	thing->unk3b4 = arg0;
 }
 
 s32 func0f14abb0(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	return thing->unk3b4;
 }
 
@@ -773,13 +741,13 @@ s32 func0f14abf4(s32 index)
 
 bool func0f14ac14(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	return thing->unk3f4_02;
 }
 
 void func0f14ac3c(bool arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	thing->unk3f4_02 = arg0;
 
 	func0f14def0(-1, 1681, "camdraw.c");
@@ -789,13 +757,13 @@ const char var7f1b6654[] = "Cam_SetAutoDeArtefact -> State = %d\n";
 
 bool func0f14ac90(void)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	return thing->unk3f4_01;
 }
 
 void func0f14acb8(bool arg0)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	if (arg0) {
 		thing->unk3f4_01 = true;
@@ -994,7 +962,7 @@ void func0f14b178(void)
 	}
 }
 
-void func0f14b228(struct var8007f8e0 *arg0)
+void func0f14b228(struct perfecthead *arg0)
 {
 	s32 i;
 
@@ -1052,13 +1020,13 @@ void func0f14b358(void)
 
 void func0f14b360(s32 index)
 {
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 
 	func0f14b228(thing);
 	func0f14b394(thing);
 }
 
-void func0f14b394(struct var8007f8e0 *arg0)
+void func0f14b394(struct perfecthead *arg0)
 {
 	s32 size;
 	s32 i;
@@ -1222,7 +1190,7 @@ void func0f14b8ac(s32 index)
 				func0f14bc04();
 
 				if (var8007f8dc[var800a45a0->unk000].unk0d4_04) {
-					struct var8007f8e0 *thing2 = func0f14a06c(-1);
+					struct perfecthead *thing2 = getPerfectHead(-1);
 					thing2->unk3f4_00 = true;
 				}
 			} else {
@@ -1247,7 +1215,7 @@ const char var7f1b67f8[] = "CAM : Cam_MakeTextures\n";
 
 void func0f14bc04(void)
 {
-	struct var8007f8e0 *thing1 = func0f14a06c(-1);
+	struct perfecthead *thing1 = getPerfectHead(-1);
 	struct var8007f8dc *thing2 = func0f14a20c();
 
 	thing1->unk3f4_02 = true;
@@ -1328,7 +1296,7 @@ void func0f14bd34(s32 index)
 void func0f14bdbc(s32 index)
 {
 	struct var8007f8dc *thing = &var8007f8dc[index];
-	struct var8007f8e0 *thing2;
+	struct perfecthead *thing2;
 	s32 i;
 	s32 value;
 
@@ -1350,7 +1318,7 @@ void func0f14bdbc(s32 index)
 		g_MpPlayerNum = index;
 		menuSetBanner(-1, false);
 
-		thing2 = func0f14a06c(-1);
+		thing2 = getPerfectHead(-1);
 		thing2->unk3f4_00 = false;
 
 		g_MpPlayerNum = index;
@@ -1368,7 +1336,7 @@ void func0f14bdbc(s32 index)
 void func0f14bec8(s32 index)
 {
 	struct var8007f8dc *thing = &var8007f8dc[index];
-	struct var8007f8e0 *thing2 = func0f14a06c(-1);
+	struct perfecthead *thing2 = getPerfectHead(-1);
 	struct textureconfig *thing3;
 	s32 i;
 
@@ -1531,9 +1499,9 @@ void func0f14c4c0(s32 index)
 	menuSetBanner(MENUBANNER_DOWNLOADINGIMAGE, false);
 }
 
-void func0f14c50c(struct var8007f8e0 *dst, struct var8007f8e0 *src, u32 line, char *file)
+void func0f14c50c(struct perfecthead *dst, struct perfecthead *src, u32 line, char *file)
 {
-	struct var8007f8e0 *thing;
+	struct perfecthead *thing;
 	s32 i;
 	s32 j;
 	s32 k;
@@ -1541,7 +1509,7 @@ void func0f14c50c(struct var8007f8e0 *dst, struct var8007f8e0 *src, u32 line, ch
 	s32 m;
 
 	for (i = 0; i < 22; i++) {
-		thing = &var8007f8e0[i];
+		thing = &perfecthead[i];
 		if (thing);
 	}
 
@@ -2062,7 +2030,7 @@ void func0f14dc30(s32 index, bool arg1)
 	s32 sp7c;
 	s32 y;
 	s32 j;
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 	f32 f22;
 
 	f22 = thing->unk3f4_02 ? func0f14e4ac(0, &sp80, &sp7c) : 0.0f;
@@ -2111,10 +2079,10 @@ void func0f14dc30(s32 index, bool arg1)
 
 void func0f14def0(s32 index, u32 line, char *file)
 {
-	struct var8007f8e0 *a = func0f14a06c(-1);
-	struct var8007f8e0 *b = (index != -1 ? func0f14a06c(index) : NULL);
-	struct var8007f8e0 *c = func0f14a06c(-4);
-	struct var8007f8e0 *d = func0f14a06c(-5);
+	struct perfecthead *a = getPerfectHead(-1);
+	struct perfecthead *b = (index != -1 ? getPerfectHead(index) : NULL);
+	struct perfecthead *c = getPerfectHead(-4);
+	struct perfecthead *d = getPerfectHead(-5);
 
 	func0f14c50c(d, a, 3508, "camdraw.c");
 
@@ -2132,7 +2100,7 @@ void func0f14def0(s32 index, u32 line, char *file)
 
 const char var7f1b6d1c[] = "Cam %d -> Balance : No Data Available\n";
 
-s32 func0f14dfc0(struct var8007f8e0 *arg0, s32 arg1, s32 arg2)
+s32 func0f14dfc0(struct perfecthead *arg0, s32 arg1, s32 arg2)
 {
 	u32 sp3c[5];
 	u32 sp28[5];
@@ -2170,7 +2138,7 @@ s32 func0f14dfc0(struct var8007f8e0 *arg0, s32 arg1, s32 arg2)
 	return (sp3c[1] + sp3c[2] + sp3c[3]) / 3;
 }
 
-void func0f14e1c4(struct var8007f8e0 *arg0)
+void func0f14e1c4(struct perfecthead *arg0)
 {
 	s32 spbc;
 	s32 spb8;
@@ -2222,7 +2190,7 @@ void func0f14e1c4(struct var8007f8e0 *arg0)
 
 f32 func0f14e4ac(s32 arg0, s32 *arg1, s32 *arg2)
 {
-	struct var8007f8e0 *spa4 = func0f14a06c(-1);
+	struct perfecthead *spa4 = getPerfectHead(-1);
 	s32 i;
 	s32 j;
 	s32 sp98;
@@ -2418,40 +2386,22 @@ void func0f14e884(struct textureconfig *tconfig, s32 numrows, s32 arg2, u64 arg3
 
 Gfx *func0f14eb04(Gfx *gdl, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
-	f32 sp30[2];
-	struct var8007f8e0 *thing;
-	u32 stack[2];
+	f32 sp30[2] = { arg2, arg3 };
 
-	sp30[0] = arg2;
-	sp30[1] = arg3;
-
-	thing = func0f14a06c(arg1);
-
-	gdl = func0f14c870(gdl, &thing->unk004, sp30, (arg4 - arg2) * 0.015625f, (arg5 - arg3) * 0.015625f);
-
-	return gdl;
+	return func0f14c870(gdl, &getPerfectHead(arg1)->unk004, sp30, (arg4 - arg2) * 0.015625f, (arg5 - arg3) * 0.015625f);
 }
 
 Gfx *func0f14eb98(Gfx *gdl, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
-	f32 sp30[2];
-	struct var8007f8e0 *thing;
-	u32 stack[2];
+	f32 sp30[2] = { arg2, arg3 };
 
-	sp30[0] = arg2;
-	sp30[1] = arg3;
-
-	thing = func0f14a06c(arg1);
-
-	gdl = func0f14c870(gdl, &thing->unk010, sp30, (arg4 - arg2) * 0.0625f, (arg5 - arg3) * 0.0625f);
-
-	return gdl;
+	return func0f14c870(gdl, &getPerfectHead(arg1)->unk010, sp30, (arg4 - arg2) * 0.0625f, (arg5 - arg3) * 0.0625f);
 }
 
 void func0f14ec2c(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
 {
-	struct var8007f8e0 *thing1 = func0f14a06c(-1);
-	struct var8007f8e0 *thing2 = func0f14a06c(-2);
+	struct perfecthead *thing1 = getPerfectHead(-1);
+	struct perfecthead *thing2 = getPerfectHead(-2);
 
 	if (thing1) {
 		thing1->unk3c0 = arg0;
@@ -2478,7 +2428,7 @@ const char var7f1b6d50[] = "Cam_SetSquashZ : %u, %u, %f\n";
 
 void func0f14ecd8(s32 *arg0, s32 *arg1, s32 *arg2, s32 *arg3)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-2);
+	struct perfecthead *thing = getPerfectHead(-2);
 
 	*arg0 = thing->unk3c0;
 	*arg1 = thing->unk3c8;
@@ -2524,8 +2474,8 @@ void func0f14ee18(u32 arg0)
 // @bug? Nothing is done with tmp
 void func0f14eeb0(f32 arg0[7])
 {
-	struct var8007f8e0 *thing1 = func0f14a06c(-1);
-	struct var8007f8e0 *thing2 = func0f14a06c(-2);
+	struct perfecthead *thing1 = getPerfectHead(-1);
+	struct perfecthead *thing2 = getPerfectHead(-2);
 	s32 i;
 
 	for (i = 0; i < ARRAYCOUNT(thing1->unk3d0); i++) {
@@ -2553,13 +2503,13 @@ void func0f14eeb0(f32 arg0[7])
 
 void func0f14ef50(f32 *arg0)
 {
-	struct var8007f8e0 *thing;
+	struct perfecthead *phead;
 	s32 i;
 
-	for (i = 0; i < ARRAYCOUNT(thing->unk3d0); i++) {
-		thing = func0f14a06c(-2);
+	for (i = 0; i < ARRAYCOUNT(phead->unk3d0); i++) {
+		phead = getPerfectHead(-2);
 
-		arg0[i] = thing->unk3d0[i];
+		arg0[i] = phead->unk3d0[i];
 	}
 }
 
@@ -2793,7 +2743,7 @@ void func0f14f4b0(u32 arg0)
 	// empty
 }
 
-void func0f14f4b8(struct var8007f8e0 *arg0)
+void func0f14f4b8(struct perfecthead *arg0)
 {
 	s32 i;
 
@@ -2805,7 +2755,7 @@ void func0f14f4b8(struct var8007f8e0 *arg0)
 	}
 }
 
-void func0f14f4e4(struct var8007f8e0 *arg0)
+void func0f14f4e4(struct perfecthead *arg0)
 {
 	s32 i;
 
@@ -2847,7 +2797,7 @@ void func0f14f510(s32 arg0)
 	}
 }
 
-void func0f14f700(struct var8007f8e0 *arg0, u32 arg1, u32 arg2)
+void func0f14f700(struct perfecthead *arg0, u32 arg1, u32 arg2)
 {
 	u32 bit;
 
@@ -2864,7 +2814,7 @@ void func0f14f700(struct var8007f8e0 *arg0, u32 arg1, u32 arg2)
 	}
 }
 
-u32 func0f14f76c(struct var8007f8e0 *arg0, u32 arg1)
+u32 func0f14f76c(struct perfecthead *arg0, u32 arg1)
 {
 	u32 bit;
 	u32 bits;
@@ -2884,7 +2834,7 @@ u32 func0f14f76c(struct var8007f8e0 *arg0, u32 arg1)
 	return bits;
 }
 
-s32 phead0f14f7d4(struct var8007f8e0 *arg0)
+s32 phead0f14f7d4(struct perfecthead *arg0)
 {
 	s32 sp24;
 	s32 v0;
@@ -2916,7 +2866,7 @@ s32 phead0f14f7d4(struct var8007f8e0 *arg0)
 	return (v0 - (1 << sp24)) + 1;
 }
 
-void phead0f14f8cc(struct var8007f8e0 *arg0, s32 arg1[8][8])
+void phead0f14f8cc(struct perfecthead *arg0, s32 arg1[8][8])
 {
 	s32 i;
 
@@ -2930,7 +2880,7 @@ void phead0f14f8cc(struct var8007f8e0 *arg0, s32 arg1[8][8])
 	}
 }
 
-void func0f14f974(struct var8007f8e0 *arg0, s32 arg1)
+void func0f14f974(struct perfecthead *arg0, s32 arg1)
 {
 	s32 absarg1;
 	s32 sp28;
@@ -2977,7 +2927,7 @@ void func0f14f974(struct var8007f8e0 *arg0, s32 arg1)
 	}
 }
 
-void func0f14faf8(struct var8007f8e0 *arg0, s32 arg1[8][8])
+void func0f14faf8(struct perfecthead *arg0, s32 arg1[8][8])
 {
 	s32 i;
 
@@ -3075,7 +3025,7 @@ void phead0f14fdb0(s32 arg0[8][8], u8 **arg1)
 	}
 }
 
-void func0f14ff94(struct var8007f8e0 *arg0)
+void func0f14ff94(struct perfecthead *arg0)
 {
 	s32 i;
 	s32 j;
@@ -3101,7 +3051,7 @@ void func0f14ff94(struct var8007f8e0 *arg0)
 	}
 }
 
-void func0f150068(struct var8007f8e0 *arg0, s32 arg1)
+void func0f150068(struct perfecthead *arg0, s32 arg1)
 {
 	s32 i;
 	s32 j;
@@ -3167,8 +3117,8 @@ bool pheadLoadFile(s8 device, s32 fileid, u16 serial, s32 arg3)
 	struct camerafile file;
 	u32 stack;
 
-	struct var8007f8e0 *s0 = func0f14a06c(arg3 == -1 ? -1 : arg3);
-	struct var8007f8e0 *s1 = func0f14a06c(-1);
+	struct perfecthead *s0 = getPerfectHead(arg3 == -1 ? -1 : arg3);
+	struct perfecthead *s1 = getPerfectHead(-1);
 
 	ret = pakReadBodyAtGuid(device, fileid, (u8 *)&file, 0);
 
@@ -3242,7 +3192,7 @@ s32 pheadSaveFile(s8 device, s32 fileid, u16 serial)
 {
 	u32 stack[2];
 	struct camerafile file;
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 	s32 ret;
 	s32 writtenfileid;
 	u8 sp44[0x1000];
@@ -3313,7 +3263,7 @@ s32 pheadSaveFile(s8 device, s32 fileid, u16 serial)
 	if (ret == 0) {
 		s32 i;
 		for (i = 0; i < 18; i++) {
-			struct var8007f8e0 *thing2 = func0f14a06c(i);
+			struct perfecthead *thing2 = getPerfectHead(i);
 
 			if (thing2->fileguid.fileid == thing->fileguid.fileid
 					&& thing2->fileguid.deviceserial == thing->fileguid.deviceserial) {
@@ -3339,7 +3289,7 @@ s32 pheadSaveFile(s8 device, s32 fileid, u16 serial)
 
 void phGetGuid(s32 index, struct fileguid *guid)
 {
-	struct var8007f8e0 *thing = func0f14a06c(index);
+	struct perfecthead *thing = getPerfectHead(index);
 
 	guid->fileid = thing->fileguid.fileid;
 	guid->deviceserial = thing->fileguid.deviceserial;
@@ -3347,7 +3297,7 @@ void phGetGuid(s32 index, struct fileguid *guid)
 
 void phSetFileId(s32 fileid)
 {
-	struct var8007f8e0 *thing = func0f14a06c(-1);
+	struct perfecthead *thing = getPerfectHead(-1);
 
 	thing->fileguid.deviceserial = 0;
 	thing->fileguid.fileid = fileid;

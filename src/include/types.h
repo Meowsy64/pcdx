@@ -5912,7 +5912,7 @@ struct var800a45a0 {
 	/*0x48c*/ u32 unk48c;
 };
 
-struct var8007f8e0 { // perfect head?
+struct perfecthead {
 	/*0x000*/ u32 unk000;
 	/*0x004*/ struct textureconfig unk004;
 	/*0x010*/ struct textureconfig unk010;
@@ -5938,13 +5938,13 @@ struct var8007f8e0 { // perfect head?
 	/*0x3b4*/ s32 unk3b4;
 	/*0x3b8*/ s32 unk3b8;
 	/*0x3bc*/ s32 unk3bc;
-	/*0x3c0*/ s32 unk3c0;
-	/*0x3c4*/ s32 unk3c4;
-	/*0x3c8*/ s32 unk3c8;
-	/*0x3cc*/ s32 unk3cc;
+	/*0x3c0*/ s32 unk3c0; // Default value is 10?
+	/*0x3c4*/ s32 unk3c4; // Default value is 54?
+	/*0x3c8*/ s32 unk3c8; // Default value is 3?
+	/*0x3cc*/ s32 unk3cc; // Default value is 61?
 	/*0x3d0*/ f32 unk3d0[7];
-	/*0x3ec*/ s32 unk3ec;
-	/*0x3f0*/ s32 unk3f0;
+	/*0x3ec*/ s32 unk3ec; // Default value is 0?
+	/*0x3f0*/ s32 unk3f0; // Default value is 0?
 	/*0x3f4*/ u16 unk3f4_00 : 1;
 	/*0x3f4*/ u16 unk3f4_01 : 1;
 	/*0x3f4*/ u16 unk3f4_02 : 1;
