@@ -178,7 +178,7 @@ u32 var8007f9d0 = 0x00000000;
 /**
  * Fill the texture buffer with a linear gradient: black (left) to white (right).
  */
-void func0f149c90(struct textureconfig *tconfig)
+void pheadFillWithLinearGradient(struct textureconfig *tconfig)
 {
 	s32 x;
 	s32 y;
@@ -423,7 +423,7 @@ void func0f14a488(void)
 	func0f14aed0(-1);
 
 	for (i = 0; i < 32; i++) {
-		func0f149c90(&var800a45a0->unk484[i]);
+		pheadFillWithLinearGradient(&var800a45a0->unk484[i]);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -811,7 +811,7 @@ void func0f14aee0(void)
 		}
 
 		for (i = 0; i < count; i++) {
-			func0f149c90(&var800a45a0->unk484[i]);
+			pheadFillWithLinearGradient(&var800a45a0->unk484[i]);
 		}
 
 		var800a45a0->unk488 = var800a45a0->unk484 + 32;

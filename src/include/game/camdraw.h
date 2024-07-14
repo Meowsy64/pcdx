@@ -4,7 +4,7 @@
 #include "data.h"
 #include "types.h"
 
-void func0f149c90(struct textureconfig *tconfig);
+void pheadFillWithLinearGradient(struct textureconfig *tconfig);
 void *func0f149d58(u32 size, u32 line, char *file);
 void func0f149e58(u8 *arg0, u32 size);
 void func0f14a00c(bool arg0);
