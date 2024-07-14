@@ -5931,14 +5931,14 @@ struct perfecthead {
 	/*0x2fc*/ u8 unk2fc[160];
 	/*0x39c*/ s32 colournum;
 	/*0x3a0*/ s32 stylenum;
-	/*0x3a4*/ s32 unk3a4;
+	/*0x3a4*/ s32 unk3a4; // Default value is 0
 	/*0x3a8*/ s32 unk3a8;
 	/*0x3ac*/ s32 unk3ac;
 	/*0x3b0*/ s32 unk3b0;
 	/*0x3b4*/ s32 unk3b4;
-	/*0x3b8*/ s32 unk3b8;
-	/*0x3bc*/ s32 unk3bc;
-	/*0x3c0*/ s32 unk3c0; // Default value is 10?
+	/*0x3b8*/ s32 unk3b8; // Default value is 6
+	/*0x3bc*/ s32 unk3bc; // Default value is 0x80
+	/*0x3c0*/ s32 unk3c0; // Default value is 10
 	/*0x3c4*/ s32 unk3c4; // Default value is 54?
 	/*0x3c8*/ s32 unk3c8; // Default value is 3?
 	/*0x3cc*/ s32 unk3cc; // Default value is 61?

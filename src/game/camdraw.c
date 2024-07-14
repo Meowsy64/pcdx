@@ -22,7 +22,7 @@
 #include "string.h"
 
 struct camerafile {
-	u8 unk00[128];
+	u8 texture[128];
 	u16 unk80;
 	u16 unk82;
 	u16 unk84;
@@ -32,8 +32,8 @@ struct camerafile {
 	u8 unk89;
 	u8 unk8a;
 	u8 unk8b;
-	u8 unk8c;
-	u8 unk8d;
+	u8 colournum;
+	u8 stylenum;
 	u16 unk8e_00 : 1;
 	u16 unk8e_01 : 1;
 	u16 unk8e_02 : 8;
@@ -310,7 +310,7 @@ void func0f149f18(void)
 	struct perfecthead *thing;
 	s32 i;
 
-	func0f14b394(getPerfectHead(-1));
+	initPerfectHeadWithRandomTexture(getPerfectHead(-1));
 
 	thing = getPerfectHead(-1);
 	thing->unk3f4_00 = false;
@@ -530,7 +530,7 @@ void func0f14a5b4(s32 index)
 {
 	var800a45a0->unk004 = index;
 
-	func0f14b394(getPerfectHead(index));
+	initPerfectHeadWithRandomTexture(getPerfectHead(index));
 }
 
 void func0f14a5e4(void)
@@ -685,36 +685,29 @@ void setPerfectHeadHairColour(s32 colournum)
 	getPerfectHead(-1)->colournum = colournum;
 }
 
-void func0f14aac4(void)
+void defaultColournum(void)
 {
 	getPerfectHead(-1)->colournum = 0;
 }
 
-s32 func0f14aae8(void)
+s32 getColournum(void)
 {
 	return getPerfectHead(-1)->colournum;
 }
 
-void func0f14ab0c(s32 stylenum)
+void setStylenum(s32 stylenum)
 {
-	struct perfecthead *thing;
-
-	phGetStyleName(stylenum);
-
-	thing = getPerfectHead(-1);
-	thing->stylenum = stylenum;
+	getPerfectHead(-1)->stylenum = stylenum;
 }
 
-void func0f14ab3c(void)
+void defaultStylenum(void)
 {
-	struct perfecthead *thing = getPerfectHead(-1);
-	thing->stylenum = 0;
+	getPerfectHead(-1)->stylenum = 0;
 }
 
-s32 func0f14ab60(void)
+s32 getStylenum(void)
 {
-	struct perfecthead *thing = getPerfectHead(-1);
-	return thing->stylenum;
+	return getPerfectHead(-1)->stylenum;
 }
 
 void func0f14ab84(s32 arg0)
@@ -962,7 +955,7 @@ void func0f14b178(void)
 	}
 }
 
-void func0f14b228(struct perfecthead *arg0)
+void initPerfectHead(struct perfecthead *arg0)
 {
 	s32 i;
 
@@ -1020,13 +1013,13 @@ void func0f14b358(void)
 
 void func0f14b360(s32 index)
 {
-	struct perfecthead *thing = getPerfectHead(index);
+	struct perfecthead *phead = getPerfectHead(index);
 
-	func0f14b228(thing);
-	func0f14b394(thing);
+	initPerfectHead(phead);
+	initPerfectHeadWithRandomTexture(phead);
 }
 
-void func0f14b394(struct perfecthead *arg0)
+void initPerfectHeadWithRandomTexture(struct perfecthead *arg0)
 {
 	s32 size;
 	s32 i;
@@ -1043,7 +1036,7 @@ void func0f14b394(struct perfecthead *arg0)
 		arg0->unk010.textureptr[i] = random() % 0xff;
 	}
 
-	func0f14b228(arg0);
+	initPerfectHead(arg0);
 }
 
 bool func0f14b484(s32 index)
@@ -1686,8 +1679,8 @@ void func0f14ce84(void)
 
 			func0f14a95c();
 			func0f14aa48();
-			func0f14aac4();
-			func0f14ab3c();
+			defaultColournum();
+			defaultStylenum();
 		} else {
 			pak0f11e3bc(func0f14a5a4());
 		}
@@ -3135,8 +3128,8 @@ bool pheadLoadFile(s8 device, s32 fileid, u16 serial, s32 arg3)
 		s0->unk3a4 = file.unk8e_02;
 		s0->unk3bc = file.unk82;
 		s0->unk3b8 = file.unk84;
-		s0->colournum = file.unk8c;
-		s0->stylenum = file.unk8d;
+		s0->colournum = file.colournum;
+		s0->stylenum = file.stylenum;
 		s0->unk3c0 = file.unk86;
 		s0->unk3c4 = file.unk87;
 		s0->unk3c8 = file.unk88;
@@ -3163,7 +3156,7 @@ bool pheadLoadFile(s8 device, s32 fileid, u16 serial, s32 arg3)
 		func0f14bc04();
 
 		for (i = 0; i < 128; i++) {
-			s1->unk010.textureptr[i] = file.unk00[i];
+			s1->unk010.textureptr[i] = file.texture[i];
 		}
 
 		if (s1 != s0) {
@@ -3235,8 +3228,8 @@ s32 pheadSaveFile(s8 device, s32 fileid, u16 serial)
 
 	file.unk82 = thing->unk3bc;
 	file.unk84 = thing->unk3b8;
-	file.unk8c = thing->colournum;
-	file.unk8d = thing->stylenum;
+	file.colournum = thing->colournum;
+	file.stylenum = thing->stylenum;
 	file.unk86 = thing->unk3c0;
 	file.unk87 = thing->unk3c4;
 	file.unk88 = thing->unk3c8;
@@ -3248,8 +3241,8 @@ s32 pheadSaveFile(s8 device, s32 fileid, u16 serial)
 		file.unk90[i] = thing->unk3d0[i] * 1000.0f;
 	}
 
-	for (i = 0; i < ARRAYCOUNT(file.unk00); i++) {
-		file.unk00[i] = thing->unk010.textureptr[i];
+	for (i = 0; i < ARRAYCOUNT(file.texture); i++) {
+		file.texture[i] = thing->unk010.textureptr[i];
 	}
 
 	for (i = 0; i < ARRAYCOUNT(file.unk9e); i++) {
