@@ -940,6 +940,7 @@ bool mpIsValidGoldenGun(s32 mpweaponnum)
 		case MPWEAPON_DY357LX:
 			return true;
 		case MPWEAPON_NONE:
+		case MPWEAPON_LAPTOPGUN:
 		case MPWEAPON_DRAGON:
 #if VERSION != VERSION_JPN_FINAL
 		case MPWEAPON_COMBATKNIFE:
