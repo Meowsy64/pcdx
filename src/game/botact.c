@@ -104,6 +104,69 @@ s32 botactGetAmmoQuantityByWeapon(struct aibot *aibot, s32 weaponnum, s32 funcnu
 	return qty;
 }
 
+bool botactHasWeapon(struct aibot *aibot, u32 weaponnum)
+{
+	s8 i = 0;
+
+	if (!aibot) {
+		return false;
+	}
+
+	for (i = 0; i < aibot->maxitems; i++) {
+		struct invitem *item = &aibot->items[i];
+
+		if (item && item->type == INVITEMTYPE_WEAP && item->type_weap.weapon1 == weaponnum) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+s32 botactCouldFireWeaponWithCurrentAmmoReserves(struct aibot *aibot, s32 weaponnum)
+{
+	s32 qty = 0;
+	s32 ammotype;
+	s32 equippedammotype;
+	s32 i;
+
+	if (!aibot) {
+		return false;
+	}
+
+	if (!botactHasWeapon(aibot, g_Vars.mpmgg_weaponnum)) {
+		return false;
+	}
+
+	if (aibot->flags & BOTFLAG_UNLIMITEDAMMO) {
+		// We have infinite ammo.
+		return true;
+	}
+
+	for (i = FUNC_PRIMARY; i <= FUNC_SECONDARY; i++) {
+		ammotype = botactGetAmmoTypeByFunction(weaponnum, i);
+		if (ammotype == AMMOTYPE_NONE) {
+			return true;
+		}
+
+		if (aibot->ammoheld[ammotype] > 0) {
+			return true;
+		}
+	}
+
+	if (aibot->weaponnum == weaponnum) {
+		if (aibot->loadedammo[HAND_LEFT] > 0) {
+			return true;
+		}
+
+		if (aibot->loadedammo[HAND_RIGHT] > 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 s32 botactGetAmmoQuantityByType(struct aibot *aibot, s32 ammotype, bool include_equipped)
 {
 	s32 qty = 0;

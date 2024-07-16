@@ -283,17 +283,21 @@ MenuItemHandlerResult menuhandlerMpControlStyle(s32 operation, struct menuitem *
 
 MenuItemHandlerResult menuhandlerMpWeaponSlot(s32 operation, struct menuitem *item, union handlerdata *data)
 {
+	bool (*condition)(s32) = item->param3 == ARRAYCOUNT(g_MpSetup.weapons) ? &mpIsValidGoldenGun : &mpIsUnlockedGun;
+
 	switch (operation) {
+	case MENUOP_CHECKHIDDEN:
+		return item->param3 == ARRAYCOUNT(g_MpSetup.weapons) && g_MpSetup.scenario != MPSCENARIO_GOLDENGUN;
 	case MENUOP_GETOPTIONCOUNT:
-		data->dropdown.value = mpGetNumWeaponOptions();
+		data->dropdown.value = mpGetNumWeaponOptions(condition);
 		break;
 	case MENUOP_GETOPTIONTEXT:
-		return (s32) mpGetWeaponLabel(data->dropdown.value);
+		return (s32) mpGetWeaponLabel(data->dropdown.value, condition);
 	case MENUOP_SET:
-		mpSetWeaponSlot(item->param3, data->dropdown.value);
+		mpSetWeaponSlot(item->param3, data->dropdown.value, condition);
 		break;
 	case MENUOP_GETSELECTEDINDEX:
-		data->dropdown.value = mpGetWeaponSlot(item->param3);
+		data->dropdown.value = mpGetWeaponSlot(item->param3, condition);
 	}
 
 	return 0;
@@ -301,7 +305,9 @@ MenuItemHandlerResult menuhandlerMpWeaponSlot(s32 operation, struct menuitem *it
 
 char *mpMenuTextWeaponNameForSlot(struct menuitem *item)
 {
-	return mpGetWeaponLabel(mpGetWeaponSlot(item->param));
+	bool (*condition)(s32) = item->param3 == ARRAYCOUNT(g_MpSetup.weapons) ? &mpIsValidGoldenGun : &mpIsUnlockedGun;
+
+	return mpGetWeaponLabel(mpGetWeaponSlot(item->param, condition), condition);
 }
 
 MenuItemHandlerResult menuhandlerMpWeaponSetDropdown(s32 operation, struct menuitem *item, union handlerdata *data)
@@ -1292,6 +1298,14 @@ struct menuitem g_MpWeaponsMenuItems[] = {
 		MENUITEMFLAG_DROPDOWN_BELOW | MENUITEMFLAG_LOCKABLEMINOR | MENUITEMFLAG_MPWEAPONSLOT,
 		L_MPMENU_181, // "6:"
 		5,
+		menuhandlerMpWeaponSlot,
+	},
+	{
+		MENUITEMTYPE_DROPDOWN,
+		0,
+		MENUITEMFLAG_DROPDOWN_BELOW | MENUITEMFLAG_LOCKABLEMINOR,
+		L_MPMENU_GOLDENGUNCOLON, // "Golden Gun:"
+		ARRAYCOUNT(g_MpSetup.weapons),
 		menuhandlerMpWeaponSlot,
 	},
 	{

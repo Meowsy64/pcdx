@@ -252,22 +252,23 @@ void pacApplyNextVictim(void)
 	}
 }
 
-void pacHandleDeath(s32 aplayernum, s32 vplayernum)
+void pacHandleDeath(s32 aplayernum, s32 vplayernum, struct gset gset)
 {
 	struct scenariodata_pac *data = &g_ScenarioData.pac;
+	char text[64];
 
 	if (data->victimindex >= 0 && vplayernum == data->victims[data->victimindex]) {
 		if (aplayernum != vplayernum) {
 			if (aplayernum >= 0) {
 				if (scenarioChrsAreSameTeam(aplayernum, vplayernum)) {
-					scenarioCreateHudmsg(aplayernum, langGet(L_MPWEAPONS_008)); // "You're supposed to look"
-					scenarioCreateHudmsg(aplayernum, langGet(L_MPWEAPONS_009)); // "after your friends!"
+
+					sprintf(text, "%s%s", langGet(L_MPWEAPONS_008), langGet(L_MPWEAPONS_009)); // "You're supposed to look\nafter your friends!"
 				} else {
 					data->killcounts[aplayernum]++;
-					scenarioCreateHudmsg(aplayernum, langGet(L_MPWEAPONS_010)); // "Well done!"
-					scenarioCreateHudmsg(aplayernum, langGet(L_MPWEAPONS_011)); // "You popped a cap!"
-					scenarioCreateHudmsg(aplayernum, langGet(L_MPWEAPONS_012)); // "Have 2 Points..."
+
+					sprintf(text, "%s%s%s", langGet(L_MPWEAPONS_010), langGet(L_MPWEAPONS_011), langGet(L_MPWEAPONS_012)); // "Well done!\nYou popped a cap!\nHave 2 Points..."
 				}
+				scenarioCreateHudmsg(aplayernum, text);
 			}
 
 			pacApplyNextVictim();

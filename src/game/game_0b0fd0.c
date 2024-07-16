@@ -856,6 +856,10 @@ bool weaponHasLaserSight(s32 weaponnum)
 
 u32 weaponGetCustomTint(s32 weaponnum)
 {
+	if (g_Vars.normmplayerisrunning && g_MpSetup.scenario == MPSCENARIO_GOLDENGUN && g_Vars.mpmgg_weaponnum == weaponnum) {
+		return 0xffff007f;
+	}
+
 	switch (weaponnum)
 	{
 		/*

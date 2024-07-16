@@ -225,7 +225,7 @@ void mpstatsRecordPlayerSuicide(void)
 	}
 }
 
-void mpstatsRecordDeath(s32 aplayernum, s32 vplayernum)
+void mpstatsRecordDeath(s32 aplayernum, s32 vplayernum, struct gset gset)
 {
 	s32 vmpindex = -1;
 	struct mpchrconfig *vmpchr = NULL;
@@ -234,8 +234,8 @@ void mpstatsRecordDeath(s32 aplayernum, s32 vplayernum)
 	s32 prevplayernum;
 	char text[256];
 
-	if (g_Vars.normmplayerisrunning && g_MpSetup.scenario == MPSCENARIO_POPACAP) {
-		pacHandleDeath(aplayernum, vplayernum);
+	if (g_Vars.normmplayerisrunning) {
+		scenarioHandleDeath(aplayernum, vplayernum, gset);
 	}
 
 	// Find attacker and victim mpchrs

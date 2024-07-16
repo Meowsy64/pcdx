@@ -266,8 +266,16 @@ void botinvScoreAllWeapons(struct chrdata *chr, s32 *weaponnums, s32 *scores1, s
 
 	// Gather scores for each weapon in the setup,
 	// taking the higher score out of both gun functions
-	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
-		s32 weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
+	for (i = 0; i <= ARRAYCOUNT(g_MpSetup.weapons); i++) {
+		s32 weaponnum;
+		if (i == ARRAYCOUNT(g_MpSetup.weapons)) {
+			weaponnum = WEAPON_NONE;
+			if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN) {
+				weaponnum = g_Vars.mpmgg_weaponnum;
+			}
+		} else {
+			weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
+		}
 		weaponnums[i] = weaponnum;
 
 		botinvScoreWeaponByItself(chr, weaponnum, FUNC_PRIMARY, -1, false, &pri1, &pri2);
@@ -278,12 +286,12 @@ void botinvScoreAllWeapons(struct chrdata *chr, s32 *weaponnums, s32 *scores1, s
 	}
 
 	// Sort all three arrays by score1 descending
-	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
+	for (i = 0; i <= ARRAYCOUNT(g_MpSetup.weapons); i++) {
 		s32 swapindex = i;
 		s32 tmp;
 		s32 j;
 
-		for (j = i + 1; j < ARRAYCOUNT(g_MpSetup.weapons); j++) {
+		for (j = i + 1; j <= ARRAYCOUNT(g_MpSetup.weapons); j++) {
 			if (scores1[j] > scores1[swapindex]) {
 				swapindex = j;
 			}
@@ -312,7 +320,7 @@ bool mpHasShield(void)
 {
 	s32 i;
 
-	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
+	for (i = 0; i <= ARRAYCOUNT(g_MpSetup.weapons); i++) {
 		s32 weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
 
 		if (weaponnum == WEAPON_MPSHIELD) {
@@ -327,7 +335,7 @@ bool mpHasBodyArmor(void)
 {
 	s32 i;
 
-	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
+	for (i = 0; i <= ARRAYCOUNT(g_MpSetup.weapons); i++) {
 		s32 weaponnum = g_MpWeapons[g_MpSetup.weapons[i]].weaponnum;
 
 		if (weaponnum == WEAPON_MPBODYARMOR) {
@@ -347,10 +355,14 @@ s32 mpGetWeaponSlotByWeaponNum(s32 weaponnum)
 	s32 i;
 
 	for (i = 0; i < ARRAYCOUNT(g_MpSetup.weapons); i++) {
-		if (g_MpWeapons[g_MpSetup.weapons[i]].weaponnum == weaponnum && i < ARRAYCOUNT(g_MpSetup.weapons)) {
+		if (g_MpWeapons[g_MpSetup.weapons[i]].weaponnum == weaponnum) {
 			result = i;
 			break;
 		}
+	}
+
+	if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN && weaponnum == g_Vars.mpmgg_weaponnum) {
+		result = ARRAYCOUNT(g_MpSetup.weapons);
 	}
 
 	return result;
@@ -747,21 +759,19 @@ s32 botinvGetDistConfig(s32 weaponnum, s32 funcnum)
  */
 bool botinvAllowsWeapon(struct chrdata *chr, s32 weaponnum, s32 funcnum)
 {
-	bool allow = true;
-
-	if (chr->aibot->config->type == BOTTYPE_FIST) {
+	if (chr->aibot->config->type == BOTTYPE_PEACE) {
+		return false;
+	} else if (chr->aibot->config->type == BOTTYPE_FIST) {
 		if (funcnum != FUNC_PRIMARY) {
 			if (g_WeaponsExtended[weaponnum]->AibotWeaponPreferences.secdistconfig != BOTDISTCFG_CLOSE) {
-				allow = false;
+				return false;
 			}
-		} else {
-			if (g_WeaponsExtended[weaponnum]->AibotWeaponPreferences.pridistconfig != BOTDISTCFG_CLOSE) {
-				allow = false;
-			}
+		} else if (g_WeaponsExtended[weaponnum]->AibotWeaponPreferences.pridistconfig != BOTDISTCFG_CLOSE) {
+			return false;
 		}
 	}
 
-	return allow;
+	return true;
 }
 
 /**
@@ -836,6 +846,28 @@ void botinvTick(struct chrdata *chr)
 			&& aibot->reaperspeed[HAND_LEFT] <= 0
 			&& aibot->reaperspeed[HAND_RIGHT] <= 0
 			&& aibot->skrocket == NULL) {
+		if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN) {
+			if (g_ScenarioData.mgg.goldengun == chr->prop) {
+				// Bot has the Golden Gun
+				s32 goldengunnum = g_Vars.mpmgg_weaponnum;
+				bool allowsPrimary = botinvAllowsWeapon(chr, goldengunnum, FUNC_PRIMARY);
+				bool allowsSecondary = botinvAllowsWeapon(chr, goldengunnum, FUNC_SECONDARY);
+				if (allowsPrimary || allowsSecondary) {
+					if (aibot->weaponnum == goldengunnum) {
+						if (botactCouldFireWeaponWithCurrentAmmoReserves(aibot, goldengunnum)) {
+							newweaponnum = g_Vars.mpmgg_weaponnum;
+							keepcurrentweapon = true;
+						}
+					} else {
+						// Switch to the Golden Gun
+						newweaponnum = g_Vars.mpmgg_weaponnum;
+						newfuncnum = allowsPrimary ? FUNC_PRIMARY : FUNC_SECONDARY;
+						keepcurrentweapon = true;
+					}
+				}
+			}
+		}
+
 		if (chr->myaction == MA_AIBOTDOWNLOAD) {
 			keepcurrentweapon = true;
 		}

@@ -267,6 +267,11 @@ void challengePerformSanityChecks(void)
 		if (g_MpSetup.scenario == MPSCENARIO_KINGOFTHEHILL) {
 			g_Vars.mphilltime = 10;
 		}
+
+		if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN) {
+			g_Vars.mpmgg_mpweaponnum = MPWEAPON_DY357LX;
+			g_Vars.mpmgg_weaponnum = WEAPON_DY357LX;
+		}
 	} else if (!challengeIsFeatureUnlocked(MPFEATURE_8BOTS)) {
 		// Limit to 4 players and 4 simulants
 		g_MpSetup.chrslots &= 0x00ff;

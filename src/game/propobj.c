@@ -2138,6 +2138,11 @@ struct prop *objInit(struct defaultobj *obj, struct modeldef *modeldef, struct p
 			prop->forcetick = true;
 			obj->flags |= OBJFLAG_INVINCIBLE | OBJFLAG_FORCENOBOUNCE;
 			obj->flags2 |= OBJFLAG2_IMMUNETOGUNFIRE | OBJFLAG2_IMMUNETOEXPLOSIONS;
+		} else if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN && weapon->weaponnum == g_Vars.mpmgg_weaponnum) {
+			g_ScenarioData.mgg.goldengun = prop;
+			prop->forcetick = true;
+			obj->flags |= OBJFLAG_INVINCIBLE | OBJFLAG_FORCENOBOUNCE;
+			obj->flags2 |= OBJFLAG2_IMMUNETOGUNFIRE | OBJFLAG2_IMMUNETOEXPLOSIONS;
 		}
 	}
 
@@ -10881,6 +10886,24 @@ void objInitMatrices(struct prop *prop)
 
 bool propCanRegen(struct prop *prop)
 {
+	if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN) {
+		if (prop->type == PROPTYPE_WEAPON && prop->weapon->weaponnum == g_Vars.mpmgg_weaponnum) {
+			if (g_ScenarioData.mgg.goldengun == NULL) {
+				if (g_Vars.mpmgg_weaponnum == WEAPON_LAPTOPGUN) {
+					int i;
+					for (i = 0; i < g_MaxThrownLaptops; i++) {
+						if (g_ThrownLaptops[i].weaponnum == g_Vars.mpmgg_weaponnum) {
+							return false;
+						}
+					}
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -17321,6 +17344,10 @@ s32 propPickupByPlayer(struct prop *prop, bool showhudmsg)
 			s32 sp64;
 
 			if (g_Vars.normmplayerisrunning) {
+				if (g_MpSetup.scenario == MPSCENARIO_GOLDENGUN && weapon->weaponnum == g_Vars.mpmgg_weaponnum) {
+					scenarioPickUpGoldenGun(g_Vars.currentplayer->prop->chr, prop);
+				}
+
 				if (weapon->weaponnum == WEAPON_BRIEFCASE2) {
 					sp64 = scenarioPickUpBriefcase(g_Vars.currentplayer->prop->chr, prop);
 
@@ -18606,6 +18633,7 @@ struct autogunobj *laptopDeploy(s32 modelnum, struct gset *gset, struct chrdata 
 			laptop->barrelspeed = 0;
 			laptop->barrelrot = 0;
 			laptop->shotbondsum = 0;
+			laptop->weaponnum = gset->weaponnum;
 
 			if (chr->aibot) {
 				laptop->ammoquantity = botactTryRemoveAmmoFromReserve(chr->aibot, WEAPON_LAPTOPGUN, FUNC_PRIMARY, 200);

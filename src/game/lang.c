@@ -456,6 +456,17 @@ char *langGet(s32 textid)
 		case L_GUN_DMCSIL_LONG:               return "DMC (silenced)\n";
 		case L_GUN_AUTOSHOTGUN:               return "Auto-Shotgun\n";
 		case L_GUN_P9P:               		  return "P9P\n";
+		case L_MPWEAPONS_PLAYERHASTHEITEM:    return "%s has the\n%s.\n";
+		case L_MPWEAPONS_GOLDENGUNKILL:       return "Another glittering end!\n";
+		case L_MISC_GETGOLDENGUN:             return "Get Golden Gun\n";
+		case L_MPMENU_THEGOLDENGUN:           return "The Golden Gun";
+		case L_MPMENU_GOLDENGUN:              return "Golden Gun";
+		case L_MPMENU_GOLDENGUNCOLON:         return "Golden Gun:\n";
+		case L_MPMENU_GOLDENGUNOPT:           return "Golden Gun\n";
+		case L_MPMENU_GOLDENGUNOPTIONS:       return "Golden Gun Options\n";
+		case L_OPTIONS_NEWGAMEMODES:          return "-New-\n";
+		case L_MPMENU_HIGHLIGHTGOLDENGUN:     return "Highlight Golden Gun\n";
+
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 
 #endif

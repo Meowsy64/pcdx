@@ -229,7 +229,7 @@ void chrRunToPos(struct chrdata *chr, struct coord *pos);
 void chrBeginDead(struct chrdata *chr);
 f32 chrGetBodyArmor(struct chrdata *chr);
 f32 chrGetShield(struct chrdata *chr);
-void chrDie(struct chrdata *chr, s32 aplayernum);
+void chrDie(struct chrdata *chr, s32 aplayernum, struct gset gset);
 void chrGoPosGetCurWaypointInfo(struct chrdata *chr, struct coord *pos, RoomNum *rooms);
 void chrGoPosClearRestartTtl(struct chrdata *chr);
 void chrPatrolGetCurWaypointInfo(struct chrdata *chr, struct coord *pos, RoomNum *rooms);

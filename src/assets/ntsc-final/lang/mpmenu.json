@@ -4958,5 +4958,12 @@
         "fr": "Please Wait...\n",
         "de": "Please Wait...\n",
         "es": "Please Wait...\n"
-    }
+    },
+    { "id": "L_MPMENU_THEGOLDENGUN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPMENU_GOLDENGUN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPMENU_GOLDENGUNCOLON", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPMENU_GOLDENGUNOPT", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPMENU_GOLDENGUNOPTIONS", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_OPTIONS_NEWGAMEMODES", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPMENU_HIGHLIGHTGOLDENGUN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
 ]

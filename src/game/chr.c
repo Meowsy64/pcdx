@@ -926,14 +926,17 @@ bool chr0f01f378(struct model *model, struct coord *arg1, struct coord *arg2, f3
 						if (die) {
 							if (chr->aibot) {
 								s32 shooter;
+								struct gset gset = { WEAPON_NONE, 0, 0, FUNC_PRIMARY };
 
 								if (chr->lastshooter >= 0 && chr->timeshooter > 0) {
+									// This path is never used?
 									shooter = chr->lastshooter;
 								} else {
 									shooter = mpPlayerGetIndex(chr);
+									gset = mpPlayerGetGset(chr);
 								}
 
-								chrDie(chr, shooter);
+								chrDie(chr, shooter, gset);
 							} else {
 								chr->hidden |= CHRHFLAG_DELETING;
 							}

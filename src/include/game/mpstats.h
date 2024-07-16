@@ -17,6 +17,6 @@ void mpstatsRecordPlayerKill(void);
 s32 mpstatsGetPlayerKillCount(void);
 void mpstatsRecordPlayerDeath(void);
 void mpstatsRecordPlayerSuicide(void);
-void mpstatsRecordDeath(s32 aplayernum, s32 vplayernum);
+void mpstatsRecordDeath(s32 aplayernum, s32 vplayernum, struct gset gset);
 
 #endif

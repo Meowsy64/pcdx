@@ -3380,7 +3380,7 @@ void chrBeginDeath(struct chrdata *chr, struct coord *dir, f32 relangle, s32 hit
 
 	// Handle multiplayer stats and kill count
 	if (g_Vars.mplayerisrunning) {
-		mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr));
+		mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr), *gset);
 	} else if (aplayernum >= 0) {
 		s32 prevplayernum = g_Vars.currentplayernum;
 		setCurrentPlayerNum(aplayernum);
@@ -4294,7 +4294,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 	bool usedshield = false;
 	bool showshield = false;
 	bool showdamage = false;
-	struct gset gset2 = {0};
+	struct gset gset2 = { WEAPON_NONE, 0, 0, FUNC_PRIMARY };
 	f32 explosionforce = damage;
 	f32 healthscale = 1;
 	f32 armourscale = 1;
@@ -4864,7 +4864,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 
 					if (g_Vars.currentplayer->training == false
 							&& g_Vars.currentplayer->bondhealth <= 0) {
-						playerDieByShooter(aplayernum, false);
+						playerDieByShooter(aplayernum, false, *gset);
 						chr->blurnumtimesdied++;
 					}
 
@@ -5027,7 +5027,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 					chrFlinchBody(chr);
 
 					if (chr->damage >= chr->maxdamage) {
-						chrDie(chr, aplayernum);
+						chrDie(chr, aplayernum, *gset);
 					}
 				} else if (explosion) {
 					// Chrs die instantly from explosion damage provided they
@@ -5050,7 +5050,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 						}
 
 						if (g_Vars.mplayerisrunning) {
-							mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr));
+							mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr), *gset);
 						} else if (aprop && aprop->type == PROPTYPE_PLAYER) {
 							s32 prevplayernum = g_Vars.currentplayernum;
 							setCurrentPlayerNum(playermgrGetPlayerNumByProp(aprop));
@@ -5148,7 +5148,7 @@ void chrDamage(struct chrdata *chr, f32 damage, struct coord *vector, struct gse
 	}
 }
 
-void chrDie(struct chrdata *chr, s32 aplayernum)
+void chrDie(struct chrdata *chr, s32 aplayernum, struct gset gset)
 {
 	if (chr->actiontype != ACT_DIE) {
 		chrStopFiring(chr);
@@ -5165,7 +5165,7 @@ void chrDie(struct chrdata *chr, s32 aplayernum)
 		chr->ailist = ailistFindById(GAILIST_AIBOT_DEAD);
 		chr->aioffset = 0;
 
-		mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr));
+		mpstatsRecordDeath(aplayernum, mpPlayerGetIndex(chr), gset);
 		botinvDropAll(chr, chr->aibot->weaponnum);
 
 #if VERSION >= VERSION_NTSC_1_0

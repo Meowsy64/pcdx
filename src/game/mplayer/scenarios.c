@@ -72,9 +72,9 @@ struct mpscenario {
 	void *unk3c; // never hooked into nor fired
 	void (*readsavefunc)(struct savebuffer *buffer);
 	void (*writesavefunc)(struct savebuffer *buffer);
+	void (*handledeathfunc)(s32 aplayernum, s32 vplayernum, struct gset gset);
 };
 
-#if VERSION >= VERSION_JPN_FINAL
 char *scenarioRemoveLineBreaks(char *src, s32 stringnum)
 {
 	static char strings[2][30];
@@ -92,7 +92,6 @@ char *scenarioRemoveLineBreaks(char *src, s32 stringnum)
 
 	return strings[stringnum];
 }
-#endif
 
 struct scenariodata g_ScenarioData;
 
@@ -172,9 +171,10 @@ MenuItemHandlerResult menuhandlerMpSlowMotion(s32 operation, struct menuitem *it
 #include "scenarios/kingofthehill.inc"
 #include "scenarios/hackthatmac.inc"
 #include "scenarios/popacap.inc"
+#include "scenarios/goldengun.inc"
 
 // Define the scenario callbacks
-struct mpscenario g_MpScenarios[] = {
+struct mpscenario g_MpScenarios[NUM_MPSCENARIOS] = {
 	{
 		&g_MpCombatOptionsMenuDialog,
 	}, {
@@ -248,6 +248,26 @@ struct mpscenario g_MpScenarios[] = {
 		ctcGetMaxTeams,
 		ctcIsRoomHighlighted,
 		ctcHighlightRoom,
+	}, {
+		&g_MggOptionsMenuDialog,      // Options Dialog
+		mggInit,                      // Init Scenario
+		NULL,                         // Number of Props
+		NULL,                         // Init Props
+		mggTick,                      // Tick Scenario
+		NULL,                         // Tick Chr
+		NULL,                         // Render HUD
+		mggCalculatePlayerScore,      // Calculate Player Score
+		mggRadarExtra,                // Radar Extra
+		mggRadarChr,                  // Radar Chr
+		mggHighlightProp,             // Highlight Prop
+		NULL,                         // Choose Spawn Location
+		NULL,                         // Get Max Teams
+		NULL,                         // Is Room Highlighted?
+		NULL,                         // Highlight Room
+		NULL,                         // Never hooked into nor fired
+		mggReadSave,                  // Read Save
+		mggWriteSave,                 // Write Save
+		mggHandleDeath,               // Handle Death
 	},
 };
 
@@ -259,6 +279,7 @@ struct mpscenariooverview g_MpScenarioOverviews[] = {
 	{ L_MPMENU_249, L_MPMENU_256, MPFEATURE_SCENARIO_PAC, false }, // "Pop a Cap", "Pop"
 	{ L_MPMENU_250, L_MPMENU_257, MPFEATURE_SCENARIO_KOH, true  }, // "King of the Hill", "Hill"
 	{ L_MPMENU_251, L_MPMENU_258, MPFEATURE_SCENARIO_CTC, true  }, // "Capture the Case", "Capture"
+	{ L_MPMENU_THEGOLDENGUN, L_MPMENU_GOLDENGUN, 0,       false }, // "The Golden Gun", "Golden Gun"
 };
 
 /**
@@ -308,8 +329,9 @@ struct scenariogroup {
 MenuItemHandlerResult scenarioScenarioMenuHandler(s32 operation, struct menuitem *item, union handlerdata *data)
 {
 	struct scenariogroup groups[] = {
-		{ 0, L_MPMENU_244 }, // "Free for All!"
-		{ 4, L_MPMENU_245 }, // "-Teamwork-"
+		{ MPSCENARIO_COMBAT,        L_MPMENU_244           }, // "Free for All!"
+		{ MPSCENARIO_KINGOFTHEHILL, L_MPMENU_245           }, // "-Teamwork-"
+		{ MPSCENARIO_GOLDENGUN,     L_OPTIONS_NEWGAMEMODES }, // "-New-"
 	};
 
 	s32 i;
@@ -376,7 +398,7 @@ MenuItemHandlerResult scenarioScenarioMenuHandler(s32 operation, struct menuitem
 
 		break;
 	case MENUOP_GETOPTGROUPCOUNT:
-		data->list.value = 2;
+		data->list.value = ARRAYCOUNT(groups);
 
 		if (!teamgame || (!challengeIsFeatureUnlocked(MPFEATURE_SCENARIO_KOH) && !challengeIsFeatureUnlocked(MPFEATURE_SCENARIO_CTC))) {
 			data->list.value--;
@@ -843,6 +865,10 @@ void scenarioReset(void)
 		htbReset();
 		break;
 	case MPSCENARIO_POPACAP:
+		break;
+	case MPSCENARIO_GOLDENGUN:
+		mggReset();
+		g_ScenarioData.mgg.goldengun = NULL;
 		break;
 	}
 
@@ -1465,6 +1491,47 @@ s32 scenarioPickUpUplink(struct chrdata *chr, struct prop *prop)
 }
 
 /**
+ * Handle a player or bot picking up the Golden Gun.
+ */
+void scenarioPickUpGoldenGun(struct chrdata *chr, struct prop *prop)
+{
+	s32 i;
+	char message[64];
+	struct mpchrconfig *mpchr;
+	u32 playernum;
+
+	g_ScenarioData.htm.uplink = chr->prop;
+
+	if (chr->aibot) {
+		mpchr = g_MpAllChrConfigPtrs[mpPlayerGetIndex(chr)];
+	} else {
+		mpchr = MPCHR(g_Vars.playerstats[g_Vars.currentplayernum].mpindex);
+	}
+
+	// "%s has the\n%s."
+	sprintf(message, langGet(L_MPWEAPONS_PLAYERHASTHEITEM), scenarioRemoveLineBreaks(mpchr->name, 0), scenarioRemoveLineBreaks(bgunGetShortName(g_Vars.mpmgg_weaponnum), 1));
+	playernum = g_Vars.currentplayernum;
+
+	for (i = 0; i < PLAYERCOUNT(); i++) {
+		if (chr->aibot || i != playernum) {
+			setCurrentPlayerNum(i);
+
+#if VERSION >= VERSION_JPN_FINAL
+			hudmsgCreateWithFlags(message, HUDMSGTYPE_MPSCENARIO, HUDMSGFLAG_ONLYIFALIVE | HUDMSGFLAG_NOWRAP);
+#else
+			hudmsgCreateWithFlags(message, HUDMSGTYPE_MPSCENARIO, HUDMSGFLAG_ONLYIFALIVE);
+#endif
+		}
+	}
+
+	setCurrentPlayerNum(playernum);
+
+	if (chr->aibot) {
+		chr->aibot->hasuplink = true;
+	}
+}
+
+/**
  * Handle a terminal being activated with the data uplink.
  */
 void scenarioHandleActivatedProp(struct chrdata *chr, struct prop *prop)
@@ -1481,5 +1548,15 @@ void scenarioHandleActivatedProp(struct chrdata *chr, struct prop *prop)
 				obj->hidden |= OBJHFLAG_ACTIVATED_BY_BOND;
 			}
 		}
+	}
+}
+
+/**
+ * Handle a player or bot dying.
+ */
+void scenarioHandleDeath(s32 aplayernum, s32 vplayernum, struct gset gset)
+{
+	if (g_MpScenarios[g_MpSetup.scenario].handledeathfunc) {
+		g_MpScenarios[g_MpSetup.scenario].handledeathfunc(aplayernum, vplayernum, gset);
 	}
 }

@@ -61,7 +61,7 @@ void playerDisplayShield(void);
 Gfx *playerRenderShield(Gfx *gdl);
 Gfx *playerRenderHud(Gfx *gdl);
 void playerDie(bool force);
-void playerDieByShooter(u32 shooter, bool force);
+void playerDieByShooter(u32 shooter, bool force, struct gset gset);
 void playerCheckIfShotInBack(s32 attackerplayernum, f32 x, f32 z);
 f32 playerGetHealthBarHeightFrac(void);
 void player0f0c1840(struct coord *pos, struct coord *up, struct coord *look, struct coord *pos2, RoomNum *rooms);

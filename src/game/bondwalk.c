@@ -987,7 +987,8 @@ void bwalkUpdateVertical(void)
 						setCurrentPlayerNum(playermgrGetPlayerNumByProp(prop));
 
 						if (g_Vars.currentplayer->inlift) {
-							playerDieByShooter(prevplayernum, true);
+							struct gset gset = { WEAPON_NONE, 0, 0, FUNC_PRIMARY };
+							playerDieByShooter(prevplayernum, true, gset); // Dying from something falling on you in an elevator?
 						}
 
 						setCurrentPlayerNum(prevplayernum);

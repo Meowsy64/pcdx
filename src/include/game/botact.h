@@ -8,6 +8,8 @@ s32 botactGetAmmoTypeByFunction(s32 weaponnum, s32 funcnum);
 s32 botactGetClipCapacityByFunction(s32 weaponnum, u32 funcnum);
 void botactReload(struct chrdata *chr, s32 handnum, bool withsound);
 s32 botactGetAmmoQuantityByWeapon(struct aibot *aibot, s32 weaponnum, s32 funcnum, bool include_equipped);
+bool botactHasWeapon(struct aibot *aibot, u32 weaponnum);
+s32 botactCouldFireWeaponWithCurrentAmmoReserves(struct aibot *aibot, s32 weaponnum);
 s32 botactGetAmmoQuantityByType(struct aibot *aibot, s32 ammotype, bool include_equipped);
 s32 botactTryRemoveAmmoFromReserve(struct aibot *aibot, s32 weaponnum, s32 funcnum, s32 qty);
 void botactGiveAmmoByWeapon(struct aibot *aibot, s32 weaponnum, s32 funcnum, s32 qty);

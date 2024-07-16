@@ -3486,7 +3486,8 @@ void playerTick(bool arg0)
 	}
 
 	if (g_Vars.currentplayer->devicesactive & DEVICE_SUICIDEPILL) {
-		playerDieByShooter(g_Vars.currentplayernum, true);
+		struct gset gset = { WEAPON_SUICIDEPILL, 0, 0, FUNC_PRIMARY };
+		playerDieByShooter(g_Vars.currentplayernum, true, gset);
 	}
 
 	playerTickDamageAndHealth();
@@ -5035,17 +5036,20 @@ void playerDie(bool force)
 {
 	struct chrdata *chr = g_Vars.currentplayer->prop->chr;
 	s32 shooter;
+	struct gset gset = { WEAPON_NONE, 0, 0, FUNC_PRIMARY };
 
 	if (chr->lastshooter >= 0 && chr->timeshooter > 0) {
+		// This path is never used?
 		shooter = chr->lastshooter;
 	} else {
 		shooter = g_Vars.currentplayernum;
+		gset = g_Vars.currentplayer->hands[HAND_RIGHT].gset;
 	}
 
-	playerDieByShooter(shooter, force);
+	playerDieByShooter(shooter, force, gset);
 }
 
-void playerDieByShooter(u32 shooter, bool force)
+void playerDieByShooter(u32 shooter, bool force, struct gset gset)
 {
 #if VERSION >= VERSION_NTSC_1_0
 	if (!g_Vars.currentplayer->isdead && (force || !g_Vars.currentplayer->invincible))
@@ -5061,7 +5065,7 @@ void playerDieByShooter(u32 shooter, bool force)
 		hudmsgsRemoveForDeadPlayer(g_Vars.currentplayernum);
 
 		if (g_Vars.mplayerisrunning) {
-			mpstatsRecordDeath(shooter, g_Vars.currentplayernum);
+			mpstatsRecordDeath(shooter, g_Vars.currentplayernum, gset);
 		}
 
 		chrUncloak(g_Vars.currentplayer->prop->chr, true);
