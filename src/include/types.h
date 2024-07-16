@@ -4103,7 +4103,7 @@ struct mpplayerconfig {
 	/*0x94*/ u8 medals;
 	/*0x95*/ u8 title;
 	/*0x96*/ u8 newtitle;
-	/*0x97*/ u8 gunfuncs[6];
+	/*0x97*/ u8 gunfuncs[(NUM_WEAPONS + 7) / 8];
 	/*0x9d*/ u8 handicap;
 };
 

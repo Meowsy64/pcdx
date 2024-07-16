@@ -3343,7 +3343,7 @@ s32 func0f18d0e8(s32 arg0)
 
 void mpplayerfileLoadGunFuncs(struct savebuffer *buffer, s32 playernum)
 {
-	s32 bitsremaining = 35;
+	s32 bitsremaining = ARRAYCOUNT(g_PlayerConfigsArray[0].gunfuncs) * 8;
 	s32 i = 0;
 
 	while (bitsremaining > 0) {
@@ -3362,7 +3362,7 @@ void mpplayerfileLoadGunFuncs(struct savebuffer *buffer, s32 playernum)
 
 void mpplayerfileSaveGunFuncs(struct savebuffer *buffer, s32 playernum)
 {
-	s32 bitsremaining = 35;
+	s32 bitsremaining = ARRAYCOUNT(g_PlayerConfigsArray[0].gunfuncs) * 8;
 	s32 i = 0;
 
 	while (bitsremaining > 0) {
