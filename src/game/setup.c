@@ -965,7 +965,6 @@ void setupPlaceWeapon(struct weaponobj *weapon, s32 cmdindex)
 		return;
 	}
 
-
 	if (weapon->weaponnum == WEAPON_MPSHIELD || weapon->weaponnum == WEAPON_MPBODYARMOR) {
 		struct shieldobj *shield = (struct shieldobj *)weapon;
 		shield->base.modelnum = weaponGetChrModel(weapon->weaponnum);
