@@ -250,7 +250,7 @@ struct prop *mggSpawnRandomGoldenGunAmmo(void)
     }
 
 	struct ammocrateobj template = {
-		512,                    // extrascale
+		154,                    // extrascale
 		0,                      // hidden2
 		OBJTYPE_AMMOCRATE,      // type
 		MODEL_MULTI_AMMO_CRATE, // modelnum
