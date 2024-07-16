@@ -29,6 +29,7 @@ s32 mpGetNumWeaponOptions(bool (*condition)(s32));
 char *mpGetWeaponLabel(s32 weaponnum, bool (*condition)(s32));
 void mpSetWeaponSlot(s32 slot, s32 mpweaponnum, bool (*condition)(s32));
 s32 mpGetWeaponSlot(s32 slot, bool (*condition)(s32));
+u8 mpGetMpWeaponnumByLocation(s32 locationindex);
 struct mpweapon *mpGetMpWeaponByLocation(s32 locationindex);
 s32 mpCountWeaponSetThing(s32 weaponsetindex);
 s32 func0f188f9c(s32 arg0);

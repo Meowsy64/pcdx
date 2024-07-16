@@ -1055,7 +1055,7 @@ s32 mpGetWeaponSlot(s32 slot, bool (*condition)(s32))
 	return count;
 }
 
-struct mpweapon *mpGetMpWeaponByLocation(s32 locationindex)
+u8 mpGetMpWeaponnumByLocation(s32 locationindex)
 {
 	s32 v0 = locationindex + 1;
 	s32 slot = 0;
@@ -1102,7 +1102,12 @@ struct mpweapon *mpGetMpWeaponByLocation(s32 locationindex)
 		}
 	}
 
-	return &g_MpWeapons[mpweaponnum];
+	return mpweaponnum;
+}
+
+struct mpweapon *mpGetMpWeaponByLocation(s32 locationindex)
+{
+	return &g_MpWeapons[mpGetMpWeaponnumByLocation(locationindex)];
 }
 
 s32 mpCountWeaponSetThing(s32 weaponsetindex)

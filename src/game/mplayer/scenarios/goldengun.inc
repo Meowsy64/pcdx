@@ -160,6 +160,135 @@ void mggInit(void)
     mggReset();
 }
 
+s32 mggGetRandomPad(void)
+{
+	struct prop *prop = g_Vars.activeprops;
+	struct defaultobj *obj;
+	s32 count = 0;
+	struct defaultobj *candidates[20];
+
+	while (prop && count < 20) {
+		if (prop->type == PROPTYPE_OBJ)
+		{
+			obj = prop->obj;
+
+			if (obj->type == OBJTYPE_MULTIAMMOCRATE) {
+				candidates[count] = obj;
+				count++;
+			}
+		}
+
+		prop = prop->next;
+	}
+
+	if (count > 0) {
+		count = random() % count;
+		return candidates[count]->pad;
+	}
+
+    return 0;
+}
+
+struct weaponobj g_MggGoldenGunObj;
+
+struct prop *mggSpawnRandomGoldenGunWeapon(void)
+{
+	struct weaponobj template = {
+		512,                    // extrascale
+		0,                      // hidden2
+		OBJTYPE_WEAPON,         // type
+		MODEL_CHRDATATHIEF,     // modelnum
+		0,                      // pad
+		OBJFLAG_FALL | OBJFLAG_INVINCIBLE | OBJFLAG_FORCENOBOUNCE,
+		OBJFLAG2_IMMUNETOGUNFIRE | OBJFLAG2_IMMUNETOEXPLOSIONS,
+		0,                      // flags3
+		NULL,                   // prop
+		NULL,                   // model
+		1, 0, 0,                // realrot
+		0, 1, 0,
+		0, 0, 1,
+		0,                      // hidden
+		NULL,                   // geo
+		NULL,                   // projectile
+		0,                      // damage
+		1000,                   // maxdamage
+		0xff, 0xff, 0xff, 0x00, // shadecol
+		0xff, 0xff, 0xff, 0x00, // nextcol
+		0x0fff,                 // floorcol
+		0,                      // tiles
+		g_Vars.mpmgg_weaponnum, // weaponnum
+		0,                      // unk5d
+		0,                      // unk5e
+		FUNC_PRIMARY,           // gunfunc
+		0,                      // fadeouttimer60
+		-1,                     // dualweaponnum
+		-1,                     // timer240
+		NULL,                   // dualweapon
+	};
+
+	g_MggGoldenGunObj = template;
+	g_MggGoldenGunObj.base.pad = mggGetRandomPad();
+
+	setupPlaceWeapon(&g_MggGoldenGunObj, 999);
+
+	g_MggGoldenGunObj.base.hidden2 &= ~OBJH2FLAG_CANREGEN;
+
+	if (g_MggGoldenGunObj.base.prop) {
+		g_MggGoldenGunObj.base.prop->forcetick = true;
+	}
+
+    return g_MggGoldenGunObj.base.prop;
+}
+
+struct ammocrateobj g_MggGoldenGunAmmoObj;
+
+struct prop *mggSpawnRandomGoldenGunAmmo(void)
+{
+    s32 ammotype = bgunGetAmmoTypeForWeapon(g_Vars.mpmgg_weaponnum, FUNC_PRIMARY);
+    if (ammotype == AMMOTYPE_NONE) {
+        return NULL;
+    }
+
+	struct ammocrateobj template = {
+		512,                    // extrascale
+		0,                      // hidden2
+		OBJTYPE_AMMOCRATE,      // type
+		MODEL_MULTI_AMMO_CRATE, // modelnum
+		0,                      // pad
+		OBJFLAG_FALL | OBJFLAG_INVINCIBLE | OBJFLAG_FORCENOBOUNCE,
+		OBJFLAG2_IMMUNETOGUNFIRE | OBJFLAG2_IMMUNETOEXPLOSIONS,
+		0,                      // flags3
+		NULL,                   // prop
+		NULL,                   // model
+		1, 0, 0,                // realrot
+		0, 1, 0,
+		0, 0, 1,
+		0,                      // hidden
+		NULL,                   // geo
+		NULL,                   // projectile
+		0,                      // damage
+		1000,                   // maxdamage
+		0xff, 0xff, 0xff, 0x00, // shadecol
+		0xff, 0xff, 0xff, 0x00, // nextcol
+		0x0fff,                 // floorcol
+		0,                      // tiles
+        ammotype,               // ammotype
+	};
+
+	g_MggGoldenGunAmmoObj = template;
+	g_MggGoldenGunAmmoObj.base.pad = mggGetRandomPad();
+
+    setupCreateObject(&g_MggGoldenGunAmmoObj.base, 999);
+
+	//g_MggGoldenGunAmmoObj.base.hidden2 &= ~OBJH2FLAG_CANREGEN;
+
+	if (g_MggGoldenGunAmmoObj.base.prop) {
+		g_MggGoldenGunAmmoObj.base.prop->forcetick = true;
+	}
+
+    return g_MggGoldenGunAmmoObj.base.prop;
+}
+
 void mggTick(void)
 {
 	s32 i;
@@ -229,6 +358,30 @@ void mggTick(void)
 			return;
 		}
 	}
+
+    if (g_ScenarioData.mgg.goldengun == NULL) {
+        bool hasGoldenGunInSetup = false;
+        int max = ARRAYCOUNT(g_MpSetup.weapons) + 1;
+
+        if (g_Vars.stagenum == STAGE_MP_WAREHOUSE) {
+            max = 6;
+        } else if (g_Vars.stagenum == STAGE_MP_FORTRESS) {
+            max = 5;
+        }
+
+        for (int i = 0; i < max; i++) {
+            if (mpGetMpWeaponnumByLocation(i) == g_Vars.mpmgg_mpweaponnum) {
+                hasGoldenGunInSetup = true;
+                break;
+            }
+        }
+
+        if (!hasGoldenGunInSetup) {
+            g_ScenarioData.mgg.goldengun = mggSpawnRandomGoldenGunWeapon();
+            mggSpawnRandomGoldenGunAmmo();
+        }
+        return;
+    }
 }
 
 void mggReadSave(struct savebuffer *buffer)
