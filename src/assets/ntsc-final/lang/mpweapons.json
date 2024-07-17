@@ -2648,5 +2648,6 @@
     { "id": "L_MPWEAPONS_DUALWIELDALLGUNS", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
     { "id": "L_MPWEAPONS_BODYARMOR", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
     { "id": "L_MPWEAPONS_PLAYERHASTHEITEM", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
-    { "id": "L_MPWEAPONS_GOLDENGUNKILL", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
+    { "id": "L_MPWEAPONS_GOLDENGUNKILL", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null },
+    { "id": "L_MPWEAPONS_SHADOWCAMPAIGN", "en": null, "gb": null, "jp": null, "it": null, "fr": null, "de": null, "es": null }
 ]

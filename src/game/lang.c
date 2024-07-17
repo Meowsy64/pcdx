@@ -466,6 +466,7 @@ char *langGet(s32 textid)
 		case L_MPMENU_GOLDENGUNOPTIONS:       return "Golden Gun Options\n";
 		case L_OPTIONS_NEWGAMEMODES:          return "-New-\n";
 		case L_MPMENU_HIGHLIGHTGOLDENGUN:     return "Highlight Golden Gun\n";
+		case L_MPWEAPONS_SHADOWCAMPAIGN:      return "Shadow Campaign\n";
 
 #if VERSION < VERSION_PAL_FINAL
 		case L_GUN_246:                       textid = L_GUN_072; // We don't have L_GUN_246 until VERSION_PAL_FINAL 

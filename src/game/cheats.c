@@ -105,6 +105,7 @@ struct cheat g_Cheats[] = {
 #ifndef PLATFORM_N64
 	{ L_MPWEAPONS_DUALWIELDALLGUNS, 0,                 SOLOSTAGEINDEX_EXTRACTION,     DIFF_A,  CHEATFLAG_COMPLETION,                                                                          { CHEAT_NONE                   } }, // CHEAT_DUALWIELDALLGUNS
 #endif
+	{ L_MPWEAPONS_SHADOWCAMPAIGN,   0,                 0,                             0,       CHEATFLAG_ALWAYSAVAILABLE,                                                                     { CHEAT_NONE                   } }, // CHEAT_SHADOWCAMPAIGN
 };
 
 u32 cheatIsUnlocked(s32 cheat_id)
