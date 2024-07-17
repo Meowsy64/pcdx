@@ -428,7 +428,11 @@ s32 modTextureCanLoad(u16 num)
 	}
 
 	char path[FS_MAXPATH + 1];
-	snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/%04x.bin", num);
+	if (num >= NUM_ORIG_TEXTURES) {
+		snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/gex_%04x.bin", num - NUM_ORIG_TEXTURES);
+	} else {
+		snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/%04x.bin", num);
+	}
 
 	return fsFileSize(path) >= 0;
 }
@@ -440,7 +444,11 @@ s32 modTextureLoad(u16 num, void *dst, u32 dstSize)
 	}
 
 	char path[FS_MAXPATH + 1];
-	snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/%04x.bin", num);
+	if (num >= NUM_ORIG_TEXTURES) {
+		snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/gex_%04x.bin", num - NUM_ORIG_TEXTURES);
+	} else {
+		snprintf(path, sizeof(path), MOD_TEXTURES_DIR "/%04x.bin", num);
+	}
 
 	const s32 ret = fsFileLoadTo(path, dst, dstSize);
 	if (ret > 0) {

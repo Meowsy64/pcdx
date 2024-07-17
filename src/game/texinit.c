@@ -25,7 +25,6 @@ void texInit(void)
 		g_Textures = mempAlloc(len + len2, MEMPOOL_PERMANENT);
 
 		dmaExec(g_Textures, (romptr_t) REF_SEG _textureslistSegmentRomStart, len);
-		//dmaExec(g_Textures + len, (romptr_t) REF_SEG _gextextureslistSegmentRomStart, len2);
-		dmaExec(g_Textures + len, (romptr_t) REF_SEG _textureslistSegmentRomStart, len); // Reuse the PD textureslist until we find the right address
+		dmaExec(g_Textures + len, (romptr_t) REF_SEG _gextextureslistSegmentRomStart, len2);
 	}
 }

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
@@ -170,8 +171,8 @@ static struct romfile romSegs[] = {
 };
 
 static struct romfile gexSegs[] = {
-	{ &_gextexturesdataSegmentRomStart, &_gextexturesdataSegmentRomEnd, "texturesdata", (u8 *)0x1b330ae, 0x0, ((void *)0) },
-	{ &_gextextureslistSegmentRomStart, &_gextextureslistSegmentRomEnd, "textureslist", (u8 *)0x1ff7ca0, 0x0, preprocessTexturesList }, // This offset is wrong.
+	{ &_gextexturesdataSegmentRomStart, &_gextexturesdataSegmentRomEnd, "texturesdata", (u8 *)0x1b330ae, 0x32b6bc, ((void *)0) },
+	{ &_gextextureslistSegmentRomStart, &_gextextureslistSegmentRomEnd, "textureslist", (u8 *)0x1e5eb48, 0x6d78, preprocessTexturesList }, // This offset is wrong.
 	{ NULL, NULL, NULL, NULL, 0, NULL },
 };
 
@@ -446,112 +447,6 @@ static inline struct romfile *romdataGetSeg(const char *name)
 	return seg;
 }
 
-struct textureextractiondata
-{
-	u32 ofs;
-	// Original GEX texture number
-	s32 texturenum;
-	u32 size;
-};
-
-static struct textureextractiondata texturesToExtract[] = {
-	{ 0x1B330AE, 0x0000,  408 },
-	{ 0x1B33246, 0x0001,   15 },
-	{ 0x1B33B7F, 0x0005, 1159 },
-	{ 0x1B361DB, 0x000e,  837 },
-	{ 0x1B370AB, 0x0014,  436 },
-	{ 0x1B40335, 0x004b,  694 },
-	{ 0x1B41BEE, 0x0053,  627 },
-	{ 0x1B41E61, 0x0054,  599 },
-	{ 0x1B420B8, 0x0055, 1267 },
-	{ 0x1B4CD20, 0x0082, 1145 },
-	{ 0x1B58E41, 0x00b2,  550 },
-	{ 0x1B5AEB5, 0x00bc,  720 },
-	{ 0x1B5EF0B, 0x00d0,  511 },
-	{ 0x1B66F4A, 0x00f2,  760 },
-	{ 0x1B67242, 0x00f3,  444 },
-	{ 0x1B6AB78, 0x0106,  984 },
-	{ 0x1B6AF50, 0x0107, 1033 },
-	{ 0x1B6B359, 0x0108, 1010 },
-	{ 0x1B6B74B, 0x0109, 1033 },
-	{ 0x1B6BB54, 0x010a, 1090 },
-	{ 0x1B6BF96, 0x010b, 1085 },
-	{ 0x1B6C3D3, 0x010c, 1014 },
-	{ 0x1B6C7C9, 0x010d,  270 },
-	{ 0x1B6C8D7, 0x010e, 1734 },
-	{ 0x1B6CF9D, 0x010f,  551 },
-	{ 0x1B6F473, 0x011b,  199 },
-	{ 0x1B79BD3, 0x013e,  522 },
-	{ 0x1BA5873, 0x01f5,  424 },
-	{ 0x1BA7CD0, 0x0203, 1532 },
-	{ 0x1BA82CC, 0x0204, 1461 },
-	{ 0x1BA8881, 0x0205, 1220 },
-	{ 0x1BA8FA7, 0x0208,  705 },
-	{ 0x1BA9268, 0x0209,  854 },
-	{ 0x1BEE4DB, 0x0329,  851 },
-	{ 0x1BEE82E, 0x032a,  747 },
-	{ 0x1BEEB19, 0x032b,  891 },
-	{ 0x1BEEE94, 0x032c,  487 },
-	{ 0x1BEF07B, 0x032d,  363 },
-	{ 0x1BEF3D1, 0x032f,  746 },
-	{ 0x1BFEC6E, 0x0386,  321 },
-	{ 0x1BFEDAF, 0x0387,  147 },
-	{ 0x1BFF049, 0x0389,  215 },
-	{ 0x1BFF120, 0x038a,  730 },
-	{ 0x1BFF3FA, 0x038b,  839 },
-	{ 0x1BFF741, 0x038c,  479 },
-	{ 0x1BFF920, 0x038d,  573 },
-	{ 0x1BFFD5A, 0x038f, 1325 },
-	{ 0x1C05E84, 0x03ab, 1881 },
-	{ 0x1C065DD, 0x03ac, 1680 },
-	{ 0x1C06C6D, 0x03ad, 1636 },
-	{ 0x1C072D1, 0x03ae, 1715 },
-	{ 0x1C788B1, 0x05ff,  461 },
-	{ 0x1C8C8A1, 0x0643,  487 },
-	{ 0x1C8CA88, 0x0644,  530 },
-	{ 0x1C9E425, 0x0681, 1655 },
-	{ 0x1C9EA9C, 0x0682, 1854 },
-	{ 0x1CB0245, 0x06e2,  669 },
-	{ 0x1CB7439, 0x0701,  991 },
-	{ 0x1CBADBD, 0x070f,  593 },
-	{ 0x1CBB535, 0x0712,  662 },
-	{ 0x1CBB7CB, 0x0713,  479 },
-	{ 0x1CBB9AA, 0x0714,  536 },
-	{ 0x1CBBBC2, 0x0715,  866 },
-	{ 0x1CBBF24, 0x0716,  875 },
-	{ 0x1CC1B0D, 0x072e,  420 },
-	{ 0x1CC41F8, 0x0738,  833 },
-	{ 0x1D0A1B0, 0x0864,  381 },
-	{ 0x1D0A32D, 0x0865,  135 },
-	{ 0x1D5FE6F, 0x0951,  694 },
-	{ 0x1D60125, 0x0952,  421 },
-	{ 0x1D602CA, 0x0953,  403 },
-	{ 0x1D6045D, 0x0954,  690 },
-	{ 0x1D6070F, 0x0955,  225 },
-	{ 0x1D607F0, 0x0956,  503 },
-	{ 0x1D609E7, 0x0957,  410 },
-	{ 0x1D60B81, 0x0958,  554 },
-	{ 0x1D60DAB, 0x0959,  748 },
-	{ 0x1D6B5D7, 0x0988,  191 },
-	{ 0x1D6B995, 0x098f,   15 },
-	{ 0x1D8AFEB, 0x0a24, 1081 },
-	{ 0x1D8B424, 0x0a25,  889 },
-	{ 0x1D8DF65, 0x0a34,  138 },
-	{ 0x1D8E6BB, 0x0a37,  789 },
-	{ 0x1D8F0A0, 0x0a3a,  180 },
-	{ 0x1D8F154, 0x0a3b,  536 },
-	{ 0x1D9253E, 0x0a4a, 1795 },
-	{ 0x1DD0FB5, 0x0b3c, 2098 },
-	{ 0x1DD17E7, 0x0b3d, 2023 },
-	{ 0x1DD1FCE, 0x0b3e, 2003 },
-	{ 0x1DD27A1, 0x0b3f, 1927 },
-	{ 0x1DED0BC, 0x0bbc,  655 },
-	{ 0x1E17375, 0x0cc7,  216 },
-	{ 0x1E1744D, 0x0cc8,  401 },
-	{ 0x1E175DE, 0x0cc9,  172 },
-	{ 0x1E19D92, 0x0cd3,  496 },
-};
-
 s32 romdataInit(void)
 {
 	const char *altRomName = sysArgGetString("--rom-file");
@@ -572,13 +467,17 @@ s32 romdataInit(void)
 			romdataInitSegment(seg, true);
 		}
 
+		struct texture *texturesdata = (struct texture*)_gextextureslistSegmentRomStart;
 		char path[FS_MAXPATH + 1];
-		for (int i = 0; i < ARRAYCOUNT(texturesToExtract); i++) {
-			struct textureextractiondata ted = texturesToExtract[i];
-			snprintf(path, sizeof(path), "data/textures/%04x.bin", ted.texturenum + NUM_ORIG_TEXTURES);
-			FILE *fp = fopen(path, "wb");
-			fwrite(g_GexFile + ted.ofs, sizeof(char), ted.size, fp);
-			fclose(fp);
+		for (int i = 0; i < 0xdaf; i++) {
+			struct stat buffer;
+			snprintf(path, sizeof(path), "data/textures/gex_%04x.bin", i);
+			if (stat(path, &buffer) != 0) { // If the file doesn't exist, create it.
+				int size = (i == 0xdae) ? 0x42f : texturesdata[i + 1].dataoffset - texturesdata[i].dataoffset;
+				FILE *fp = fopen(path, "wb");
+				fwrite(_gextexturesdataSegmentRomStart + texturesdata[i].dataoffset, sizeof(char), size, fp);
+				fclose(fp);
+			}
 		}
 	}
 
