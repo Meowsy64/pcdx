@@ -6,6 +6,7 @@
 #include "game/inv.h"
 #include "game/training.h"
 #include "game/lang.h"
+#include "game/shadowcampaign.h"
 #include "bss.h"
 #include "lib/main.h"
 #include "data.h"
@@ -492,7 +493,7 @@ s32 invGiveWeaponsByProp(struct prop *prop)
 				numgiven = 1;
 			}
 
-			if (g_Vars.normmplayerisrunning
+			if ((g_Vars.normmplayerisrunning || shadowCampaignIsLogicRunning())
 					&& weaponHasFlag(weaponnum, WEAPONFLAG_DUALWIELD)
 					&& !invHasDoubleWeaponExcAllGuns(weaponnum, weaponnum)) {
 				struct invitem *invitem = invFindSingleWeapon(weaponnum);
