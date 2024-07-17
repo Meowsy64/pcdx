@@ -18,7 +18,8 @@ You must already have a Perfect Dark ROM to run the game, as specified above.
 
 1. Create a directory named `data` next to `pd.exe` if it's not there.
 2. Put your Perfect Dark NTSC v1.1 ROM named `pd.ntsc-final.z64` into it. NTSC v1.0, PAL and JPN ROMs are *not* supported.
-3. Run `pd.exe`.
+3. If you have a copy of GoldenEye X 5e, place it in the `data` directory. It should be named either `gex.5e-clouds.z64` or `gex.5e-cloudless.z64` depending on the patch you applied.
+4. Run `pd.exe`.
 
 A GPU supporting OpenGL 3.0 or above is required to run the port.
 
