@@ -2,9 +2,9 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "port" ]
+    branches: [ "pcdx" ]
   pull_request:
-    branches: [ "port" ]
+    branches: [ "pcdx" ]
   workflow_dispatch:
 
 jobs:
@@ -72,7 +72,7 @@ jobs:
 
   publish-latest-build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/port'
+    if: github.ref == 'refs/heads/pcdx'
     needs: [build-i686-windows, build-i686-linux]
     permissions:
       contents: write
@@ -90,6 +90,6 @@ jobs:
           tar czf ../ci-release/pd-i686-linux.tar.gz pd-i686-linux
           zip -r ../ci-release/pd-i686-windows.zip pd-i686-windows
           popd
-          git tag --force ci-dev-build port
+          git tag --force ci-dev-build pcdx
           git push --force origin ci-dev-build
           gh release upload --clobber ci-dev-build ci-release/*
